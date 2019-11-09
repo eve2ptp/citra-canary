@@ -1,3 +1,21 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: 34c6b7ca485dcc981538ad46d79399c2f6df4c42
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[6](https://github.com/citra-emu/citra-canary/pull/6)|[d9c3e53](https://github.com/citra-emu/citra-canary/pull/6/files/)|Canary Base (MinGW Test)|[liushuyu](https://github.com/liushuyu)|Yes|
+|[4993](https://github.com/citra-emu/citra/pull/4993)|[8417129](https://github.com/citra-emu/citra/pull/4993/files/)|citra_qt: configure_web: Use Base64 encoded token|[bunnei](https://github.com/bunnei)|Yes|
+|[4956](https://github.com/citra-emu/citra/pull/4956)|[cc9bcf3](https://github.com/citra-emu/citra/pull/4956/files/)|Fixes to game list sorting|[vitor-k](https://github.com/vitor-k)|Yes|
+|[4754](https://github.com/citra-emu/citra/pull/4754)|[0f23efd](https://github.com/citra-emu/citra/pull/4754/files/)|HTTP_C::Implement Context::MakeRequest|[B3n30](https://github.com/B3n30)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
