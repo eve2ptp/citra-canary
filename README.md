@@ -1,3 +1,24 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: 020cd56ad869d8544db1930b3e59ab10985b1b1b
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[6](https://github.com/citra-emu/citra-canary/pull/6)|[d9c3e53](https://github.com/citra-emu/citra-canary/pull/6/files/)|Canary Base (MinGW Test)|[liushuyu](https://github.com/liushuyu)|Yes|
+|[5037](https://github.com/citra-emu/citra/pull/5037)|[72a081c](https://github.com/citra-emu/citra/pull/5037/files/)|CMake: Create thin archives on Linux|[leoetlino](https://github.com/leoetlino)|Yes|
+|[5033](https://github.com/citra-emu/citra/pull/5033)|[cadfd68](https://github.com/citra-emu/citra/pull/5033/files/)|qt: do not use an invalid update smdh|[BreadFish64](https://github.com/BreadFish64)|Yes|
+|[5025](https://github.com/citra-emu/citra/pull/5025)|[2675b38](https://github.com/citra-emu/citra/pull/5025/files/)|Add CPU Clock Frequency slider|[jroweboy](https://github.com/jroweboy)|Yes|
+|[5024](https://github.com/citra-emu/citra/pull/5024)|[87facaa](https://github.com/citra-emu/citra/pull/5024/files/)|Prevent out of memory errors when the game passes in an improper length value|[jroweboy](https://github.com/jroweboy)|Yes|
+|[4923](https://github.com/citra-emu/citra/pull/4923)|[7827219](https://github.com/citra-emu/citra/pull/4923/files/)|Disk Shader Caching|[jroweboy](https://github.com/jroweboy)|Yes|
+|[4754](https://github.com/citra-emu/citra/pull/4754)|[0f23efd](https://github.com/citra-emu/citra/pull/4754/files/)|HTTP_C::Implement Context::MakeRequest|[B3n30](https://github.com/B3n30)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
