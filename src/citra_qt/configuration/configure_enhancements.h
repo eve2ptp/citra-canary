@@ -26,6 +26,7 @@ public:
     void SetConfiguration();
 
 private:
+    void updateTextureFilter(const QString&);
     void updateShaders(Settings::StereoRenderOption stereo_option);
 
     Ui::ConfigureEnhancements* ui;
