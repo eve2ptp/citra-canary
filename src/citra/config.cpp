@@ -128,6 +128,10 @@ void Config::ReadValues() {
         sdl2_config->GetBoolean("Renderer", "use_disk_shader_cache", true);
     Settings::values.frame_limit =
         static_cast<u16>(sdl2_config->GetInteger("Renderer", "frame_limit", 100));
+    Settings::values.texture_filter_name =
+        sdl2_config->GetString("Renderer", "texture_filter_name", "none");
+    Settings::values.texture_filter_factor =
+        sdl2_config->GetInteger("Renderer", "texture_filter_factor", 1);
     Settings::values.use_vsync_new =
         static_cast<u16>(sdl2_config->GetInteger("Renderer", "use_vsync_new", 1));
 

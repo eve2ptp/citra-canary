@@ -34,6 +34,7 @@
 #include "video_core/renderer_opengl/gl_rasterizer_cache.h"
 #include "video_core/renderer_opengl/gl_state.h"
 #include "video_core/renderer_opengl/gl_vars.h"
+#include "video_core/renderer_opengl/texture_filters/texture_filter_manager.h"
 #include "video_core/utils.h"
 #include "video_core/video_core.h"
 
@@ -41,12 +42,6 @@ namespace OpenGL {
 
 using SurfaceType = SurfaceParams::SurfaceType;
 using PixelFormat = SurfaceParams::PixelFormat;
-
-struct FormatTuple {
-    GLint internal_format;
-    GLenum format;
-    GLenum type;
-};
 
 static constexpr std::array<FormatTuple, 5> fb_format_tuples = {{
     {GL_RGBA8, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8},     // RGBA8
@@ -74,9 +69,7 @@ static constexpr std::array<FormatTuple, 4> depth_format_tuples = {{
     {GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8}, // D24S8
 }};
 
-static constexpr FormatTuple tex_tuple = {GL_RGBA8, GL_RGBA, GL_UNSIGNED_BYTE};
-
-static const FormatTuple& GetFormatTuple(PixelFormat pixel_format) {
+const FormatTuple& GetFormatTuple(PixelFormat pixel_format) {
     const SurfaceType type = SurfaceParams::GetFormatType(pixel_format);
     if (type == SurfaceType::Color) {
         ASSERT(static_cast<std::size_t>(pixel_format) < fb_format_tuples.size());
@@ -317,8 +310,8 @@ static constexpr std::array<void (*)(u32, u32, u8*, PAddr, PAddr, PAddr), 18> gl
 };
 
 // Allocate an uninitialized texture of appropriate size and format for the surface
-static void AllocateSurfaceTexture(GLuint texture, const FormatTuple& format_tuple, u32 width,
-                                   u32 height) {
+void AllocateSurfaceTexture(GLuint texture, const FormatTuple& format_tuple, u32 width,
+                            u32 height) {
     OpenGLState cur_state = OpenGLState::GetCurState();
 
     // Keep track of previous texture bindings
@@ -366,9 +359,9 @@ static void AllocateTextureCube(GLuint texture, const FormatTuple& format_tuple,
     cur_state.Apply();
 }
 
-static bool BlitTextures(GLuint src_tex, const Common::Rectangle<u32>& src_rect, GLuint dst_tex,
-                         const Common::Rectangle<u32>& dst_rect, SurfaceType type,
-                         GLuint read_fb_handle, GLuint draw_fb_handle) {
+bool BlitTextures(GLuint src_tex, const Common::Rectangle<u32>& src_rect, GLuint dst_tex,
+                  const Common::Rectangle<u32>& dst_rect, SurfaceType type, GLuint read_fb_handle,
+                  GLuint draw_fb_handle) {
     OpenGLState prev_state = OpenGLState::GetCurState();
     SCOPE_EXIT({ prev_state.Apply(); });
 
@@ -1423,7 +1416,6 @@ SurfaceRect_Tuple RasterizerCacheOpenGL::GetSurfaceSubRect(const SurfaceParams& 
         surface = FindMatch<MatchFlags::SubRect | MatchFlags::Invalid>(surface_cache, params,
                                                                        ScaleMatch::Ignore);
         if (surface != nullptr) {
-            ASSERT(surface->res_scale < params.res_scale);
             SurfaceParams new_params = *surface;
             new_params.res_scale = params.res_scale;
 
@@ -1589,7 +1581,7 @@ Surface RasterizerCacheOpenGL::GetTextureSurface(const Pica::Texture::TextureInf
                 }
                 state.ResetTexture(level_surface->texture.handle);
                 state.Apply();
-                if (!surface->is_custom) {
+                if (!(surface->is_custom | surface->is_filtered)) {
                     glFramebufferTexture2D(GL_READ_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
                                            level_surface->texture.handle, 0);
                     glFramebufferTexture2D(GL_READ_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT,
@@ -1611,6 +1603,12 @@ Surface RasterizerCacheOpenGL::GetTextureSurface(const Pica::Texture::TextureInf
         }
     }
 
+    TextureFilterInterface* texture_filter;
+    if (surface->res_scale == 1 && !(surface->is_filtered | surface->is_custom) &&
+        (texture_filter = TextureFilterManager::GetInstance().GetTextureFilter())) {
+        texture_filter->scale(surface);
+        surface->is_filtered = true;
+    }
     return surface;
 }
 
@@ -1713,7 +1711,9 @@ SurfaceSurfaceRect_Tuple RasterizerCacheOpenGL::GetFramebufferSurfaces(
 
     // update resolution_scale_factor and reset cache if changed
     static u16 resolution_scale_factor = VideoCore::GetResolutionScaleFactor();
-    if (resolution_scale_factor != VideoCore::GetResolutionScaleFactor()) {
+    if (resolution_scale_factor != VideoCore::GetResolutionScaleFactor() ||
+        TextureFilterManager::GetInstance().IsUpdated()) {
+        TextureFilterManager::GetInstance().Reset();
         resolution_scale_factor = VideoCore::GetResolutionScaleFactor();
         FlushAll();
         while (!surface_cache.empty())
