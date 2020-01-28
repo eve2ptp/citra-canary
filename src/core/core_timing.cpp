@@ -20,6 +20,12 @@ bool Timing::Event::operator<(const Event& right) const {
     return std::tie(time, fifo_order) < std::tie(right.time, right.fifo_order);
 }
 
+Timing::Timing(u32 cpu_clock_percentage) : cpu_clock_scale(100.0 / cpu_clock_percentage) {}
+
+void Timing::UpdateClockSpeed(u32 cpu_clock_percentage) {
+    this->cpu_clock_scale = 100.0 / cpu_clock_percentage;
+}
+
 TimingEventType* Timing::RegisterEvent(const std::string& name, TimedCallback callback) {
     // check for existing type with same name.
     // we want event type names to remain unique so that we can use them for serialization.
@@ -47,7 +53,7 @@ u64 Timing::GetTicks() const {
 }
 
 void Timing::AddTicks(u64 ticks) {
-    downcount -= ticks;
+    downcount -= static_cast<u64>(ticks * cpu_clock_scale);
 }
 
 u64 Timing::GetIdleTicks() const {
