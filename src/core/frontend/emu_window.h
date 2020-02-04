@@ -49,6 +49,12 @@ public:
      * returns nullptr
      */
     virtual Frontend::Frame* TryGetPresentFrame(int timeout_ms) = 0;
+
+    /**
+     * Get the present frame without timeout (i.e. wait indefinitely). If something interrupted the
+     * wait (e.g. mailbox got destructed), nullptr is returned.
+     */
+    virtual Frontend::Frame* GetPresentFrame() = 0;
 };
 
 /**
