@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>345</width>
-    <height>357</height>
+    <height>358</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -68,6 +68,13 @@
         <string>Emulation</string>
        </property>
        <layout class="QGridLayout" name="gridLayout">
+        <item row="1" column="0">
+         <widget class="QCheckBox" name="toggle_frame_limit">
+          <property name="text">
+           <string>Limit Speed Percent</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label">
           <property name="text">
@@ -119,10 +126,31 @@
           </item>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QCheckBox" name="toggle_frame_limit">
-          <property name="text">
-           <string>Limit Speed Percent</string>
+        <item row="2" column="1">
+         <widget class="QSlider" name="slider_clock_speed">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;body&gt;Changes the emulated CPU clock frequency.&lt;br&gt;Underclocking can increase performance but may cause the game to freeze.&lt;br&gt;Overclocking may reduce in game lag but also might cause freezes&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="minimum">
+           <number>0</number>
+          </property>
+          <property name="maximum">
+           <number>75</number>
+          </property>
+          <property name="singleStep">
+           <number>5</number>
+          </property>
+          <property name="pageStep">
+           <number>15</number>
+          </property>
+          <property name="value">
+           <number>25</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="tickPosition">
+           <enum>QSlider::TicksBelow</enum>
           </property>
          </widget>
         </item>
@@ -141,6 +169,27 @@
            <number>100</number>
           </property>
          </widget>
+        </item>
+        <item row="2" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>CPU Clock Speed</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="clock_display_label">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
