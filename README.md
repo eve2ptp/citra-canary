@@ -1,3 +1,24 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: 03cde53cb69b752e596e7749a0e043d627d5bac1
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[6](https://github.com/citra-emu/citra-canary/pull/6)|[d9c3e53](https://github.com/citra-emu/citra-canary/pull/6/files/)|Canary Base (MinGW Test)|[liushuyu](https://github.com/liushuyu)|Yes|
+|[5088](https://github.com/citra-emu/citra/pull/5088)|[db18f6c](https://github.com/citra-emu/citra/pull/5088/files/)|core/file_sys: LayeredFS support|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5083](https://github.com/citra-emu/citra/pull/5083)|[d734f44](https://github.com/citra-emu/citra/pull/5083/files/)|video_core, citra_qt: Video dumping updates|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5049](https://github.com/citra-emu/citra/pull/5049)|[981bdc0](https://github.com/citra-emu/citra/pull/5049/files/)|HLE Audio: Increase frame position by input buffer sample rate|[jroweboy](https://github.com/jroweboy)|Yes|
+|[5025](https://github.com/citra-emu/citra/pull/5025)|[2675b38](https://github.com/citra-emu/citra/pull/5025/files/)|Add CPU Clock Frequency slider|[jroweboy](https://github.com/jroweboy)|Yes|
+|[5017](https://github.com/citra-emu/citra/pull/5017)|[ffd4bcf](https://github.com/citra-emu/citra/pull/5017/files/)|video_core: add texture filtering|[BreadFish64](https://github.com/BreadFish64)|Yes|
+|[4754](https://github.com/citra-emu/citra/pull/4754)|[0f23efd](https://github.com/citra-emu/citra/pull/4754/files/)|HTTP_C::Implement Context::MakeRequest|[B3n30](https://github.com/B3n30)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
