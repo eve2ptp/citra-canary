@@ -9,6 +9,17 @@
 #include "core/settings.h"
 #include "ui_configure_general.h"
 
+// The QSlider doesn't have an easy way to set a custom step amount,
+// so we can just convert from the sliders range (0 - 75) to the expected
+// settings range (25 - 400) with simple math.
+static constexpr int SliderToSettings(int value) {
+    return 5 * value + 25;
+}
+
+static constexpr int SettingsToSlider(int value) {
+    return (value - 25) / 5;
+}
+
 ConfigureGeneral::ConfigureGeneral(QWidget* parent)
     : QWidget(parent), ui(new Ui::ConfigureGeneral) {
 
@@ -20,6 +31,10 @@ ConfigureGeneral::ConfigureGeneral(QWidget* parent)
     ui->updateBox->setVisible(UISettings::values.updater_found);
     connect(ui->button_reset_defaults, &QPushButton::clicked, this,
             &ConfigureGeneral::ResetDefaults);
+
+    connect(ui->slider_clock_speed, &QSlider::valueChanged, [&](int value) {
+        ui->clock_display_label->setText(QString("%1%").arg(SliderToSettings(value)));
+    });
 }
 
 ConfigureGeneral::~ConfigureGeneral() = default;
@@ -41,6 +56,9 @@ void ConfigureGeneral::SetConfiguration() {
     ui->toggle_frame_limit->setChecked(Settings::values.use_frame_limit);
     ui->frame_limit->setEnabled(ui->toggle_frame_limit->isChecked());
     ui->frame_limit->setValue(Settings::values.frame_limit);
+
+    ui->slider_clock_speed->setValue(SettingsToSlider(Settings::values.cpu_clock_percentage));
+    ui->clock_display_label->setText(QString("%1%").arg(Settings::values.cpu_clock_percentage));
 }
 
 void ConfigureGeneral::ResetDefaults() {
@@ -70,6 +88,8 @@ void ConfigureGeneral::ApplyConfiguration() {
 
     Settings::values.use_frame_limit = ui->toggle_frame_limit->isChecked();
     Settings::values.frame_limit = ui->frame_limit->value();
+
+    Settings::values.cpu_clock_percentage = SliderToSettings(ui->slider_clock_speed->value());
 }
 
 void ConfigureGeneral::RetranslateUI() {
