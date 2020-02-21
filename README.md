@@ -1,3 +1,22 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: 55ec7031ccb2943c2c507620cf4613a86d160670
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[6](https://github.com/citra-emu/citra-canary/pull/6)|[d9c3e53](https://github.com/citra-emu/citra-canary/pull/6/files/)|Canary Base (MinGW Test)|[liushuyu](https://github.com/liushuyu)|Yes|
+|[5088](https://github.com/citra-emu/citra/pull/5088)|[4273b96](https://github.com/citra-emu/citra/pull/5088/files/)|core/file_sys: LayeredFS support|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5083](https://github.com/citra-emu/citra/pull/5083)|[d734f44](https://github.com/citra-emu/citra/pull/5083/files/)|video_core, citra_qt: Video dumping updates|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5049](https://github.com/citra-emu/citra/pull/5049)|[981bdc0](https://github.com/citra-emu/citra/pull/5049/files/)|HLE Audio: Increase frame position by input buffer sample rate|[jroweboy](https://github.com/jroweboy)|Yes|
+|[5017](https://github.com/citra-emu/citra/pull/5017)|[ffd4bcf](https://github.com/citra-emu/citra/pull/5017/files/)|video_core: add texture filtering|[BreadFish64](https://github.com/BreadFish64)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
