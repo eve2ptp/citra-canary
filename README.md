@@ -1,3 +1,25 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: 1dfcb0937e57ac5242f28eb28353ce2e259c6d12
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[6](https://github.com/citra-emu/citra-canary/pull/6)|[d9c3e53](https://github.com/citra-emu/citra-canary/pull/6/files/)|Canary Base (MinGW Test)|[liushuyu](https://github.com/liushuyu)|Yes|
+|[5107](https://github.com/citra-emu/citra/pull/5107)|[135e684](https://github.com/citra-emu/citra/pull/5107/files/)|videocore/renderer_opengl/gl_rasterizer_cache: implement LRU cached surface culling|[BreadFish64](https://github.com/BreadFish64)|Yes|
+|[5089](https://github.com/citra-emu/citra/pull/5089)|[e4af2ac](https://github.com/citra-emu/citra/pull/5089/files/)|Set render window's focus policy to Qt::StrongFocus|[vitor-k](https://github.com/vitor-k)|Yes|
+|[5088](https://github.com/citra-emu/citra/pull/5088)|[8eacfce](https://github.com/citra-emu/citra/pull/5088/files/)|core/file_sys: LayeredFS support|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5083](https://github.com/citra-emu/citra/pull/5083)|[ccb8e43](https://github.com/citra-emu/citra/pull/5083/files/)|video_core, citra_qt: Video dumping updates|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5049](https://github.com/citra-emu/citra/pull/5049)|[981bdc0](https://github.com/citra-emu/citra/pull/5049/files/)|HLE Audio: Increase frame position by input buffer sample rate|[jroweboy](https://github.com/jroweboy)|Yes|
+|[5025](https://github.com/citra-emu/citra/pull/5025)|[276d56c](https://github.com/citra-emu/citra/pull/5025/files/)|Add CPU Clock Frequency slider|[jroweboy](https://github.com/jroweboy)|Yes|
+|[5017](https://github.com/citra-emu/citra/pull/5017)|[3eb6856](https://github.com/citra-emu/citra/pull/5017/files/)|video_core: add texture filtering|[BreadFish64](https://github.com/BreadFish64)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
