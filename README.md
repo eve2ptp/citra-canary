@@ -1,3 +1,28 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: 7afcc0d658d3c0bcfd243613467e3fd31176db9c
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[6](https://github.com/citra-emu/citra-canary/pull/6)|[d9c3e53](https://github.com/citra-emu/citra-canary/pull/6/files/)|Canary Base (MinGW Test)|[liushuyu](https://github.com/liushuyu)|Yes|
+|[5125](https://github.com/citra-emu/citra/pull/5125)|[6a36eba](https://github.com/citra-emu/citra/pull/5125/files/)|service/ldr_ro: Fix CRO loading when the buffer contained multiple VM areas|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5123](https://github.com/citra-emu/citra/pull/5123)|[8e3960b](https://github.com/citra-emu/citra/pull/5123/files/)|SDL: Disable hidapi drivers due to compatibility problems with certain controllers|[vitor-k](https://github.com/vitor-k)|Yes|
+|[5120](https://github.com/citra-emu/citra/pull/5120)|[fc251b3](https://github.com/citra-emu/citra/pull/5120/files/)|service/fs: Update file size on write|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5116](https://github.com/citra-emu/citra/pull/5116)|[2801449](https://github.com/citra-emu/citra/pull/5116/files/)|service/cam: Implement Vsync interrupt events|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5115](https://github.com/citra-emu/citra/pull/5115)|[1223dde](https://github.com/citra-emu/citra/pull/5115/files/)|Update translations (2020-03-01)|[zhaobot](https://github.com/zhaobot)|Yes|
+|[5089](https://github.com/citra-emu/citra/pull/5089)|[e4af2ac](https://github.com/citra-emu/citra/pull/5089/files/)|Set render window's focus policy to Qt::StrongFocus|[vitor-k](https://github.com/vitor-k)|Yes|
+|[5083](https://github.com/citra-emu/citra/pull/5083)|[a50ba71](https://github.com/citra-emu/citra/pull/5083/files/)|video_core, citra_qt: Video dumping updates|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5049](https://github.com/citra-emu/citra/pull/5049)|[981bdc0](https://github.com/citra-emu/citra/pull/5049/files/)|HLE Audio: Increase frame position by input buffer sample rate|[jroweboy](https://github.com/jroweboy)|Yes|
+|[5025](https://github.com/citra-emu/citra/pull/5025)|[276d56c](https://github.com/citra-emu/citra/pull/5025/files/)|Add CPU Clock Frequency slider|[jroweboy](https://github.com/jroweboy)|Yes|
+|[5017](https://github.com/citra-emu/citra/pull/5017)|[3eb6856](https://github.com/citra-emu/citra/pull/5017/files/)|video_core: add texture filtering|[BreadFish64](https://github.com/BreadFish64)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
