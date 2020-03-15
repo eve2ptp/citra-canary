@@ -9,6 +9,7 @@
 #include <cryptopp/aes.h>
 #include <cryptopp/modes.h>
 #include <fmt/format.h>
+#include "common/common_paths.h"
 #include "common/file_util.h"
 #include "common/logging/log.h"
 #include "common/string_util.h"
@@ -32,6 +33,15 @@
 #include "core/hle/service/fs/archive.h"
 #include "core/loader/loader.h"
 #include "core/loader/smdh.h"
+
+namespace {
+bool HasSupportedFileExtension(std::string path) {
+    static const std::array<std::string, 7> extensions = {
+        {".3ds", ".3dsx", ".elf", ".axf", ".cci", ".cxi", ".app"}};
+    const auto file_ext = FileUtil::GetExtensionFromFilename(path);
+    return std::find(extensions.begin(), extensions.end(), file_ext) != extensions.end();
+}
+} // namespace
 
 namespace Service::AM {
 
@@ -373,6 +383,32 @@ InstallStatus InstallCIA(const std::string& path,
         installFile.Close();
 
         LOG_INFO(Service_AM, "Installed {} successfully.", path);
+
+        const FileUtil::DirectoryEntryCallable callback =
+            [&callback](u64* num_entries_out, const std::string& directory,
+                        const std::string& virtual_name) -> bool {
+            const std::string physical_name = directory + DIR_SEP + virtual_name;
+            const bool is_dir = FileUtil::IsDirectory(physical_name);
+            if (!is_dir && HasSupportedFileExtension(physical_name)) {
+                std::unique_ptr<Loader::AppLoader> loader = Loader::GetLoader(physical_name);
+                if (!loader) {
+                    return true;
+                }
+
+                bool executable = false;
+                const auto res = loader->IsExecutable(executable);
+                if (res == Loader::ResultStatus::ErrorEncrypted) {
+                    return false;
+                }
+                return true;
+            } else {
+                return FileUtil::ForeachDirectoryEntry(nullptr, physical_name, callback);
+            }
+        };
+        if (!FileUtil::ForeachDirectoryEntry(nullptr, path, callback)) {
+            LOG_ERROR(Service_AM, "CIA {} contained encrypted files.", path);
+            return InstallStatus::ErrorEncrypted;
+        }
         return InstallStatus::Success;
     }
 
