@@ -1,3 +1,27 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: 5dbf334ef1c7d69cd9810d36a54a0e009f0c8898
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[6](https://github.com/citra-emu/citra-canary/pull/6)|[d9c3e53](https://github.com/citra-emu/citra-canary/pull/6/files/)|Canary Base (MinGW Test)|[liushuyu](https://github.com/liushuyu)|Yes|
+|[5145](https://github.com/citra-emu/citra/pull/5145)|[d6ebde9](https://github.com/citra-emu/citra/pull/5145/files/)|Port yuzu-emu/yuzu#3261: "core/memory + arm/dynarmic: Use a global offset within our arm page table"|[BreadFish64](https://github.com/BreadFish64)|Yes|
+|[5130](https://github.com/citra-emu/citra/pull/5130)|[ed51f06](https://github.com/citra-emu/citra/pull/5130/files/)|Show an error if CIA contend is encrypted|[B3n30](https://github.com/B3n30)|Yes|
+|[5125](https://github.com/citra-emu/citra/pull/5125)|[6a36eba](https://github.com/citra-emu/citra/pull/5125/files/)|service/ldr_ro: Fix CRO loading when the buffer contained multiple VM areas|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5123](https://github.com/citra-emu/citra/pull/5123)|[8e3960b](https://github.com/citra-emu/citra/pull/5123/files/)|SDL: Disable hidapi drivers due to compatibility problems with certain controllers|[vitor-k](https://github.com/vitor-k)|Yes|
+|[5108](https://github.com/citra-emu/citra/pull/5108)|[eaaa76b](https://github.com/citra-emu/citra/pull/5108/files/)|Load NCCHSecure2 keyX from native firm|[B3n30](https://github.com/B3n30)|Yes|
+|[5094](https://github.com/citra-emu/citra/pull/5094)|[8b07d85](https://github.com/citra-emu/citra/pull/5094/files/)|Option to hide mouse on inactivity|[vitor-k](https://github.com/vitor-k)|Yes|
+|[5083](https://github.com/citra-emu/citra/pull/5083)|[b87a15c](https://github.com/citra-emu/citra/pull/5083/files/)|video_core, citra_qt: Video dumping updates|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5049](https://github.com/citra-emu/citra/pull/5049)|[61b3e98](https://github.com/citra-emu/citra/pull/5049/files/)|HLE Audio: Increase frame position by input buffer sample rate|[jroweboy](https://github.com/jroweboy)|Yes|
+|[5025](https://github.com/citra-emu/citra/pull/5025)|[276d56c](https://github.com/citra-emu/citra/pull/5025/files/)|Add CPU Clock Frequency slider|[jroweboy](https://github.com/jroweboy)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
