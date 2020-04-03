@@ -1,3 +1,25 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: f14e973a271b1c2982bf88fce482f5c5d8b7c38a
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[6](https://github.com/citra-emu/citra-canary/pull/6)|[d9c3e53](https://github.com/citra-emu/citra-canary/pull/6/files/)|Canary Base (MinGW Test)|[liushuyu](https://github.com/liushuyu)|Yes|
+|[5130](https://github.com/citra-emu/citra/pull/5130)|[ed51f06](https://github.com/citra-emu/citra/pull/5130/files/)|Show an error if CIA contend is encrypted|[B3n30](https://github.com/B3n30)|Yes|
+|[5123](https://github.com/citra-emu/citra/pull/5123)|[8e3960b](https://github.com/citra-emu/citra/pull/5123/files/)|SDL: Disable hidapi drivers due to compatibility problems with certain controllers|[vitor-k](https://github.com/vitor-k)|Yes|
+|[5117](https://github.com/citra-emu/citra/pull/5117)|[b4ac1c0](https://github.com/citra-emu/citra/pull/5117/files/)|citra_qt/system: Add N3DS mode checkbox and enable it by default|[FearlessTobi](https://github.com/FearlessTobi)|Yes|
+|[5108](https://github.com/citra-emu/citra/pull/5108)|[ab76b0b](https://github.com/citra-emu/citra/pull/5108/files/)|Load NCCHSecure2 keyX from native firm|[B3n30](https://github.com/B3n30)|Yes|
+|[5094](https://github.com/citra-emu/citra/pull/5094)|[e0796f1](https://github.com/citra-emu/citra/pull/5094/files/)|Option to hide mouse on inactivity|[vitor-k](https://github.com/vitor-k)|Yes|
+|[5083](https://github.com/citra-emu/citra/pull/5083)|[b87a15c](https://github.com/citra-emu/citra/pull/5083/files/)|video_core, citra_qt: Video dumping updates|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[4908](https://github.com/citra-emu/citra/pull/4908)|[74c06bd](https://github.com/citra-emu/citra/pull/4908/files/)|Save states|[hamish-milne](https://github.com/hamish-milne)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
