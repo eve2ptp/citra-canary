@@ -1,3 +1,22 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: 55ecaa0344393762fa74b406411c1bd5e3f4136f
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[6](https://github.com/citra-emu/citra-canary/pull/6)|[d9c3e53](https://github.com/citra-emu/citra-canary/pull/6/files/)|Canary Base (MinGW Test)|[liushuyu](https://github.com/liushuyu)|Yes|
+|[5214](https://github.com/citra-emu/citra/pull/5214)|[23ec772](https://github.com/citra-emu/citra/pull/5214/files/)|Update dynarmic|[hamish-milne](https://github.com/hamish-milne)|Yes|
+|[5213](https://github.com/citra-emu/citra/pull/5213)|[783e7af](https://github.com/citra-emu/citra/pull/5213/files/)|Services/FS: Stubbed GetSdmcArchiveResource and GetNandArchiveResource.|[Subv](https://github.com/Subv)|Yes|
+|[5130](https://github.com/citra-emu/citra/pull/5130)|[ed51f06](https://github.com/citra-emu/citra/pull/5130/files/)|Show an error if CIA contend is encrypted|[B3n30](https://github.com/B3n30)|Yes|
+|[5108](https://github.com/citra-emu/citra/pull/5108)|[ab76b0b](https://github.com/citra-emu/citra/pull/5108/files/)|Load NCCHSecure2 keyX from native firm|[B3n30](https://github.com/B3n30)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
