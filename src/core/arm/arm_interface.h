@@ -228,7 +228,7 @@ public:
 
     virtual void PurgeState() = 0;
 
-    std::shared_ptr<Core::Timing::Timer> GetTimer() {
+    std::shared_ptr<Core::Timing::Timer>& GetTimer() {
         return timer;
     }
 
