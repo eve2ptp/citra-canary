@@ -1,3 +1,24 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: 79a0cbbba8603becb2c14b57aa9bf6475936aae9
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[6](https://github.com/citra-emu/citra-canary/pull/6)|[d9c3e53](https://github.com/citra-emu/citra-canary/pull/6/files/)|Canary Base (MinGW Test)|[liushuyu](https://github.com/liushuyu)|Yes|
+|[5223](https://github.com/citra-emu/citra/pull/5223)|[cd1f8ab](https://github.com/citra-emu/citra/pull/5223/files/)|Fix MIC_U serialization and timing|[hamish-milne](https://github.com/hamish-milne)|Yes|
+|[5203](https://github.com/citra-emu/citra/pull/5203)|[07f49e5](https://github.com/citra-emu/citra/pull/5203/files/)|Services/APT: Implemented the IsTitleAllowed function.|[Subv](https://github.com/Subv)|Yes|
+|[5195](https://github.com/citra-emu/citra/pull/5195)|[0f31043](https://github.com/citra-emu/citra/pull/5195/files/)|[WIP] Add sample rate field to AAC decoder|[xperia64](https://github.com/xperia64)|Yes|
+|[5194](https://github.com/citra-emu/citra/pull/5194)|[c1c9137](https://github.com/citra-emu/citra/pull/5194/files/)|Services/APT: Implemented the GetCaptureInfo function.|[Subv](https://github.com/Subv)|Yes|
+|[5174](https://github.com/citra-emu/citra/pull/5174)|[1783d96](https://github.com/citra-emu/citra/pull/5174/files/)|Port yuzu-emu/yuzu#3268: "GUI: Deadzone controls for sdl engine at configuration input"|[FearlessTobi](https://github.com/FearlessTobi)|Yes|
+|[5163](https://github.com/citra-emu/citra/pull/5163)|[44426bd](https://github.com/citra-emu/citra/pull/5163/files/)|input: allow mapping buttons to touchscreen|[z87](https://github.com/z87)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
