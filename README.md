@@ -1,3 +1,25 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: 39463f1f6d25164d433a347ef85b95ec1577cdc9
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[6](https://github.com/citra-emu/citra-canary/pull/6)|[d9c3e53](https://github.com/citra-emu/citra-canary/pull/6/files/)|Canary Base (MinGW Test)|[liushuyu](https://github.com/liushuyu)|Yes|
+|[5257](https://github.com/citra-emu/citra/pull/5257)|[ded9fff](https://github.com/citra-emu/citra/pull/5257/files/)|Improve core timing accuracy|[B3n30](https://github.com/B3n30)|Yes|
+|[5249](https://github.com/citra-emu/citra/pull/5249)|[633aa9d](https://github.com/citra-emu/citra/pull/5249/files/)|gl_shader_disk_cache: std::move entries in LoadTransferable()|[lioncash](https://github.com/lioncash)|Yes|
+|[5231](https://github.com/citra-emu/citra/pull/5231)|[6783289](https://github.com/citra-emu/citra/pull/5231/files/)|Fix Address Arbiter serialization|[hamish-milne](https://github.com/hamish-milne)|Yes|
+|[5207](https://github.com/citra-emu/citra/pull/5207)|[0ec6e54](https://github.com/citra-emu/citra/pull/5207/files/)|Services/APT: Implemented PrepareToStartApplication and StartApplication|[Subv](https://github.com/Subv)|Yes|
+|[5179](https://github.com/citra-emu/citra/pull/5179)|[70d81e2](https://github.com/citra-emu/citra/pull/5179/files/)|Reenable hidapi for SDL2.0.12 and up|[vitor-k](https://github.com/vitor-k)|Yes|
+|[5174](https://github.com/citra-emu/citra/pull/5174)|[1783d96](https://github.com/citra-emu/citra/pull/5174/files/)|Port yuzu-emu/yuzu#3268: "GUI: Deadzone controls for sdl engine at configuration input"|[FearlessTobi](https://github.com/FearlessTobi)|Yes|
+|[5163](https://github.com/citra-emu/citra/pull/5163)|[44426bd](https://github.com/citra-emu/citra/pull/5163/files/)|input: allow mapping buttons to touchscreen|[z87](https://github.com/z87)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
