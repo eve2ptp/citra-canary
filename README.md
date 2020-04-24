@@ -1,3 +1,28 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: bc14f485c41311c8d4bc7d830a963ca45b9b9b25
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[6](https://github.com/citra-emu/citra-canary/pull/6)|[d9c3e53](https://github.com/citra-emu/citra-canary/pull/6/files/)|Canary Base (MinGW Test)|[liushuyu](https://github.com/liushuyu)|Yes|
+|[5270](https://github.com/citra-emu/citra/pull/5270)|[0903e98](https://github.com/citra-emu/citra/pull/5270/files/)|texture_filters: update ScaleForce|[BreadFish64](https://github.com/BreadFish64)|Yes|
+|[5266](https://github.com/citra-emu/citra/pull/5266)|[3a1601a](https://github.com/citra-emu/citra/pull/5266/files/)|[WIP] Adjust audio_frame_tweaks|[xperia64](https://github.com/xperia64)|Yes|
+|[5264](https://github.com/citra-emu/citra/pull/5264)|[9d75206](https://github.com/citra-emu/citra/pull/5264/files/)|gl_shader_gen: Make use of fmt where applicable|[lioncash](https://github.com/lioncash)|Yes|
+|[5257](https://github.com/citra-emu/citra/pull/5257)|[ed03c38](https://github.com/citra-emu/citra/pull/5257/files/)|Improve core timing accuracy|[B3n30](https://github.com/B3n30)|Yes|
+|[5241](https://github.com/citra-emu/citra/pull/5241)|[53aef44](https://github.com/citra-emu/citra/pull/5241/files/)|pica_state: Make use of std::array where applicable|[lioncash](https://github.com/lioncash)|Yes|
+|[5231](https://github.com/citra-emu/citra/pull/5231)|[6783289](https://github.com/citra-emu/citra/pull/5231/files/)|Fix Address Arbiter serialization|[hamish-milne](https://github.com/hamish-milne)|Yes|
+|[5207](https://github.com/citra-emu/citra/pull/5207)|[0ec6e54](https://github.com/citra-emu/citra/pull/5207/files/)|Services/APT: Implemented PrepareToStartApplication and StartApplication|[Subv](https://github.com/Subv)|Yes|
+|[5179](https://github.com/citra-emu/citra/pull/5179)|[e6b4052](https://github.com/citra-emu/citra/pull/5179/files/)|Reenable hidapi for SDL2.0.12 and up|[vitor-k](https://github.com/vitor-k)|Yes|
+|[5174](https://github.com/citra-emu/citra/pull/5174)|[1783d96](https://github.com/citra-emu/citra/pull/5174/files/)|Port yuzu-emu/yuzu#3268: "GUI: Deadzone controls for sdl engine at configuration input"|[FearlessTobi](https://github.com/FearlessTobi)|Yes|
+|[5163](https://github.com/citra-emu/citra/pull/5163)|[44426bd](https://github.com/citra-emu/citra/pull/5163/files/)|input: allow mapping buttons to touchscreen|[z87](https://github.com/z87)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
