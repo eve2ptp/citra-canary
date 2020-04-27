@@ -101,6 +101,11 @@ private:
     friend class boost::serialization::access;
 };
 
+struct DeliveryArgument {
+    std::vector<u8> parameter;
+    std::vector<u8> hmac;
+};
+
 /// Holds information about the parameters used in StartLibraryApplet
 struct AppletStartupParameter {
     std::shared_ptr<Kernel::Object> object = nullptr;
@@ -159,6 +164,10 @@ public:
     ResultCode PrepareToDoApplicationJump(u64 title_id, FS::MediaType media_type,
                                           ApplicationJumpFlags flags);
     ResultCode DoApplicationJump();
+    ResultCode PrepareToStartApplication(u64 title_id, FS::MediaType media_type);
+    ResultCode StartApplication(const std::vector<u8>& parameter, const std::vector<u8>& hmac,
+                                bool paused);
+    ResultCode WakeupApplication();
 
     struct AppletInfo {
         u64 title_id;
@@ -192,10 +201,21 @@ public:
         return app_jump_parameters;
     }
 
+    struct ApplicationStartParameters {
+        u64 next_title_id;
+        FS::MediaType next_media_type;
+    };
+
 private:
     /// Parameter data to be returned in the next call to Glance/ReceiveParameter.
     // NOTE: A bug in gcc prevents serializing std::optional
     boost::optional<MessageParameter> next_parameter;
+
+    /// This parameter will be sent to the application/applet once they register themselves by using
+    /// APT::Initialize.
+    std::optional<MessageParameter> delayed_parameter;
+
+    std::optional<DeliveryArgument> delivery_arg;
 
     static constexpr std::size_t NumAppletSlot = 4;
 
@@ -242,6 +262,7 @@ private:
     };
 
     ApplicationJumpParameters app_jump_parameters{};
+    std::optional<ApplicationStartParameters> app_start_parameters;
 
     // Holds data about the concurrently running applets in the system.
     std::array<AppletSlotData, NumAppletSlot> applet_slots = {};
@@ -249,6 +270,13 @@ private:
     // This overload returns nullptr if no applet with the specified id has been started.
     AppletSlotData* GetAppletSlotData(AppletId id);
     AppletSlotData* GetAppletSlotData(AppletAttributes attributes);
+
+    /// Sets the APT delivery argument. Applications can read it with APT::ReceiveDeliveryArg
+    void SetDeliveryArg(const std::vector<u8>& parameter, const std::vector<u8>& hmac);
+
+    /// Checks if the Application slot has already been registered and sends the parameter to it,
+    /// otherwise it queues for sending when the application registers itself with APT::Enable.
+    void SendApplicationParameterAfterRegistration(const MessageParameter& parameter);
 
     void EnsureHomeMenuLoaded();
 
