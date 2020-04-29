@@ -47,7 +47,14 @@ void DspHle::serialize(Archive& ar, const unsigned int) {
 }
 SERIALIZE_IMPL(DspHle)
 
-static constexpr u64 audio_frame_ticks = 1310252ull; ///< Units: ARM11 cycles
+// TODO(xperia64): The value below is the "perfect" mathematical ratio
+// of ARM11 cycles per audio frame, as per merry's suggestion
+// samples per frame * teaklite cycles per sample * 2 ARM11 cycles/teaklite cycle
+// (160 * 4096 * 2) = (1310720)
+//
+// As per merry, it may be useful to verify this on hardware with the more recently
+// discovered "correct" ARM11 frequency of 268111856 as opposed to 268123480
+static constexpr u64 audio_frame_ticks = 160 * 4096 * 2ull; ///< Units: ARM11 cycles
 
 struct DspHle::Impl final {
 public:
