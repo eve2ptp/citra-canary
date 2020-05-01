@@ -1,3 +1,30 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: 4d7487bd34024f7a5be6b909827934041524caf3
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[6](https://github.com/citra-emu/citra-canary/pull/6)|[d9c3e53](https://github.com/citra-emu/citra-canary/pull/6/files/)|Canary Base (MinGW Test)|[liushuyu](https://github.com/liushuyu)|Yes|
+|[5314](https://github.com/citra-emu/citra/pull/5314)|[1d624bf](https://github.com/citra-emu/citra/pull/5314/files/)|externals: Update dynarmic to da5346e|[MerryMage](https://github.com/MerryMage)|Yes|
+|[5289](https://github.com/citra-emu/citra/pull/5289)|[46dc50c](https://github.com/citra-emu/citra/pull/5289/files/)|Update translations (2020-05-01)|[zhaobot](https://github.com/zhaobot)|Yes|
+|[5284](https://github.com/citra-emu/citra/pull/5284)|[9ae4700](https://github.com/citra-emu/citra/pull/5284/files/)|UDS: Only return beacons that have the desired wlan_comm_id|[vvanelslande](https://github.com/vvanelslande)|Yes|
+|[5273](https://github.com/citra-emu/citra/pull/5273)|[03145e3](https://github.com/citra-emu/citra/pull/5273/files/)|[WIP] Update FPS to roughly match the actual 3DS rate|[xperia64](https://github.com/xperia64)|Yes|
+|[5272](https://github.com/citra-emu/citra/pull/5272)|[f96970b](https://github.com/citra-emu/citra/pull/5272/files/)|[WIP] Decrease maximum circle pad range|[xperia64](https://github.com/xperia64)|Yes|
+|[5266](https://github.com/citra-emu/citra/pull/5266)|[a0e8255](https://github.com/citra-emu/citra/pull/5266/files/)|[WIP] Adjust audio_frame_ticks|[xperia64](https://github.com/xperia64)|Yes|
+|[5264](https://github.com/citra-emu/citra/pull/5264)|[e040242](https://github.com/citra-emu/citra/pull/5264/files/)|gl_shader_gen: Make use of fmt where applicable|[lioncash](https://github.com/lioncash)|Yes|
+|[5257](https://github.com/citra-emu/citra/pull/5257)|[ed03c38](https://github.com/citra-emu/citra/pull/5257/files/)|Improve core timing accuracy|[B3n30](https://github.com/B3n30)|Yes|
+|[5231](https://github.com/citra-emu/citra/pull/5231)|[6783289](https://github.com/citra-emu/citra/pull/5231/files/)|Fix Address Arbiter serialization|[hamish-milne](https://github.com/hamish-milne)|Yes|
+|[5230](https://github.com/citra-emu/citra/pull/5230)|[922a5f7](https://github.com/citra-emu/citra/pull/5230/files/)|Add flag to disable seperable shaders for osx Intel GPUs. |[B3n30](https://github.com/B3n30)|Yes|
+|[5207](https://github.com/citra-emu/citra/pull/5207)|[0ec6e54](https://github.com/citra-emu/citra/pull/5207/files/)|Services/APT: Implemented PrepareToStartApplication and StartApplication|[Subv](https://github.com/Subv)|Yes|
+|[5163](https://github.com/citra-emu/citra/pull/5163)|[44426bd](https://github.com/citra-emu/citra/pull/5163/files/)|input: allow mapping buttons to touchscreen|[z87](https://github.com/z87)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
