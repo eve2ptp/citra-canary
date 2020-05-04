@@ -1,3 +1,33 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: 36809b2e2edf49ef1211180908b2a1ea0cc63066
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[6](https://github.com/citra-emu/citra-canary/pull/6)|[d9c3e53d4](https://github.com/citra-emu/citra-canary/pull/6/files/)|Canary Base (MinGW Test)|[liushuyu](https://github.com/liushuyu)|Yes|
+|[5331](https://github.com/citra-emu/citra/pull/5331)|[7c6898fdd](https://github.com/citra-emu/citra/pull/5331/files/)|NWM_UDS: implement disconnect_reason and EjectClient|[B3n30](https://github.com/B3n30)|Yes|
+|[5329](https://github.com/citra-emu/citra/pull/5329)|[8535481bb](https://github.com/citra-emu/citra/pull/5329/files/)|[WIP] FS_U: implement GetSpecialContentIndex|[B3n30](https://github.com/B3n30)|Yes|
+|[5328](https://github.com/citra-emu/citra/pull/5328)|[0af8f1f9c](https://github.com/citra-emu/citra/pull/5328/files/)|APT: implement Set and GetWirelessRebootInfo|[B3n30](https://github.com/B3n30)|Yes|
+|[5305](https://github.com/citra-emu/citra/pull/5305)|[58359fbf4](https://github.com/citra-emu/citra/pull/5305/files/)|Cheats improvement|[B3n30](https://github.com/B3n30)|Yes|
+|[5284](https://github.com/citra-emu/citra/pull/5284)|[9ae470052](https://github.com/citra-emu/citra/pull/5284/files/)|UDS: Only return beacons that have the desired wlan_comm_id|[vvanelslande](https://github.com/vvanelslande)|Yes|
+|[5281](https://github.com/citra-emu/citra/pull/5281)|[0df27ac0c](https://github.com/citra-emu/citra/pull/5281/files/)|citra-qt: Add an "Alternative Speed Limit" with its hotkey|[SutandoTsukai181](https://github.com/SutandoTsukai181)|Yes|
+|[5273](https://github.com/citra-emu/citra/pull/5273)|[03145e307](https://github.com/citra-emu/citra/pull/5273/files/)|[WIP] Update FPS to roughly match the actual 3DS rate|[xperia64](https://github.com/xperia64)|Yes|
+|[5272](https://github.com/citra-emu/citra/pull/5272)|[f96970bf3](https://github.com/citra-emu/citra/pull/5272/files/)|[WIP] Decrease maximum circle pad range|[xperia64](https://github.com/xperia64)|Yes|
+|[5266](https://github.com/citra-emu/citra/pull/5266)|[a0e8255b6](https://github.com/citra-emu/citra/pull/5266/files/)|[WIP] Adjust audio_frame_ticks|[xperia64](https://github.com/xperia64)|Yes|
+|[5264](https://github.com/citra-emu/citra/pull/5264)|[e04024200](https://github.com/citra-emu/citra/pull/5264/files/)|gl_shader_gen: Make use of fmt where applicable|[lioncash](https://github.com/lioncash)|Yes|
+|[5262](https://github.com/citra-emu/citra/pull/5262)|[d0480a397](https://github.com/citra-emu/citra/pull/5262/files/)|gl_shader_decompiler: Make use of fmt with the decompiler|[lioncash](https://github.com/lioncash)|Yes|
+|[5257](https://github.com/citra-emu/citra/pull/5257)|[1ff4880c3](https://github.com/citra-emu/citra/pull/5257/files/)|Improve core timing accuracy|[B3n30](https://github.com/B3n30)|Yes|
+|[5231](https://github.com/citra-emu/citra/pull/5231)|[678328990](https://github.com/citra-emu/citra/pull/5231/files/)|Fix Address Arbiter serialization|[hamish-milne](https://github.com/hamish-milne)|Yes|
+|[5230](https://github.com/citra-emu/citra/pull/5230)|[ed48f8acc](https://github.com/citra-emu/citra/pull/5230/files/)|Add flag to disable seperable shaders for osx Intel GPUs. |[B3n30](https://github.com/B3n30)|Yes|
+|[5163](https://github.com/citra-emu/citra/pull/5163)|[44426bd38](https://github.com/citra-emu/citra/pull/5163/files/)|input: allow mapping buttons to touchscreen|[z87](https://github.com/z87)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
