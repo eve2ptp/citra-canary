@@ -1,3 +1,29 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: 9b20ff0369c2f305a6bdcbb7658027cec101ea38
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[6](https://github.com/citra-emu/citra-canary/pull/6)|[d9c3e53d4](https://github.com/citra-emu/citra-canary/pull/6/files/)|Canary Base (MinGW Test)|[liushuyu](https://github.com/liushuyu)|Yes|
+|[5382](https://github.com/citra-emu/citra/pull/5382)|[b34ceb89c](https://github.com/citra-emu/citra/pull/5382/files/)|service/nwm_uds: Various improvements/corrections|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5355](https://github.com/citra-emu/citra/pull/5355)|[fa6f56d9b](https://github.com/citra-emu/citra/pull/5355/files/)|UDS: Only return beacons that have the desired wlan_comm_id|[FearlessTobi](https://github.com/FearlessTobi)|Yes|
+|[5350](https://github.com/citra-emu/citra/pull/5350)|[cb19611a5](https://github.com/citra-emu/citra/pull/5350/files/)|Interpolate circle pad motion|[xperia64](https://github.com/xperia64)|Yes|
+|[5345](https://github.com/citra-emu/citra/pull/5345)|[72a8b341a](https://github.com/citra-emu/citra/pull/5345/files/)|[WIP] NCCHContainer: support for partitions if container is NCSD|[B3n30](https://github.com/B3n30)|Yes|
+|[5344](https://github.com/citra-emu/citra/pull/5344)|[01b9302a2](https://github.com/citra-emu/citra/pull/5344/files/)|game_list: Fix folder reordering|[vitor-k](https://github.com/vitor-k)|Yes|
+|[5342](https://github.com/citra-emu/citra/pull/5342)|[89e45b6b2](https://github.com/citra-emu/citra/pull/5342/files/)|GSP: Only process the command queue for the thread with active GPU rights|[BreadFish64](https://github.com/BreadFish64)|Yes|
+|[5331](https://github.com/citra-emu/citra/pull/5331)|[7c6898fdd](https://github.com/citra-emu/citra/pull/5331/files/)|NWM_UDS: implement disconnect_reason and EjectClient|[B3n30](https://github.com/B3n30)|Yes|
+|[5328](https://github.com/citra-emu/citra/pull/5328)|[0af8f1f9c](https://github.com/citra-emu/citra/pull/5328/files/)|APT: implement Set and GetWirelessRebootInfo|[B3n30](https://github.com/B3n30)|Yes|
+|[5305](https://github.com/citra-emu/citra/pull/5305)|[58359fbf4](https://github.com/citra-emu/citra/pull/5305/files/)|Cheats improvement|[B3n30](https://github.com/B3n30)|Yes|
+|[5281](https://github.com/citra-emu/citra/pull/5281)|[35df1f4dd](https://github.com/citra-emu/citra/pull/5281/files/)|citra-qt: Add an "Alternative Speed Limit" with its hotkey|[SutandoTsukai181](https://github.com/SutandoTsukai181)|Yes|
+|[5273](https://github.com/citra-emu/citra/pull/5273)|[c63797a09](https://github.com/citra-emu/citra/pull/5273/files/)|[WIP] Update FPS to roughly match the actual 3DS rate|[xperia64](https://github.com/xperia64)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
