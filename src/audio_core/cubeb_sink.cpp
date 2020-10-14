@@ -40,7 +40,7 @@ CubebSink::CubebSink(std::string_view target_device_name) : impl(std::make_uniqu
     params.channels = 2;
     params.layout = CUBEB_LAYOUT_STEREO;
     params.format = CUBEB_SAMPLE_S16NE;
-    params.prefs = CUBEB_STREAM_PREF_NONE;
+    params.prefs = static_cast<cubeb_stream_prefs>(CUBEB_STREAM_PREF_PERSIST | CUBEB_STREAM_PREF_RAW);
 
     u32 minimum_latency = 100 * impl->sample_rate / 1000; // Firefox default
     if (cubeb_get_min_latency(impl->ctx, &params, &minimum_latency) != CUBEB_OK) {
@@ -159,7 +159,7 @@ void CubebSink::Impl::LogCallback(char const* format, ...) {
 #endif
     va_end(args);
     buffer.back() = '\0';
-    LOG_DEBUG(Audio_Sink, "{}", buffer.data());
+    LOG_INFO(Audio_Sink, "{}", buffer.data());
 }
 
 std::vector<std::string> ListCubebSinkDevices() {
