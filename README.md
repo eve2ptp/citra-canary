@@ -1,3 +1,29 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: de3d7cf49feaa3ac2b2e50cce2e819f3364e043c
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[5580](https://github.com/citra-emu/citra/pull/5580)|[33d233fff](https://github.com/citra-emu/citra/pull/5580/files/)|Implement Reverse Interlaced 3D|[oneup03](https://github.com/oneup03)|Yes|
+|[5577](https://github.com/citra-emu/citra/pull/5577)|[1efe80bd1](https://github.com/citra-emu/citra/pull/5577/files/)|Update cubeb to latest and request a persistent stream session|[vitor-k](https://github.com/vitor-k)|Yes|
+|[5566](https://github.com/citra-emu/citra/pull/5566)|[faf9162db](https://github.com/citra-emu/citra/pull/5566/files/)|layered_fs: Make LoadFile and LoadDirectory less recursive|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5548](https://github.com/citra-emu/citra/pull/5548)|[11fc85e6e](https://github.com/citra-emu/citra/pull/5548/files/)|Initial implementation of partial_embedded_buffer_dirty handling|[xperia64](https://github.com/xperia64)|Yes|
+|[5533](https://github.com/citra-emu/citra/pull/5533)|[50db4a669](https://github.com/citra-emu/citra/pull/5533/files/)|UDS: implement GetApplicationData|[mnml](https://github.com/mnml)|Yes|
+|[5509](https://github.com/citra-emu/citra/pull/5509)|[6b92a3373](https://github.com/citra-emu/citra/pull/5509/files/)|Look at direction of analog axis travel instead of instantaneous sample|[xperia64](https://github.com/xperia64)|Yes|
+|[5448](https://github.com/citra-emu/citra/pull/5448)|[134bcccc8](https://github.com/citra-emu/citra/pull/5448/files/)|Implement basic rerecording features|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5411](https://github.com/citra-emu/citra/pull/5411)|[e8c9328b9](https://github.com/citra-emu/citra/pull/5411/files/)|dumping/ffmpeg_backend: Various fixes|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5382](https://github.com/citra-emu/citra/pull/5382)|[b34ceb89c](https://github.com/citra-emu/citra/pull/5382/files/)|service/nwm_uds: Various improvements/corrections|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5331](https://github.com/citra-emu/citra/pull/5331)|[7c6898fdd](https://github.com/citra-emu/citra/pull/5331/files/)|NWM_UDS: implement disconnect_reason and EjectClient|[B3n30](https://github.com/B3n30)|Yes|
+|[5328](https://github.com/citra-emu/citra/pull/5328)|[0af8f1f9c](https://github.com/citra-emu/citra/pull/5328/files/)|APT: implement Set and GetWirelessRebootInfo|[B3n30](https://github.com/B3n30)|Yes|
+|[5278](https://github.com/citra-emu/citra/pull/5278)|[2c0cf5106](https://github.com/citra-emu/citra/pull/5278/files/)|Port yuzu-emu/yuzu#3791: "configuration: Add Restore Default and Clear options to hotkeys"|[FearlessTobi](https://github.com/FearlessTobi)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
