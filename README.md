@@ -1,3 +1,29 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: 6f45b402e751ba7bcaed6ee5c7afbd79f7f4f875
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[5620](https://github.com/citra-emu/citra/pull/5620)|[24d79f7ae](https://github.com/citra-emu/citra/pull/5620/files/)|Merge ARM64 Dynarmic|[xperia64](https://github.com/xperia64)|Yes|
+|[5609](https://github.com/citra-emu/citra/pull/5609)|[eca33d2de](https://github.com/citra-emu/citra/pull/5609/files/)|Enable fdk decoder for flatpak version|[gal20](https://github.com/gal20)|Yes|
+|[5573](https://github.com/citra-emu/citra/pull/5573)|[e31ffecd5](https://github.com/citra-emu/citra/pull/5573/files/)|Port yuzu-emu/yuzu#4722: "cubeb_sink: Use static_cast instead of reinterpret_cast in DataCallback()"|[FearlessTobi](https://github.com/FearlessTobi)|Yes|
+|[5572](https://github.com/citra-emu/citra/pull/5572)|[3ad593350](https://github.com/citra-emu/citra/pull/5572/files/)|Port yuzu-emu/yuzu#4721: "codec: Make lookup table static constexpr"|[FearlessTobi](https://github.com/FearlessTobi)|Yes|
+|[5571](https://github.com/citra-emu/citra/pull/5571)|[73840c3c7](https://github.com/citra-emu/citra/pull/5571/files/)|Port yuzu-emu/yuzu#4700: "game_list: Eliminate redundant argument copies"|[FearlessTobi](https://github.com/FearlessTobi)|Yes|
+|[5528](https://github.com/citra-emu/citra/pull/5528)|[47c7457db](https://github.com/citra-emu/citra/pull/5528/files/)|Port yuzu-emu/yuzu#4565: "microprofile: Don't memset through std::atomic types"|[FearlessTobi](https://github.com/FearlessTobi)|Yes|
+|[5509](https://github.com/citra-emu/citra/pull/5509)|[6b92a3373](https://github.com/citra-emu/citra/pull/5509/files/)|Look at direction of analog axis travel instead of instantaneous sample|[xperia64](https://github.com/xperia64)|Yes|
+|[5448](https://github.com/citra-emu/citra/pull/5448)|[134bcccc8](https://github.com/citra-emu/citra/pull/5448/files/)|Implement basic rerecording features|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5411](https://github.com/citra-emu/citra/pull/5411)|[e8c9328b9](https://github.com/citra-emu/citra/pull/5411/files/)|dumping/ffmpeg_backend: Various fixes|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5382](https://github.com/citra-emu/citra/pull/5382)|[b34ceb89c](https://github.com/citra-emu/citra/pull/5382/files/)|service/nwm_uds: Various improvements/corrections|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5331](https://github.com/citra-emu/citra/pull/5331)|[7c6898fdd](https://github.com/citra-emu/citra/pull/5331/files/)|NWM_UDS: implement disconnect_reason and EjectClient|[B3n30](https://github.com/B3n30)|Yes|
+|[5278](https://github.com/citra-emu/citra/pull/5278)|[2c0cf5106](https://github.com/citra-emu/citra/pull/5278/files/)|Port yuzu-emu/yuzu#3791: "configuration: Add Restore Default and Clear options to hotkeys"|[FearlessTobi](https://github.com/FearlessTobi)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
