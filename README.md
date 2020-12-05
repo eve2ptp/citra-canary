@@ -1,3 +1,28 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: 7ae0fc73385730d53a645306396b50a30b47f418
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[5632](https://github.com/citra-emu/citra/pull/5632)|[7ea76663c](https://github.com/citra-emu/citra/pull/5632/files/)|Port yuzu-emu/yuzu#5015: "tests: Fix warning about comparison between signed and unsigned"|[FearlessTobi](https://github.com/FearlessTobi)|Yes|
+|[5618](https://github.com/citra-emu/citra/pull/5618)|[04410f58e](https://github.com/citra-emu/citra/pull/5618/files/)|Update dynarmic to last compatible version|[xperia64](https://github.com/xperia64)|Yes|
+|[5609](https://github.com/citra-emu/citra/pull/5609)|[eca33d2de](https://github.com/citra-emu/citra/pull/5609/files/)|Enable fdk decoder for flatpak version|[gal20](https://github.com/gal20)|Yes|
+|[5533](https://github.com/citra-emu/citra/pull/5533)|[50db4a669](https://github.com/citra-emu/citra/pull/5533/files/)|UDS: implement GetApplicationData|[mnml](https://github.com/mnml)|Yes|
+|[5509](https://github.com/citra-emu/citra/pull/5509)|[6b92a3373](https://github.com/citra-emu/citra/pull/5509/files/)|Look at direction of analog axis travel instead of instantaneous sample|[xperia64](https://github.com/xperia64)|Yes|
+|[5476](https://github.com/citra-emu/citra/pull/5476)|[977b1e6c2](https://github.com/citra-emu/citra/pull/5476/files/)|Fix "hide mouse on inactivity" for popout window|[vitor-k](https://github.com/vitor-k)|Yes|
+|[5448](https://github.com/citra-emu/citra/pull/5448)|[134bcccc8](https://github.com/citra-emu/citra/pull/5448/files/)|Implement basic rerecording features|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5411](https://github.com/citra-emu/citra/pull/5411)|[e8c9328b9](https://github.com/citra-emu/citra/pull/5411/files/)|dumping/ffmpeg_backend: Various fixes|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5382](https://github.com/citra-emu/citra/pull/5382)|[b34ceb89c](https://github.com/citra-emu/citra/pull/5382/files/)|service/nwm_uds: Various improvements/corrections|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5331](https://github.com/citra-emu/citra/pull/5331)|[7c6898fdd](https://github.com/citra-emu/citra/pull/5331/files/)|NWM_UDS: implement disconnect_reason and EjectClient|[B3n30](https://github.com/B3n30)|Yes|
+|[5278](https://github.com/citra-emu/citra/pull/5278)|[2c0cf5106](https://github.com/citra-emu/citra/pull/5278/files/)|Port yuzu-emu/yuzu#3791: "configuration: Add Restore Default and Clear options to hotkeys"|[FearlessTobi](https://github.com/FearlessTobi)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
