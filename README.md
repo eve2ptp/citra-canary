@@ -1,3 +1,29 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: 3c1211e9fef2c4447dbf6e21ad2a99828b53a82a
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[5644](https://github.com/citra-emu/citra/pull/5644)|[b56de2547](https://github.com/citra-emu/citra/pull/5644/files/)|bootmanager: fix memory leaks when loading save states|[liushuyu](https://github.com/liushuyu)|Yes|
+|[5634](https://github.com/citra-emu/citra/pull/5634)|[c37dc2348](https://github.com/citra-emu/citra/pull/5634/files/)| Port yuzu-emu/yuzu#4798: "udp/client: Take std::function by const reference with TestCommunication()"|[FearlessTobi](https://github.com/FearlessTobi)|Yes|
+|[5609](https://github.com/citra-emu/citra/pull/5609)|[eca33d2de](https://github.com/citra-emu/citra/pull/5609/files/)|Enable fdk decoder for flatpak version|[gal20](https://github.com/gal20)|Yes|
+|[5509](https://github.com/citra-emu/citra/pull/5509)|[6b92a3373](https://github.com/citra-emu/citra/pull/5509/files/)|Look at direction of analog axis travel instead of instantaneous sample|[xperia64](https://github.com/xperia64)|Yes|
+|[5478](https://github.com/citra-emu/citra/pull/5478)|[01529e2b5](https://github.com/citra-emu/citra/pull/5478/files/)|[WIP] Implement APT command 0x0103|[xperia64](https://github.com/xperia64)|Yes|
+|[5471](https://github.com/citra-emu/citra/pull/5471)|[7e19ed130](https://github.com/citra-emu/citra/pull/5471/files/)|Fix some warnings and some small changes|[vitor-k](https://github.com/vitor-k)|Yes|
+|[5448](https://github.com/citra-emu/citra/pull/5448)|[134bcccc8](https://github.com/citra-emu/citra/pull/5448/files/)|Implement basic rerecording features|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5411](https://github.com/citra-emu/citra/pull/5411)|[e8c9328b9](https://github.com/citra-emu/citra/pull/5411/files/)|dumping/ffmpeg_backend: Various fixes|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5382](https://github.com/citra-emu/citra/pull/5382)|[b34ceb89c](https://github.com/citra-emu/citra/pull/5382/files/)|service/nwm_uds: Various improvements/corrections|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5331](https://github.com/citra-emu/citra/pull/5331)|[7c6898fdd](https://github.com/citra-emu/citra/pull/5331/files/)|NWM_UDS: implement disconnect_reason and EjectClient|[B3n30](https://github.com/B3n30)|Yes|
+|[5278](https://github.com/citra-emu/citra/pull/5278)|[2c0cf5106](https://github.com/citra-emu/citra/pull/5278/files/)|Port yuzu-emu/yuzu#3791: "configuration: Add Restore Default and Clear options to hotkeys"|[FearlessTobi](https://github.com/FearlessTobi)|Yes|
+|[5100](https://github.com/citra-emu/citra/pull/5100)|[eb5ce3d09](https://github.com/citra-emu/citra/pull/5100/files/)|Automatic Controller Binding|[vitor-k](https://github.com/vitor-k)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
