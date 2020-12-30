@@ -35,6 +35,8 @@ public:
 
     void DoneCurrent() override;
 
+    ~GLContext();
+
 private:
     QOpenGLContext* context;
     QOffscreenSurface* surface;
