@@ -125,6 +125,8 @@ OpenGLWindow::OpenGLWindow(QWindow* parent, QWidget* event_handler, QOpenGLConte
 
 OpenGLWindow::~OpenGLWindow() {
     context->doneCurrent();
+    if (context)
+        delete context;
 }
 
 void OpenGLWindow::Present() {
@@ -468,4 +470,9 @@ void GLContext::MakeCurrent() {
 
 void GLContext::DoneCurrent() {
     context->doneCurrent();
+}
+
+GLContext::~GLContext() {
+    delete surface;
+    delete context;
 }
