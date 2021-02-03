@@ -494,6 +494,10 @@ static bool FillSurface(const Surface& surface, const u8* fill_data,
     return true;
 }
 
+CachedSurface::~CachedSurface() {
+    owner.host_texture_recycler.emplace(*this, std::move(texture));
+}
+
 bool CachedSurface::CanFill(const SurfaceParams& dest_surface,
                             SurfaceInterval fill_interval) const {
     if (type == SurfaceType::Fill && IsRegionValid(fill_interval) &&
@@ -1858,9 +1862,9 @@ void RasterizerCacheOpenGL::InvalidateRegion(PAddr addr, u32 size, const Surface
             cached_surface->invalid_regions.insert(interval);
             cached_surface->InvalidateAllWatcher();
 
-            // Remove only "empty" fill surfaces to avoid destroying and recreating OGL textures
-            if (cached_surface->type == SurfaceType::Fill &&
-                cached_surface->IsSurfaceFullyInvalid()) {
+            // If the surface has no salvageable data it should be removed from the cache to avoid
+            // clogging the data structure
+            if (cached_surface->IsSurfaceFullyInvalid()) {
                 remove_surfaces.emplace(cached_surface);
             }
         }
@@ -1893,12 +1897,17 @@ Surface RasterizerCacheOpenGL::CreateSurface(const SurfaceParams& params) {
     Surface surface = std::make_shared<CachedSurface>(*this);
     static_cast<SurfaceParams&>(*surface) = params;
 
-    surface->texture.Create();
-
-    surface->gl_buffer.resize(0);
     surface->invalid_regions.insert(surface->GetInterval());
-    AllocateSurfaceTexture(surface->texture.handle, GetFormatTuple(surface->pixel_format),
-                           surface->GetScaledWidth(), surface->GetScaledHeight());
+
+    auto recycled_texture = host_texture_recycler.find(params);
+    if (recycled_texture == host_texture_recycler.end()) {
+        surface->texture.Create();
+        AllocateSurfaceTexture(surface->texture.handle, GetFormatTuple(surface->pixel_format),
+                               surface->GetScaledWidth(), surface->GetScaledHeight());
+    } else {
+        surface->texture = std::move(recycled_texture->second);
+        host_texture_recycler.erase(recycled_texture);
+    }
 
     return surface;
 }
