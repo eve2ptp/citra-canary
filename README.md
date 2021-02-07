@@ -1,3 +1,27 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: 2e3834f880d6c3ebeea24e2374e2beb2a471a2e6
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[5713](https://github.com/citra-emu/citra/pull/5713)|[12806b899](https://github.com/citra-emu/citra/pull/5713/files/)|Avoid leaking fences during re-presentation|[xperia64](https://github.com/xperia64)|Yes|
+|[5711](https://github.com/citra-emu/citra/pull/5711)|[b94f94bb5](https://github.com/citra-emu/citra/pull/5711/files/)|Fix Disk shader cache when accurate multiplication is off|[SachinVin](https://github.com/SachinVin)|Yes|
+|[5710](https://github.com/citra-emu/citra/pull/5710)|[00c798991](https://github.com/citra-emu/citra/pull/5710/files/)|gl_rasterizer_cache: Remove all fully invalid surfaces from the cache|[BreadFish64](https://github.com/BreadFish64)|Yes|
+|[5644](https://github.com/citra-emu/citra/pull/5644)|[8290423d1](https://github.com/citra-emu/citra/pull/5644/files/)|bootmanager: fix memory leaks when loading save states|[liushuyu](https://github.com/liushuyu)|Yes|
+|[5471](https://github.com/citra-emu/citra/pull/5471)|[7e19ed130](https://github.com/citra-emu/citra/pull/5471/files/)|Fix some warnings and some small changes|[vitor-k](https://github.com/vitor-k)|Yes|
+|[5448](https://github.com/citra-emu/citra/pull/5448)|[134bcccc8](https://github.com/citra-emu/citra/pull/5448/files/)|Implement basic rerecording features|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5411](https://github.com/citra-emu/citra/pull/5411)|[e8c9328b9](https://github.com/citra-emu/citra/pull/5411/files/)|dumping/ffmpeg_backend: Various fixes|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5382](https://github.com/citra-emu/citra/pull/5382)|[b34ceb89c](https://github.com/citra-emu/citra/pull/5382/files/)|service/nwm_uds: Various improvements/corrections|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5331](https://github.com/citra-emu/citra/pull/5331)|[7c6898fdd](https://github.com/citra-emu/citra/pull/5331/files/)|NWM_UDS: implement disconnect_reason and EjectClient|[B3n30](https://github.com/B3n30)|Yes|
+|[5278](https://github.com/citra-emu/citra/pull/5278)|[2c0cf5106](https://github.com/citra-emu/citra/pull/5278/files/)|Port yuzu-emu/yuzu#3791: "configuration: Add Restore Default and Clear options to hotkeys"|[FearlessTobi](https://github.com/FearlessTobi)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
