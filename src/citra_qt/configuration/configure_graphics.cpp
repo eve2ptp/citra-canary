@@ -28,20 +28,14 @@ ConfigureGraphics::ConfigureGraphics(QWidget* parent)
     ui->hw_shader_group->setEnabled(ui->toggle_hw_shader->isChecked());
     connect(ui->toggle_hw_shader, &QCheckBox::toggled, ui->hw_shader_group, &QWidget::setEnabled);
 
-    ui->toggle_disk_shader_cache->setEnabled(ui->toggle_hw_shader->isChecked() &&
-                                             ui->toggle_accurate_mul->isChecked());
+    ui->toggle_disk_shader_cache->setEnabled(ui->toggle_hw_shader->isChecked());
+
     connect(ui->toggle_hw_shader, &QCheckBox::toggled, this, [this] {
-        ui->toggle_disk_shader_cache->setEnabled(ui->toggle_hw_shader->isChecked() &&
-                                                 ui->toggle_accurate_mul->isChecked());
+        ui->toggle_disk_shader_cache->setEnabled(ui->toggle_hw_shader->isChecked());
         if (!ui->toggle_disk_shader_cache->isEnabled())
             ui->toggle_disk_shader_cache->setChecked(false);
     });
 
-    connect(ui->toggle_accurate_mul, &QCheckBox::toggled, this, [this] {
-        ui->toggle_disk_shader_cache->setEnabled(ui->toggle_accurate_mul->isChecked());
-        if (!ui->toggle_disk_shader_cache->isEnabled())
-            ui->toggle_disk_shader_cache->setChecked(false);
-    });
 #ifdef __APPLE__
     connect(ui->toggle_hw_shader, &QCheckBox::stateChanged, this, [this](int state) {
         if (state == Qt::Checked) {
