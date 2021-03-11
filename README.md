@@ -1,3 +1,26 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: 8e3c7674d82df8db66e9cdf6a5d8b0e678a7f720
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[5735](https://github.com/citra-emu/citra/pull/5735)|[43c6eec7a](https://github.com/citra-emu/citra/pull/5735/files/)|input_common: Implement official GameCube adapter support|[ameerj](https://github.com/ameerj)|Yes|
+|[5730](https://github.com/citra-emu/citra/pull/5730)|[82ec017a0](https://github.com/citra-emu/citra/pull/5730/files/)|Update translations (2021-03-01)|[zhaobot](https://github.com/zhaobot)|Yes|
+|[5711](https://github.com/citra-emu/citra/pull/5711)|[938e76dee](https://github.com/citra-emu/citra/pull/5711/files/)|Fix Disk shader cache when accurate multiplication is off|[SachinVin](https://github.com/SachinVin)|Yes|
+|[5471](https://github.com/citra-emu/citra/pull/5471)|[7e19ed130](https://github.com/citra-emu/citra/pull/5471/files/)|Fix some warnings and some small changes|[vitor-k](https://github.com/vitor-k)|Yes|
+|[5448](https://github.com/citra-emu/citra/pull/5448)|[996ca25a2](https://github.com/citra-emu/citra/pull/5448/files/)|Implement basic rerecording features|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5411](https://github.com/citra-emu/citra/pull/5411)|[3604df48e](https://github.com/citra-emu/citra/pull/5411/files/)|dumping/ffmpeg_backend: Various fixes|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5382](https://github.com/citra-emu/citra/pull/5382)|[b34ceb89c](https://github.com/citra-emu/citra/pull/5382/files/)|service/nwm_uds: Various improvements/corrections|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5331](https://github.com/citra-emu/citra/pull/5331)|[7c6898fdd](https://github.com/citra-emu/citra/pull/5331/files/)|NWM_UDS: implement disconnect_reason and EjectClient|[B3n30](https://github.com/B3n30)|Yes|
+|[5278](https://github.com/citra-emu/citra/pull/5278)|[2c0cf5106](https://github.com/citra-emu/citra/pull/5278/files/)|Port yuzu-emu/yuzu#3791: "configuration: Add Restore Default and Clear options to hotkeys"|[FearlessTobi](https://github.com/FearlessTobi)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
