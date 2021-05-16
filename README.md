@@ -1,3 +1,23 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: 842031a2eb0b4bac4a351db914530296812962d1
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[5786](https://github.com/citra-emu/citra/pull/5786)|[940ec70f1](https://github.com/citra-emu/citra/pull/5786/files/)|Request Camera Permission on MacOS|[vitor-k](https://github.com/vitor-k)|Yes|
+|[5785](https://github.com/citra-emu/citra/pull/5785)|[22e4c71bb](https://github.com/citra-emu/citra/pull/5785/files/)|Disable disk shader cache when GL_ARB_get_program_binary is unsupported|[SachinVin](https://github.com/SachinVin)|Yes|
+|[5448](https://github.com/citra-emu/citra/pull/5448)|[996ca25a2](https://github.com/citra-emu/citra/pull/5448/files/)|Implement basic rerecording features|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5411](https://github.com/citra-emu/citra/pull/5411)|[3604df48e](https://github.com/citra-emu/citra/pull/5411/files/)|dumping/ffmpeg_backend: Various fixes|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5382](https://github.com/citra-emu/citra/pull/5382)|[b34ceb89c](https://github.com/citra-emu/citra/pull/5382/files/)|service/nwm_uds: Various improvements/corrections|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5278](https://github.com/citra-emu/citra/pull/5278)|[2c0cf5106](https://github.com/citra-emu/citra/pull/5278/files/)|Port yuzu-emu/yuzu#3791: "configuration: Add Restore Default and Clear options to hotkeys"|[FearlessTobi](https://github.com/FearlessTobi)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 Citra
