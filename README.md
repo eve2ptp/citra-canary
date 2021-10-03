@@ -1,3 +1,26 @@
+# Merge log
+
+Scroll down for the original README.md!
+
+Base revision: d4e85e2bb5cd9678eb648c414e30adaad58e1fad
+
+|Pull Request|Commit|Title|Author|Merged?|
+|----|----|----|----|----|
+|[5851](https://github.com/citra-emu/citra/pull/5851)|[853909996](https://github.com/citra-emu/citra/pull/5851/files/)|Add support for SDL controller accelerometer/gyro events|[flibitijibibo](https://github.com/flibitijibibo)|Yes|
+|[5823](https://github.com/citra-emu/citra/pull/5823)|[a2109933f](https://github.com/citra-emu/citra/pull/5823/files/)|Android: Backport easy stuff|[SachinVin](https://github.com/SachinVin)|Yes|
+|[5810](https://github.com/citra-emu/citra/pull/5810)|[de9d640de](https://github.com/citra-emu/citra/pull/5810/files/)|Port yuzu-emu/yuzu#6484: "update submodule discord-rpc to latest [now deprecated]"|[vitor-k](https://github.com/vitor-k)|Yes|
+|[5804](https://github.com/citra-emu/citra/pull/5804)|[adac0d193](https://github.com/citra-emu/citra/pull/5804/files/)|Minor fx|[weihuoya](https://github.com/weihuoya)|Yes|
+|[5792](https://github.com/citra-emu/citra/pull/5792)|[3e71d68b9](https://github.com/citra-emu/citra/pull/5792/files/)|service/frd: return cfg username on GetMyScreenName|[vitor-k](https://github.com/vitor-k)|Yes|
+|[5786](https://github.com/citra-emu/citra/pull/5786)|[940ec70f1](https://github.com/citra-emu/citra/pull/5786/files/)|Request Camera Permission on MacOS|[vitor-k](https://github.com/vitor-k)|Yes|
+|[5448](https://github.com/citra-emu/citra/pull/5448)|[996ca25a2](https://github.com/citra-emu/citra/pull/5448/files/)|Implement basic rerecording features|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5411](https://github.com/citra-emu/citra/pull/5411)|[3604df48e](https://github.com/citra-emu/citra/pull/5411/files/)|dumping/ffmpeg_backend: Various fixes|[zhaowenlan1779](https://github.com/zhaowenlan1779)|Yes|
+|[5278](https://github.com/citra-emu/citra/pull/5278)|[2c0cf5106](https://github.com/citra-emu/citra/pull/5278/files/)|Port yuzu-emu/yuzu#3791: "configuration: Add Restore Default and Clear options to hotkeys"|[FearlessTobi](https://github.com/FearlessTobi)|Yes|
+
+
+End of merge log. You can find the original README.md below the break.
+
+------
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 # Citra
