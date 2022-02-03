@@ -1,3 +1,16 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5278](https://github.com/citra-emu/citra//pull/5278) | [`2c0cf5106`](https://github.com/citra-emu/citra//pull/5278/files) | Port yuzu-emu/yuzu#3791: "configuration: Add Restore Default and Clear options to hotkeys" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [5411](https://github.com/citra-emu/citra//pull/5411) | [`3604df48e`](https://github.com/citra-emu/citra//pull/5411/files) | dumping/ffmpeg_backend: Various fixes | [zhaowenlan1779](https://github.com/zhaowenlan1779/) | Yes |
+| [5448](https://github.com/citra-emu/citra//pull/5448) | [`996ca25a2`](https://github.com/citra-emu/citra//pull/5448/files) | Implement basic rerecording features | [zhaowenlan1779](https://github.com/zhaowenlan1779/) | Yes |
+| [5718](https://github.com/citra-emu/citra//pull/5718) | [`af24f75c1`](https://github.com/citra-emu/citra//pull/5718/files) | externals: update httplib and libressl | [liushuyu](https://github.com/liushuyu/) | Yes |
+| [5786](https://github.com/citra-emu/citra//pull/5786) | [`8b0a6b9d5`](https://github.com/citra-emu/citra//pull/5786/files) | Request Camera Permission on MacOS | [vitor-k](https://github.com/vitor-k/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 # Citra
