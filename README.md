@@ -1,3 +1,15 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5278](https://github.com/citra-emu/citra//pull/5278) | [`2c0cf5106`](https://github.com/citra-emu/citra//pull/5278/files) | Port yuzu-emu/yuzu#3791: "configuration: Add Restore Default and Clear options to hotkeys" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [5411](https://github.com/citra-emu/citra//pull/5411) | [`3604df48e`](https://github.com/citra-emu/citra//pull/5411/files) | dumping/ffmpeg_backend: Various fixes | [zhaowenlan1779](https://github.com/zhaowenlan1779/) | Yes |
+| [5955](https://github.com/citra-emu/citra//pull/5955) | [`2c3f092bc`](https://github.com/citra-emu/citra//pull/5955/files) | Add svcGetSystemInfo 0x20000 to get citra information | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [5995](https://github.com/citra-emu/citra//pull/5995) | [`6a6435a1d`](https://github.com/citra-emu/citra//pull/5995/files) | citra_qt: Minor refactor to prefer standard algorithms | [tcoyvwac](https://github.com/tcoyvwac/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 # Citra
