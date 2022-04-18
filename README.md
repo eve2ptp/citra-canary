@@ -1,3 +1,14 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5278](https://github.com/citra-emu/citra//pull/5278) | [`2c0cf5106`](https://github.com/citra-emu/citra//pull/5278/files) | Port yuzu-emu/yuzu#3791: "configuration: Add Restore Default and Clear options to hotkeys" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [5411](https://github.com/citra-emu/citra//pull/5411) | [`3604df48e`](https://github.com/citra-emu/citra//pull/5411/files) | dumping/ffmpeg_backend: Various fixes | [zhaowenlan1779](https://github.com/zhaowenlan1779/) | Yes |
+| [6005](https://github.com/citra-emu/citra//pull/6005) | [`36394053a`](https://github.com/citra-emu/citra//pull/6005/files) | explicitly set timebase for video stream | [vadosnaprimer](https://github.com/vadosnaprimer/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 # Citra
