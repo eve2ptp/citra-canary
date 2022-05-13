@@ -1,3 +1,17 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5278](https://github.com/citra-emu/citra//pull/5278) | [`2c0cf5106`](https://github.com/citra-emu/citra//pull/5278/files) | Port yuzu-emu/yuzu#3791: "configuration: Add Restore Default and Clear options to hotkeys" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [5411](https://github.com/citra-emu/citra//pull/5411) | [`3604df48e`](https://github.com/citra-emu/citra//pull/5411/files) | dumping/ffmpeg_backend: Various fixes | [zhaowenlan1779](https://github.com/zhaowenlan1779/) | Yes |
+| [6010](https://github.com/citra-emu/citra//pull/6010) | [`047e238d0`](https://github.com/citra-emu/citra//pull/6010/files) | shader_jit: Fixes for Gunman clive | [SachinVin](https://github.com/SachinVin/) | Yes |
+| [6019](https://github.com/citra-emu/citra//pull/6019) | [`49e71d65e`](https://github.com/citra-emu/citra//pull/6019/files) | Improve tab ordering | [scribblemaniac](https://github.com/scribblemaniac/) | Yes |
+| [6020](https://github.com/citra-emu/citra//pull/6020) | [`4163cfcf7`](https://github.com/citra-emu/citra//pull/6020/files) | Use cubic mapping for volume control | [scribblemaniac](https://github.com/scribblemaniac/) | Yes |
+| [6021](https://github.com/citra-emu/citra//pull/6021) | [`3086776ad`](https://github.com/citra-emu/citra//pull/6021/files) | externals: Update libressl to 3.5.2 | [Morph1984](https://github.com/Morph1984/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 # Citra
