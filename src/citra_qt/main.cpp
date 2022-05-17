@@ -1958,17 +1958,21 @@ void GMainWindow::OnSaveMovie() {
 
 void GMainWindow::OnCaptureScreenshot() {
     OnPauseGame();
-    QFileDialog png_dialog(this, tr("Capture Screenshot"), UISettings::values.screenshot_path,
-                           tr("PNG Image (*.png)"));
-    png_dialog.setAcceptMode(QFileDialog::AcceptSave);
-    png_dialog.setDefaultSuffix(QStringLiteral("png"));
-    if (png_dialog.exec()) {
-        const QString path = png_dialog.selectedFiles().first();
-        if (!path.isEmpty()) {
-            UISettings::values.screenshot_path = QFileInfo(path).path();
-            render_window->CaptureScreenshot(UISettings::values.screenshot_resolution_factor, path);
-        }
+    QString path = UISettings::values.screenshot_path;
+    QDir dir;
+    dir.setPath(path);
+    if (!dir.exists()) {
+        path = QString::fromStdString(FileUtil::GetUserPath(FileUtil::UserPath::UserDir));
+        path.append(QStringLiteral("screenshots"));
+        QDir().mkpath(path);
+        UISettings::values.screenshot_path = path;
     }
+    QString filename = game_title;
+    filename.remove(QRegularExpression(QStringLiteral("[\\/:?\"<>|]")));
+    QString timestamp =
+        QDateTime::currentDateTime().toString(QStringLiteral("dd.MM.yy_hh.mm.ss.z"));
+    path.append(QStringLiteral("/%1_%2.png").arg(filename).arg(timestamp));
+    render_window->CaptureScreenshot(UISettings::values.screenshot_resolution_factor, path);
     OnStartGame();
 }
 

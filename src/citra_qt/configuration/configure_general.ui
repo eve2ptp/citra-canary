@@ -213,6 +213,71 @@
        </layout>
       </widget>
      </item>
+     <item>
+      <widget class="QGroupBox" name="screenshot_group">
+       <property name="title">
+        <string>Screenshots</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Screenshot Directory</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="screenshot_dir_path">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="open_screenshot_dir">
+            <property name="text">
+             <string>Open</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>NOTE: This does not move the contents of the previous directory to the new one.</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="change_screenshot_dir">
+            <property name="text">
+             <string>Change</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
      <item alignment="Qt::AlignRight">
       <widget class="QPushButton" name="button_reset_defaults">
        <property name="text">
@@ -247,6 +312,8 @@
   <tabstop>frame_limit</tabstop>
   <tabstop>toggle_alternate_speed</tabstop>
   <tabstop>frame_limit_alternate</tabstop>
+  <tabstop>open_screenshot_dir</tabstop>
+  <tabstop>change_screenshot_dir</tabstop>
   <tabstop>button_reset_defaults</tabstop>
  </tabstops>
  <resources/>
