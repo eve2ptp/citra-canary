@@ -2,7 +2,10 @@
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
 
+#include <QDesktopServices>
+#include <QFileDialog>
 #include <QMessageBox>
+#include <QUrl>
 #include "citra_qt/configuration/configure_general.h"
 #include "citra_qt/uisettings.h"
 #include "core/core.h"
@@ -56,6 +59,21 @@ ConfigureGeneral::ConfigureGeneral(QWidget* parent)
                     .rightJustified(tr("unthrottled").size()));
         }
     });
+
+    connect(ui->screenshot_dir_path, &QLineEdit::editingFinished, [&] {
+        const QString path = ui->screenshot_dir_path->text();
+        UISettings::values.screenshot_path = path;
+    });
+
+    connect(ui->change_screenshot_dir, &QPushButton::clicked, this, [this] {
+        const QString dir_path = QFileDialog::getExistingDirectory(
+            this, tr("Select Screenshot Directory"), UISettings::values.screenshot_path,
+            QFileDialog::ShowDirsOnly);
+        if (!dir_path.isEmpty()) {
+            UISettings::values.screenshot_path = dir_path;
+            SetConfiguration();
+        }
+    });
 }
 
 ConfigureGeneral::~ConfigureGeneral() = default;
@@ -101,6 +119,16 @@ void ConfigureGeneral::SetConfiguration() {
                 .arg(SliderToSettings(ui->frame_limit_alternate->value()))
                 .rightJustified(tr("unthrottled").size()));
     }
+
+    QString screenshot_path = UISettings::values.screenshot_path;
+    if (screenshot_path.isEmpty()) {
+        screenshot_path =
+            QString::fromStdString(FileUtil::GetUserPath(FileUtil::UserPath::UserDir));
+        screenshot_path.append(QStringLiteral("screenshots"));
+        FileUtil::CreateFullPath(screenshot_path.toStdString());
+        UISettings::values.screenshot_path = screenshot_path;
+    }
+    ui->screenshot_dir_path->setText(screenshot_path);
 }
 
 void ConfigureGeneral::ResetDefaults() {
