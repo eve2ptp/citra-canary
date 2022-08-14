@@ -1,3 +1,16 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5278](https://github.com/citra-emu/citra//pull/5278) | [`2c0cf5106`](https://github.com/citra-emu/citra//pull/5278/files) | Port yuzu-emu/yuzu#3791: "configuration: Add Restore Default and Clear options to hotkeys" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [5411](https://github.com/citra-emu/citra//pull/5411) | [`3604df48e`](https://github.com/citra-emu/citra//pull/5411/files) | dumping/ffmpeg_backend: Various fixes | [zhaowenlan1779](https://github.com/zhaowenlan1779/) | Yes |
+| [6076](https://github.com/citra-emu/citra//pull/6076) | [`62943afba`](https://github.com/citra-emu/citra//pull/6076/files) | Config: disable audio stretching by default | [Adamillo](https://github.com/Adamillo/) | Yes |
+| [6079](https://github.com/citra-emu/citra//pull/6079) | [`12e27d1a4`](https://github.com/citra-emu/citra//pull/6079/files) | AMD 22.7 workaround ... maybe | [SachinVin](https://github.com/SachinVin/) | Yes |
+| [6083](https://github.com/citra-emu/citra//pull/6083) | [`b0c72c2ea`](https://github.com/citra-emu/citra//pull/6083/files) | Fix MakeCurrent and shader issues with AMD 22.7 driver | [pawelniegowski](https://github.com/pawelniegowski/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 # Citra
