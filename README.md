@@ -1,3 +1,18 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5278](https://github.com/citra-emu/citra//pull/5278) | [`2c0cf5106`](https://github.com/citra-emu/citra//pull/5278/files) | Port yuzu-emu/yuzu#3791: "configuration: Add Restore Default and Clear options to hotkeys" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [5411](https://github.com/citra-emu/citra//pull/5411) | [`3604df48e`](https://github.com/citra-emu/citra//pull/5411/files) | dumping/ffmpeg_backend: Various fixes | [zhaowenlan1779](https://github.com/zhaowenlan1779/) | Yes |
+| [6076](https://github.com/citra-emu/citra//pull/6076) | [`62943afba`](https://github.com/citra-emu/citra//pull/6076/files) | Config: disable audio stretching by default | [Adamillo](https://github.com/Adamillo/) | Yes |
+| [6139](https://github.com/citra-emu/citra//pull/6139) | [`4f94a4040`](https://github.com/citra-emu/citra//pull/6139/files) | feat: add system time offset setting | [DaemonTsun](https://github.com/DaemonTsun/) | Yes |
+| [6140](https://github.com/citra-emu/citra//pull/6140) | [`d88996369`](https://github.com/citra-emu/citra//pull/6140/files) | add mono_render_left_eye option | [jakedowns](https://github.com/jakedowns/) | Yes |
+| [6166](https://github.com/citra-emu/citra//pull/6166) | [`a7767a960`](https://github.com/citra-emu/citra//pull/6166/files) | Fix socket poll and handling in windows | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [6168](https://github.com/citra-emu/citra//pull/6168) | [`d39694448`](https://github.com/citra-emu/citra//pull/6168/files) | Fix handling of auto-updating ncch apps | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 # Citra
