@@ -305,6 +305,15 @@ public:
 
     void LoadState(u32 slot);
 
+    /// Self delete ncch
+    bool SetSelfDelete(const std::string& file) {
+        if (m_filepath == file) {
+            self_delete_pending = true;
+            return true;
+        }
+        return false;
+    }
+
 private:
     /**
      * Initialize the emulated system.
@@ -374,6 +383,7 @@ private:
     Frontend::EmuWindow* m_emu_window;
     std::string m_filepath;
     u64 title_id;
+    bool self_delete_pending;
 
     std::mutex signal_mutex;
     Signal current_signal;
