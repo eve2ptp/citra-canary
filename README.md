@@ -1,3 +1,16 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6076](https://github.com/citra-emu/citra//pull/6076) | [`62943afba`](https://github.com/citra-emu/citra//pull/6076/files) | Config: disable audio stretching by default | [Adamillo](https://github.com/Adamillo/) | Yes |
+| [6139](https://github.com/citra-emu/citra//pull/6139) | [`4f94a4040`](https://github.com/citra-emu/citra//pull/6139/files) | feat: add system time offset setting | [DaemonTsun](https://github.com/DaemonTsun/) | Yes |
+| [6140](https://github.com/citra-emu/citra//pull/6140) | [`51859f784`](https://github.com/citra-emu/citra//pull/6140/files) | add mono_render_left_eye option | [jakedowns](https://github.com/jakedowns/) | Yes |
+| [6177](https://github.com/citra-emu/citra//pull/6177) | [`3b8c0c103`](https://github.com/citra-emu/citra//pull/6177/files) | Add "Separate Windows" LayoutOption | [ameerj](https://github.com/ameerj/) | Yes |
+| [6189](https://github.com/citra-emu/citra//pull/6189) | [`c3ddef4ad`](https://github.com/citra-emu/citra//pull/6189/files) | Add nearest neighbor texture filter | [venkatrao1](https://github.com/venkatrao1/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 # Citra
