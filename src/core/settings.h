@@ -161,6 +161,7 @@ struct Values {
     int region_value;
     InitClock init_clock;
     u64 init_time;
+    s64 init_time_offset;
 
     // Renderer
     bool use_gles;
