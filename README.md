@@ -1,3 +1,14 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6076](https://github.com/citra-emu/citra//pull/6076) | [`62943afba`](https://github.com/citra-emu/citra//pull/6076/files) | Config: disable audio stretching by default | [Adamillo](https://github.com/Adamillo/) | Yes |
+| [6139](https://github.com/citra-emu/citra//pull/6139) | [`4f94a4040`](https://github.com/citra-emu/citra//pull/6139/files) | feat: add system time offset setting | [DaemonTsun](https://github.com/DaemonTsun/) | Yes |
+| [6177](https://github.com/citra-emu/citra//pull/6177) | [`621062094`](https://github.com/citra-emu/citra//pull/6177/files) | Add "Separate Windows" LayoutOption | [ameerj](https://github.com/ameerj/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 # Citra
