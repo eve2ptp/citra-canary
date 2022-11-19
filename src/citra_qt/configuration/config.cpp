@@ -112,7 +112,7 @@ void Config::ReadAudioValues() {
                                    .toString()
                                    .toStdString();
     Settings::values.enable_audio_stretching =
-        ReadSetting(QStringLiteral("enable_audio_stretching"), true).toBool();
+        ReadSetting(QStringLiteral("enable_audio_stretching"), false).toBool();
     Settings::values.audio_device_id =
         ReadSetting(QStringLiteral("output_device"), QStringLiteral("auto"))
             .toString()
@@ -742,7 +742,7 @@ void Config::SaveAudioValues() {
     WriteSetting(QStringLiteral("output_engine"), QString::fromStdString(Settings::values.sink_id),
                  QStringLiteral("auto"));
     WriteSetting(QStringLiteral("enable_audio_stretching"),
-                 Settings::values.enable_audio_stretching, true);
+                 Settings::values.enable_audio_stretching, false);
     WriteSetting(QStringLiteral("output_device"),
                  QString::fromStdString(Settings::values.audio_device_id), QStringLiteral("auto"));
     WriteSetting(QStringLiteral("volume"), Settings::values.volume, 1.0f);
