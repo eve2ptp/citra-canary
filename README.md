@@ -1,3 +1,13 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6187](https://github.com/citra-emu/citra//pull/6187) | [`48d25a613`](https://github.com/citra-emu/citra//pull/6187/files) | Add per game configuration options | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6191](https://github.com/citra-emu/citra//pull/6191) | [`8546d3d5b`](https://github.com/citra-emu/citra//pull/6191/files) | code: Small cleanups and fixes to lambda captures | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 # Citra
