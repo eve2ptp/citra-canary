@@ -156,7 +156,7 @@ void UpdaterPrivate::StopUpdateCheck(int delay, bool async) {
             QTimer* timer = new QTimer(this);
             timer->setSingleShot(true);
 
-            connect(timer, &QTimer::timeout, [=]() {
+            connect(timer, &QTimer::timeout, [=, this]() {
                 StopUpdateCheck(0, false);
                 timer->deleteLater();
             });
