@@ -1,3 +1,13 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6191](https://github.com/citra-emu/citra//pull/6191) | [`8546d3d5b`](https://github.com/citra-emu/citra//pull/6191/files) | code: Small cleanups and fixes to lambda captures | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6206](https://github.com/citra-emu/citra//pull/6206) | [`589ef4e95`](https://github.com/citra-emu/citra//pull/6206/files) | hle/service/cfg: Add Config block enums documented by 3dbrew... | [SachinVin](https://github.com/SachinVin/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 # Citra
