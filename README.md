@@ -1,3 +1,15 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5377](https://github.com/citra-emu/citra//pull/5377) | [`dee8992b6`](https://github.com/citra-emu/citra//pull/5377/files) | service/nwm_uds: Add NetworkStatusChangeReason | [zhaowenlan1779](https://github.com/zhaowenlan1779/) | Yes |
+| [6191](https://github.com/citra-emu/citra//pull/6191) | [`5a67d01b6`](https://github.com/citra-emu/citra//pull/6191/files) | code: Small cleanups and fixes to lambda captures | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6215](https://github.com/citra-emu/citra//pull/6215) | [`c42e0e060`](https://github.com/citra-emu/citra//pull/6215/files) | Change Monoscopic Render mode to a dropdown | [vitor-k](https://github.com/vitor-k/) | Yes |
+| [6219](https://github.com/citra-emu/citra//pull/6219) | [`0463e6c4a`](https://github.com/citra-emu/citra//pull/6219/files) | Per-Game Settings: options to reset game settings | [vitor-k](https://github.com/vitor-k/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 # Citra
