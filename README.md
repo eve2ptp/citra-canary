@@ -1,3 +1,14 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6215](https://github.com/citra-emu/citra//pull/6215) | [`c42e0e060`](https://github.com/citra-emu/citra//pull/6215/files) | Change Monoscopic Render mode to a dropdown | [vitor-k](https://github.com/vitor-k/) | Yes |
+| [6221](https://github.com/citra-emu/citra//pull/6221) | [`ce00fdf57`](https://github.com/citra-emu/citra//pull/6221/files) | emu_window: event.window is only valid for SDL_WINDOWEVENT events | [stspdotname](https://github.com/stspdotname/) | Yes |
+| [6231](https://github.com/citra-emu/citra//pull/6231) | [`255c0adef`](https://github.com/citra-emu/citra//pull/6231/files) | qt_multimedia_camera: fix image handling in Qt 5.15+ | [liushuyu](https://github.com/liushuyu/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 # Citra
