@@ -1,3 +1,14 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [6221](https://github.com/citra-emu/citra//pull/6221) | [`ce00fdf57`](https://github.com/citra-emu/citra//pull/6221/files) | emu_window: event.window is only valid for SDL_WINDOWEVENT events | [stspdotname](https://github.com/stspdotname/) | Yes |
+| [6233](https://github.com/citra-emu/citra//pull/6233) | [`a5729e0dd`](https://github.com/citra-emu/citra//pull/6233/files) | externals: point to upstream dynarmic | [SachinVin](https://github.com/SachinVin/) | Yes |
+| [6236](https://github.com/citra-emu/citra//pull/6236) | [`c3ae3a9aa`](https://github.com/citra-emu/citra//pull/6236/files) | #6041 Fix | [upadsamay387](https://github.com/upadsamay387/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 # Citra
