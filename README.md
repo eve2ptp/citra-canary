@@ -1,3 +1,20 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6221](https://github.com/citra-emu/citra//pull/6221) | [`ce00fdf57`](https://github.com/citra-emu/citra//pull/6221/files) | emu_window: event.window is only valid for SDL_WINDOWEVENT events | [stspdotname](https://github.com/stspdotname/) | Yes |
+| [6224](https://github.com/citra-emu/citra//pull/6224) | [`7f070a438`](https://github.com/citra-emu/citra//pull/6224/files) | citra_qt: Improvements to hotkeys and ui state management | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6236](https://github.com/citra-emu/citra//pull/6236) | [`c3ae3a9aa`](https://github.com/citra-emu/citra//pull/6236/files) | #6041 Fix | [upadsamay387](https://github.com/upadsamay387/) | Yes |
+| [6242](https://github.com/citra-emu/citra//pull/6242) | [`6bb24ae7a`](https://github.com/citra-emu/citra//pull/6242/files) | externals: Switch to newer cryptopp-cmake. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6243](https://github.com/citra-emu/citra//pull/6243) | [`1ab00d776`](https://github.com/citra-emu/citra//pull/6243/files) | Implement svcGetHandleInfo, svcOpenProcess/Thread, svcGetProcessList | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [6248](https://github.com/citra-emu/citra//pull/6248) | [`86e72bf55`](https://github.com/citra-emu/citra//pull/6248/files) | android: Allow opening in-emulation menu by pressing Back | [JosJuice](https://github.com/JosJuice/) | Yes |
+| [6249](https://github.com/citra-emu/citra//pull/6249) | [`8823a1326`](https://github.com/citra-emu/citra//pull/6249/files) | citra_qt: Prevent OS sleep on Linux when a game is running | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6250](https://github.com/citra-emu/citra//pull/6250) | [`476e67a85`](https://github.com/citra-emu/citra//pull/6250/files) | citra_qt: Move CPU speed slider to debug tab and Report Comptaibility to help menu | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 # Citra
