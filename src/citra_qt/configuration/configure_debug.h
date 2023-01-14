@@ -11,6 +11,10 @@ namespace Ui {
 class ConfigureDebug;
 }
 
+namespace ConfigurationShared {
+enum class CheckState;
+}
+
 class ConfigureDebug : public QWidget {
     Q_OBJECT
 
@@ -21,6 +25,7 @@ public:
     void ApplyConfiguration();
     void RetranslateUI();
     void SetConfiguration();
+    void SetupPerGameUI();
 
     std::unique_ptr<Ui::ConfigureDebug> ui;
 };
