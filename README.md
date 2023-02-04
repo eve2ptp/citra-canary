@@ -1,3 +1,19 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6221](https://github.com/citra-emu/citra//pull/6221) | [`ce00fdf57`](https://github.com/citra-emu/citra//pull/6221/files) | emu_window: event.window is only valid for SDL_WINDOWEVENT events | [stspdotname](https://github.com/stspdotname/) | Yes |
+| [6224](https://github.com/citra-emu/citra//pull/6224) | [`25c22f9ce`](https://github.com/citra-emu/citra//pull/6224/files) | citra_qt: Improvements to hotkeys and ui state management | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6247](https://github.com/citra-emu/citra//pull/6247) | [`1344702c3`](https://github.com/citra-emu/citra//pull/6247/files) | Better Support for Picture-in-Picture Custom Layouts (Based on #6127) | [SomeDudeOnDiscord](https://github.com/SomeDudeOnDiscord/) | Yes |
+| [6249](https://github.com/citra-emu/citra//pull/6249) | [`8823a1326`](https://github.com/citra-emu/citra//pull/6249/files) | citra_qt: Prevent OS sleep on Linux when a game is running | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6250](https://github.com/citra-emu/citra//pull/6250) | [`476e67a85`](https://github.com/citra-emu/citra//pull/6250/files) | citra_qt: Move CPU speed slider to debug tab and Report Comptaibility to help menu | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6252](https://github.com/citra-emu/citra//pull/6252) | [`815f9a4af`](https://github.com/citra-emu/citra//pull/6252/files) | Added an option to set the proportion of the screens when using layou… | [komasanzura](https://github.com/komasanzura/) | Yes |
+| [6262](https://github.com/citra-emu/citra//pull/6262) | [`e32569e21`](https://github.com/citra-emu/citra//pull/6262/files) | main: Enable High DPI fixes for Qt >= 5.14 | [Morph1984](https://github.com/Morph1984/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 # Citra
