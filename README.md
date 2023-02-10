@@ -1,3 +1,17 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6221](https://github.com/citra-emu/citra//pull/6221) | [`ce00fdf57`](https://github.com/citra-emu/citra//pull/6221/files) | emu_window: event.window is only valid for SDL_WINDOWEVENT events | [stspdotname](https://github.com/stspdotname/) | Yes |
+| [6247](https://github.com/citra-emu/citra//pull/6247) | [`1344702c3`](https://github.com/citra-emu/citra//pull/6247/files) | Better Support for Picture-in-Picture Custom Layouts (Based on #6127) | [SomeDudeOnDiscord](https://github.com/SomeDudeOnDiscord/) | Yes |
+| [6249](https://github.com/citra-emu/citra//pull/6249) | [`8823a1326`](https://github.com/citra-emu/citra//pull/6249/files) | citra_qt: Prevent OS sleep on Linux when a game is running | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6252](https://github.com/citra-emu/citra//pull/6252) | [`815f9a4af`](https://github.com/citra-emu/citra//pull/6252/files) | Added an option to set the proportion of the screens when using layou… | [komasanzura](https://github.com/komasanzura/) | Yes |
+| [6280](https://github.com/citra-emu/citra//pull/6280) | [`4a0b863ba`](https://github.com/citra-emu/citra//pull/6280/files) | Services/APT: Implement PrepareToStartApplication, StartApplication, and WakeupApplication | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 **BEFORE FILING AN ISSUE, READ THE RELEVANT SECTION IN THE [CONTRIBUTING](https://github.com/citra-emu/citra/wiki/Contributing#reporting-issues) FILE!!!**
 
 # Citra
