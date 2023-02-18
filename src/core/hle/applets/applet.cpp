@@ -42,30 +42,41 @@ static Core::TimingEventType* applet_update_event = nullptr;
 /// The interval at which the Applet update callback will be called, 16.6ms
 static const u64 applet_update_interval_us = 16666;
 
-ResultCode Applet::Create(Service::APT::AppletId id,
-                          std::weak_ptr<Service::APT::AppletManager> manager) {
+ResultCode Applet::Create(Service::APT::AppletId id, Service::APT::AppletId parent, bool preload,
+                          const std::shared_ptr<Service::APT::AppletManager>& manager) {
     switch (id) {
     case Service::APT::AppletId::SoftwareKeyboard1:
     case Service::APT::AppletId::SoftwareKeyboard2:
-        applets[id] = std::make_shared<SoftwareKeyboard>(id, std::move(manager));
+        applets[id] = std::make_shared<SoftwareKeyboard>(id, parent, preload, manager);
         break;
     case Service::APT::AppletId::Ed1:
     case Service::APT::AppletId::Ed2:
-        applets[id] = std::make_shared<MiiSelector>(id, std::move(manager));
+        applets[id] = std::make_shared<MiiSelector>(id, parent, preload, manager);
         break;
     case Service::APT::AppletId::Error:
     case Service::APT::AppletId::Error2:
-        applets[id] = std::make_shared<ErrEula>(id, std::move(manager));
+        applets[id] = std::make_shared<ErrEula>(id, parent, preload, manager);
         break;
     case Service::APT::AppletId::Mint:
     case Service::APT::AppletId::Mint2:
-        applets[id] = std::make_shared<Mint>(id, std::move(manager));
+        applets[id] = std::make_shared<Mint>(id, parent, preload, manager);
         break;
     default:
         LOG_ERROR(Service_APT, "Could not create applet {}", id);
         // TODO(Subv): Find the right error code
         return ResultCode(ErrorDescription::NotFound, ErrorModule::Applet,
                           ErrorSummary::NotSupported, ErrorLevel::Permanent);
+    }
+
+    Service::APT::AppletAttributes attributes;
+    attributes.applet_pos.Assign(static_cast<u32>(Service::APT::AppletPos::AutoLibrary));
+    attributes.is_home_menu.Assign(false);
+    const auto lock_handle_data = manager->GetLockHandle(attributes);
+
+    manager->Initialize(id, lock_handle_data->corrected_attributes);
+    manager->Enable(lock_handle_data->corrected_attributes);
+    if (preload) {
+        manager->FinishPreloadingLibraryApplet(id);
     }
 
     return RESULT_SUCCESS;
@@ -96,18 +107,26 @@ static void AppletUpdateEvent(u64 applet_id, s64 cycles_late) {
     }
 }
 
-ResultCode Applet::Start(const Service::APT::AppletStartupParameter& parameter) {
-    ResultCode result = StartImpl(parameter);
-    if (result.IsError())
-        return result;
-    // Schedule the update event
-    Core::System::GetInstance().CoreTiming().ScheduleEvent(
-        usToCycles(applet_update_interval_us), applet_update_event, static_cast<u64>(id));
-    return result;
-}
-
 bool Applet::IsRunning() const {
     return is_running;
+}
+
+ResultCode Applet::ReceiveParameter(const Service::APT::MessageParameter& parameter) {
+    switch (parameter.signal) {
+    case Service::APT::SignalType::Wakeup: {
+        ResultCode result = Start({.object = parameter.object, .buffer = parameter.buffer});
+        if (!result.IsError()) {
+            // Schedule the update event
+            Core::System::GetInstance().CoreTiming().ScheduleEvent(
+                usToCycles(applet_update_interval_us), applet_update_event, static_cast<u64>(id));
+        }
+        return result;
+    }
+    case Service::APT::SignalType::WakeupByCancel:
+        return Finalize();
+    default:
+        return ReceiveParameterImpl(parameter);
+    }
 }
 
 void Applet::SendParameter(const Service::APT::MessageParameter& parameter) {
@@ -118,12 +137,16 @@ void Applet::SendParameter(const Service::APT::MessageParameter& parameter) {
     }
 }
 
-bool IsLibraryAppletRunning() {
-    // Check the applets map for instances of any applet
-    for (auto itr = applets.begin(); itr != applets.end(); ++itr)
-        if (itr->second != nullptr)
-            return true;
-    return false;
+void Applet::CloseApplet(const std::shared_ptr<Kernel::Object>& object,
+                         const std::vector<u8>& buffer) {
+    is_running = false;
+
+    if (auto locked = manager.lock()) {
+        locked->PrepareToCloseLibraryApplet(true, false, false);
+        locked->CloseLibraryApplet(object, buffer);
+    } else {
+        LOG_ERROR(Service_APT, "called after destructing applet manager");
+    }
 }
 
 void Init() {

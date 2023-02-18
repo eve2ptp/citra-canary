@@ -14,8 +14,6 @@ SERVICE_CONSTRUCT_IMPL(Service::APT::AppletManager)
 
 namespace Service::APT {
 
-enum class AppletPos { Application = 0, Library = 1, System = 2, SysLibrary = 3, Resident = 4 };
-
 struct AppletTitleData {
     // There are two possible applet ids for each applet.
     std::array<AppletId, 2> applet_ids;
@@ -163,7 +161,7 @@ AppletManager::AppletSlotData* AppletManager::GetAppletSlotData(AppletId id) {
     return nullptr;
 }
 
-AppletManager::AppletSlotData* AppletManager::GetAppletSlotData(AppletAttributes attributes) {
+AppletManager::AppletSlot AppletManager::GetAppletSlot(AppletAttributes attributes) {
     // Mapping from AppletPos to AppletSlot
     static constexpr std::array<AppletSlot, 6> applet_position_slots = {
         AppletSlot::Application,   AppletSlot::LibraryApplet, AppletSlot::SystemApplet,
@@ -171,46 +169,55 @@ AppletManager::AppletSlotData* AppletManager::GetAppletSlotData(AppletAttributes
 
     u32 applet_pos = attributes.applet_pos;
     if (applet_pos >= applet_position_slots.size())
-        return nullptr;
+        return AppletSlot::Error;
 
     AppletSlot slot = applet_position_slots[applet_pos];
 
     if (slot == AppletSlot::Error)
-        return nullptr;
+        return AppletSlot::Error;
 
     // The Home Menu is a system applet, however, it has its own applet slot so that it can run
     // concurrently with other system applets.
     if (slot == AppletSlot::SystemApplet && attributes.is_home_menu)
-        return &applet_slots[static_cast<std::size_t>(AppletSlot::HomeMenu)];
+        return AppletSlot::HomeMenu;
 
-    return &applet_slots[static_cast<std::size_t>(slot)];
+    return slot;
 }
 
 void AppletManager::CancelAndSendParameter(const MessageParameter& parameter) {
-    next_parameter = parameter;
-    // Signal the event to let the receiver know that a new parameter is ready to be read
-    auto* const slot_data = GetAppletSlotData(static_cast<AppletId>(parameter.destination_id));
-    if (slot_data == nullptr) {
-        LOG_DEBUG(Service_APT, "No applet was registered with the id {:03X}",
-                  parameter.destination_id);
-        return;
-    }
+    LOG_DEBUG(
+        Service_APT, "Sending parameter from {:03X} to {:03X} with signal {:08X} and size {:08X}",
+        parameter.sender_id, parameter.destination_id, parameter.signal, parameter.buffer.size());
 
-    slot_data->parameter_event->Signal();
+    // If the applet is being HLEd, send directly to the applet.
+    if (auto dest_applet = HLE::Applets::Applet::Get(parameter.destination_id)) {
+        dest_applet->ReceiveParameter(parameter);
+    } else {
+        // Otherwise, send the parameter the LLE way.
+        next_parameter = parameter;
+
+        // Signal the event to let the receiver know that a new parameter is ready to be read
+        auto* const slot_data = GetAppletSlotData(static_cast<AppletId>(parameter.destination_id));
+        if (slot_data != nullptr) {
+            slot_data->parameter_event->Signal();
+        } else {
+            LOG_DEBUG(Service_APT, "No applet was registered with ID {:03X}",
+                      parameter.destination_id);
+        }
+    }
 }
 
 ResultCode AppletManager::SendParameter(const MessageParameter& parameter) {
     // A new parameter can not be sent if the previous one hasn't been consumed yet
     if (next_parameter) {
+        LOG_WARNING(Service_APT, "Parameter from {:03X} to {:03X} blocked by pending parameter.",
+                    parameter.sender_id, parameter.destination_id);
         return ResultCode(ErrCodes::ParameterPresent, ErrorModule::Applet,
                           ErrorSummary::InvalidState, ErrorLevel::Status);
     }
+
     CancelAndSendParameter(parameter);
-    if (auto dest_applet = HLE::Applets::Applet::Get(parameter.destination_id)) {
-        return dest_applet->ReceiveParameter(parameter);
-    } else {
-        return RESULT_SUCCESS;
-    }
+    return RESULT_SUCCESS;
 }
 
 ResultVal<MessageParameter> AppletManager::GlanceParameter(AppletId app_id) {
@@ -264,34 +271,50 @@ bool AppletManager::CancelParameter(bool check_sender, AppletId sender_appid, bo
     return cancellation_success;
 }
 
+ResultVal<AppletManager::GetLockHandleResult> AppletManager::GetLockHandle(
+    AppletAttributes attributes) {
+    auto corrected_attributes = attributes;
+    if (attributes.applet_pos == static_cast<u32>(AppletPos::Library) ||
+        attributes.applet_pos == static_cast<u32>(AppletPos::SysLibrary) ||
+        attributes.applet_pos == static_cast<u32>(AppletPos::AutoLibrary)) {
+        corrected_attributes.applet_pos.Assign(static_cast<u32>(
+            last_library_launcher_slot == AppletSlot::Application ? AppletPos::Library
+                                                                  : AppletPos::SysLibrary));
+        LOG_DEBUG(Service_APT, "Corrected applet attributes from {:08X} to {:08X}", attributes.raw,
+                  corrected_attributes.raw);
+    }
+
+    return MakeResult<AppletManager::GetLockHandleResult>({corrected_attributes, 0, lock});
+}
+
 ResultVal<AppletManager::InitializeResult> AppletManager::Initialize(AppletId app_id,
                                                                      AppletAttributes attributes) {
-    auto* const slot_data = GetAppletSlotData(attributes);
-
+    const auto slot = GetAppletSlot(attributes);
     // Note: The real NS service does not check if the attributes value is valid before accessing
     // the data in the array
-    ASSERT_MSG(slot_data, "Invalid application attributes");
+    ASSERT_MSG(slot != AppletSlot::Error, "Invalid application attributes");
 
-    if (slot_data->registered) {
+    auto& slot_data = applet_slots[static_cast<std::size_t>(slot)];
+    if (slot_data.registered) {
+        LOG_WARNING(Service_APT, "Applet attempted to register in occupied slot {:02X}", slot);
         return ResultCode(ErrorDescription::AlreadyExists, ErrorModule::Applet,
                           ErrorSummary::InvalidState, ErrorLevel::Status);
     }
 
-    slot_data->applet_id = static_cast<AppletId>(app_id);
+    LOG_DEBUG(Service_APT, "Initializing applet with ID {:03X} and attributes {:08X}.", app_id,
+              attributes.raw);
+    slot_data.applet_id = static_cast<AppletId>(app_id);
     // Note: In the real console the title id of a given applet slot is set by the APT module when
     // calling StartApplication.
-    slot_data->title_id = system.Kernel().GetCurrentProcess()->codeset->program_id;
-    slot_data->attributes.raw = attributes.raw;
-
-    const auto* home_menu_slot = GetAppletSlotData(AppletId::HomeMenu);
+    slot_data.title_id = system.Kernel().GetCurrentProcess()->codeset->program_id;
+    slot_data.attributes.raw = attributes.raw;
 
     // Applications need to receive a Wakeup signal to actually start up, this signal is usually
-    // sent by the Home Menu after starting the app by way of APT::WakeupApplication. In some cases
-    // such as when starting a game directly or the Home Menu itself, we have to send the signal
-    // ourselves since the Home Menu is not running yet. We detect if the Home Menu is running by
-    // checking if there's an applet registered in the HomeMenu slot.
-    if (slot_data->applet_id == AppletId::HomeMenu ||
-        (slot_data->applet_id == AppletId::Application && !home_menu_slot)) {
+    // sent by the Home Menu after starting the app by way of APT::WakeupApplication. However,
+    // if nothing is running yet the signal should be sent by APT::Initialize itself.
+    if (active_slot == AppletSlot::Error) {
+        active_slot = slot;
+
         // Initialize the APT parameter to wake up the application.
         next_parameter.emplace();
         next_parameter->signal = SignalType::Wakeup;
@@ -300,25 +323,30 @@ ResultVal<AppletManager::InitializeResult> AppletManager::Initialize(AppletId ap
         // Not signaling the parameter event will cause the application (or Home Menu) to hang
         // during startup. In the real console, it is usually the Kernel and Home Menu who cause NS
         // to signal the HomeMenu and Application parameter events, respectively.
-        slot_data->parameter_event->Signal();
+        slot_data.parameter_event->Signal();
     }
 
-    return MakeResult<InitializeResult>(
-        {slot_data->notification_event, slot_data->parameter_event});
+    return MakeResult<InitializeResult>({slot_data.notification_event, slot_data.parameter_event});
 }
 
 ResultCode AppletManager::Enable(AppletAttributes attributes) {
-    auto* const slot_data = GetAppletSlotData(attributes);
-
-    if (!slot_data) {
-        return ResultCode(ErrCodes::InvalidAppletSlot, ErrorModule::Applet,
-                          ErrorSummary::InvalidState, ErrorLevel::Status);
+    const auto slot = GetAppletSlot(attributes);
+    if (slot == AppletSlot::Error) {
+        LOG_WARNING(Service_APT,
+                    "Attempted to register with attributes {:08X}, but could not find slot.",
+                    attributes.raw);
+        return {ErrCodes::InvalidAppletSlot, ErrorModule::Applet, ErrorSummary::InvalidState,
+                ErrorLevel::Status};
     }
 
-    slot_data->registered = true;
+    LOG_DEBUG(Service_APT, "Registering applet with attributes {:08X}.", attributes.raw);
+    auto& slot_data = applet_slots[static_cast<std::size_t>(slot)];
+    slot_data.registered = true;
 
     // Send any outstanding parameters to the newly-registered application
-    if (delayed_parameter && delayed_parameter->destination_id == slot_data->applet_id) {
+    if (delayed_parameter && delayed_parameter->destination_id == slot_data.applet_id) {
+        // TODO: Real APT would loop trying to send the parameter until it succeeds,
+        // essentially waiting for existing parameters to be delivered.
         CancelAndSendParameter(*delayed_parameter);
         delayed_parameter.reset();
     }
@@ -328,20 +356,7 @@ ResultCode AppletManager::Enable(AppletAttributes attributes) {
 
 bool AppletManager::IsRegistered(AppletId app_id) {
     const auto* slot_data = GetAppletSlotData(app_id);
-
-    // Check if an LLE applet was registered first, then fallback to HLE applets
-    bool is_registered = slot_data && slot_data->registered;
-
-    if (!is_registered) {
-        if (app_id == AppletId::AnyLibraryApplet) {
-            is_registered = HLE::Applets::IsLibraryAppletRunning();
-        } else if (auto applet = HLE::Applets::Applet::Get(app_id)) {
-            // The applet exists, set it as registered.
-            is_registered = true;
-        }
-    }
-
-    return is_registered;
+    return slot_data && slot_data->registered;
 }
 
 ResultCode AppletManager::PrepareToStartLibraryApplet(AppletId applet_id) {
@@ -359,6 +374,9 @@ ResultCode AppletManager::PrepareToStartLibraryApplet(AppletId applet_id) {
                           ErrorSummary::InvalidState, ErrorLevel::Status);
     }
 
+    last_library_launcher_slot = active_slot;
+    last_prepared_library_applet = applet_id;
+
     auto cfg = Service::CFG::GetModule(system);
     u32 region_value = cfg->GetRegionValue();
     auto process =
@@ -370,10 +388,15 @@ ResultCode AppletManager::PrepareToStartLibraryApplet(AppletId applet_id) {
     // If we weren't able to load the native applet title, try to fallback to an HLE implementation.
     auto applet = HLE::Applets::Applet::Get(applet_id);
     if (applet) {
-        LOG_WARNING(Service_APT, "applet has already been started id={:08X}", applet_id);
+        LOG_WARNING(Service_APT, "applet has already been started id={:03X}", applet_id);
         return RESULT_SUCCESS;
     } else {
-        return HLE::Applets::Applet::Create(applet_id, shared_from_this());
+        const auto parent =
+            last_library_launcher_slot != AppletSlot::Error
+                ? applet_slots[static_cast<std::size_t>(last_library_launcher_slot)].applet_id
+                : AppletId::Application;
+        LOG_DEBUG(Service_APT, "Creating HLE applet {:03X} with parent {:03X}", applet_id, parent);
+        return HLE::Applets::Applet::Create(applet_id, parent, false, shared_from_this());
     }
 }
 
@@ -385,6 +408,9 @@ ResultCode AppletManager::PreloadLibraryApplet(AppletId applet_id) {
                           ErrorSummary::InvalidState, ErrorLevel::Status);
     }
 
+    last_library_launcher_slot = active_slot;
+    last_prepared_library_applet = applet_id;
+
     auto cfg = Service::CFG::GetModule(system);
     u32 region_value = cfg->GetRegionValue();
     auto process =
@@ -399,7 +425,12 @@ ResultCode AppletManager::PreloadLibraryApplet(AppletId applet_id) {
         LOG_WARNING(Service_APT, "applet has already been started id={:08X}", applet_id);
         return RESULT_SUCCESS;
     } else {
-        return HLE::Applets::Applet::Create(applet_id, shared_from_this());
+        const auto parent =
+            last_library_launcher_slot != AppletSlot::Error
+                ? applet_slots[static_cast<std::size_t>(last_library_launcher_slot)].applet_id
+                : AppletId::Application;
+        LOG_DEBUG(Service_APT, "Creating HLE applet {:03X} with parent {:03X}", applet_id, parent);
+        return HLE::Applets::Applet::Create(applet_id, parent, true, shared_from_this());
     }
 }
 
@@ -411,25 +442,27 @@ ResultCode AppletManager::FinishPreloadingLibraryApplet(AppletId applet_id) {
 }
 
 ResultCode AppletManager::StartLibraryApplet(AppletId applet_id,
-                                             std::shared_ptr<Kernel::Object> object,
+                                             const std::shared_ptr<Kernel::Object>& object,
                                              const std::vector<u8>& buffer) {
+    active_slot = AppletSlot::LibraryApplet;
+    const auto source_applet_id =
+        last_library_launcher_slot != AppletSlot::Error
+            ? applet_slots[static_cast<std::size_t>(last_library_launcher_slot)].applet_id
+            : AppletId::None;
+
     MessageParameter param;
     param.destination_id = applet_id;
-    param.sender_id = AppletId::Application;
+    param.sender_id = source_applet_id;
     param.object = object;
     param.signal = SignalType::Wakeup;
     param.buffer = buffer;
-    CancelAndSendParameter(param);
-
-    // In case the applet is being HLEd, attempt to communicate with it.
-    if (auto applet = HLE::Applets::Applet::Get(applet_id)) {
-        AppletStartupParameter parameter;
-        parameter.object = object;
-        parameter.buffer = buffer;
-        return applet->Start(parameter);
-    } else {
-        return RESULT_SUCCESS;
+    auto send_res = SendParameter(param);
+    if (send_res.IsError()) {
+        active_slot = last_library_launcher_slot;
+        return send_res;
     }
+
+    return RESULT_SUCCESS;
 }
 
 ResultCode AppletManager::PrepareToCloseLibraryApplet(bool not_pause, bool exiting,
@@ -454,55 +487,153 @@ ResultCode AppletManager::PrepareToCloseLibraryApplet(bool not_pause, bool exiti
 ResultCode AppletManager::CloseLibraryApplet(std::shared_ptr<Kernel::Object> object,
                                              std::vector<u8> buffer) {
     auto& slot = applet_slots[static_cast<std::size_t>(AppletSlot::LibraryApplet)];
+    const auto destination_applet_id =
+        last_library_launcher_slot != AppletSlot::Error
+            ? applet_slots[static_cast<std::size_t>(last_library_launcher_slot)].applet_id
+            : AppletId::None;
+
+    active_slot = last_library_launcher_slot;
 
     MessageParameter param;
-    // TODO(Subv): The destination id should be the "current applet slot id", which changes
-    // constantly depending on what is going on in the system. Most of the time it is the running
-    // application, but it could be something else if a system applet is launched.
-    param.destination_id = AppletId::Application;
+    param.destination_id = destination_applet_id;
     param.sender_id = slot.applet_id;
     param.object = std::move(object);
     param.signal = library_applet_closing_command;
     param.buffer = std::move(buffer);
 
-    ResultCode result = SendParameter(param);
-
     if (library_applet_closing_command != SignalType::WakeupByPause) {
-        // TODO(Subv): Terminate the running applet title
+        CancelAndSendParameter(param);
+        // TODO: Terminate the running applet title
         slot.Reset();
+    } else {
+        SendParameter(param);
     }
 
-    return result;
+    return RESULT_SUCCESS;
+}
+
+ResultCode AppletManager::CancelLibraryApplet(bool app_exiting) {
+    if (next_parameter) {
+        return {ErrCodes::ParameterPresent, ErrorModule::Applet, ErrorSummary::InvalidState,
+                ErrorLevel::Status};
+    }
+
+    const auto& slot = applet_slots[static_cast<std::size_t>(AppletSlot::LibraryApplet)];
+    if (!slot.registered) {
+        return {ErrCodes::InvalidAppletSlot, ErrorModule::Applet, ErrorSummary::InvalidState,
+                ErrorLevel::Status};
+    }
+
+    const auto source_applet_id =
+        last_library_launcher_slot != AppletSlot::Error
+            ? applet_slots[static_cast<std::size_t>(last_library_launcher_slot)].applet_id
+            : AppletId::None;
+
+    MessageParameter param;
+    param.destination_id = slot.applet_id;
+    param.sender_id = source_applet_id;
+    param.signal = SignalType::WakeupByCancel;
+    return SendParameter(param);
+}
+
+ResultCode AppletManager::PrepareToStartSystemApplet(AppletId applet_id) {
+    // The real APT service returns an error if there's a pending APT parameter when this function
+    // is called.
+    if (next_parameter) {
+        return ResultCode(ErrCodes::ParameterPresent, ErrorModule::Applet,
+                          ErrorSummary::InvalidState, ErrorLevel::Status);
+    }
+
+    last_system_launcher_slot = active_slot;
+    return RESULT_SUCCESS;
+}
+
+ResultCode AppletManager::StartSystemApplet(AppletId applet_id,
+                                            const std::shared_ptr<Kernel::Object>& object,
+                                            const std::vector<u8>& buffer) {
+    const auto source_applet_id =
+        last_system_launcher_slot != AppletSlot::Error
+            ? applet_slots[static_cast<std::size_t>(last_system_launcher_slot)].applet_id
+            : AppletId::None;
+
+    // If a system applet is launching another system applet, reset the slot to avoid conflicts.
+    // This is needed because system applets won't necessarily call CloseSystemApplet before
+    // exiting.
+    if (last_system_launcher_slot == AppletSlot::SystemApplet) {
+        auto& launching_slot = applet_slots[static_cast<std::size_t>(last_system_launcher_slot)];
+        launching_slot.Reset();
+    }
+
+    const auto slot_id =
+        applet_id == AppletId::HomeMenu ? AppletSlot::HomeMenu : AppletSlot::SystemApplet;
+    const auto& slot = applet_slots[static_cast<std::size_t>(slot_id)];
+
+    // If a system applet is not already registered, it is started by APT.
+    if (!slot.registered) {
+        auto cfg = Service::CFG::GetModule(system);
+        u32 region_value = cfg->GetRegionValue();
+        auto process =
+            NS::LaunchTitle(FS::MediaType::NAND, GetTitleIdForApplet(applet_id, region_value));
+        if (!process) {
+            // TODO: Find the right error code.
+            return {ErrorDescription::NotFound, ErrorModule::Applet, ErrorSummary::NotSupported,
+                    ErrorLevel::Permanent};
+        }
+    }
+
+    active_slot = slot_id;
+
+    MessageParameter param;
+    param.destination_id = applet_id;
+    param.sender_id = source_applet_id;
+    param.object = object;
+    param.signal = SignalType::Wakeup;
+    param.buffer = buffer;
+    SendApplicationParameterAfterRegistration(param);
+
+    return RESULT_SUCCESS;
+}
+
+ResultCode AppletManager::PrepareToCloseSystemApplet() {
+    if (next_parameter) {
+        return ResultCode(ErrCodes::ParameterPresent, ErrorModule::Applet,
+                          ErrorSummary::InvalidState, ErrorLevel::Status);
+    }
+
+    return RESULT_SUCCESS;
+}
+
+ResultCode AppletManager::CloseSystemApplet(std::shared_ptr<Kernel::Object> object,
+                                            std::vector<u8> buffer) {
+    ASSERT_MSG(active_slot == AppletSlot::HomeMenu || active_slot == AppletSlot::SystemApplet,
+               "Attempting to close a system applet from a non-system applet.");
+
+    auto& slot = applet_slots[static_cast<std::size_t>(active_slot)];
+    active_slot = last_system_launcher_slot;
+
+    // TODO: Send a parameter to the application only if the application ordered the applet to
+    // close.
+
+    // TODO: Terminate the running applet title
+    slot.Reset();
+
+    return RESULT_SUCCESS;
 }
 
 ResultVal<AppletManager::AppletInfo> AppletManager::GetAppletInfo(AppletId app_id) {
     const auto* slot = GetAppletSlotData(app_id);
 
     if (slot == nullptr || !slot->registered) {
-        // See if there's an HLE applet and try to use it before erroring out.
-        auto hle_applet = HLE::Applets::Applet::Get(app_id);
-        if (hle_applet == nullptr) {
-            return ResultCode(ErrorDescription::NotFound, ErrorModule::Applet,
-                              ErrorSummary::NotFound, ErrorLevel::Status);
-        }
-        LOG_WARNING(Service_APT, "Using HLE applet info for applet {:03X}", app_id);
-        // TODO(Subv): Get the title id for the current applet and write it in the response[2-3]
-        return MakeResult<AppletInfo>({0, Service::FS::MediaType::NAND, true, true, 0});
-    }
-
-    if (app_id == AppletId::Application) {
-        // TODO(Subv): Implement this once Application launching is implemented
-        LOG_ERROR(Service_APT, "Unimplemented GetAppletInfo(Application)");
         return ResultCode(ErrorDescription::NotFound, ErrorModule::Applet, ErrorSummary::NotFound,
                           ErrorLevel::Status);
     }
 
-    auto cfg = Service::CFG::GetModule(system);
-    ASSERT_MSG(cfg, "CFG Module missing!");
-    u32 region_value = cfg->GetRegionValue();
-    return MakeResult<AppletInfo>({GetTitleIdForApplet(app_id, region_value),
-                                   Service::FS::MediaType::NAND, slot->registered, slot->loaded,
-                                   slot->attributes.raw});
+    // TODO: Basic heuristic to guess media type, needs proper implementation.
+    const auto media_type = ((slot->title_id >> 32) & 0xFFFFFFFF) == 0x00040000
+                                ? Service::FS::MediaType::SDMC
+                                : Service::FS::MediaType::NAND;
+    return MakeResult<AppletInfo>(
+        {slot->title_id, media_type, slot->registered, slot->loaded, slot->attributes.raw});
 }
 
 ResultCode AppletManager::PrepareToDoApplicationJump(u64 title_id, FS::MediaType media_type,
@@ -558,6 +689,7 @@ ResultCode AppletManager::DoApplicationJump(DeliverArg arg) {
     // Note: The real console sends signal 17 (WakeupToLaunchApplication) to the Home Menu, this
     // prompts it to call GetProgramIdOnApplicationJump and
     // PrepareToStartApplication/StartApplication on the title to launch.
+    active_slot = AppletSlot::Application;
 
     // Perform a soft-reset if we're trying to relaunch the same title.
     // TODO(Subv): Note that this reboots the entire emulated system, a better way would be to
@@ -633,6 +765,8 @@ ResultCode AppletManager::StartApplication(const std::vector<u8>& parameter,
     // PM::LaunchTitle. We should research more about that.
     ASSERT_MSG(app_start_parameters, "Trying to start an application without preparing it first.");
 
+    active_slot = AppletSlot::Application;
+
     // Launch the title directly.
     const auto process =
         NS::LaunchTitle(app_start_parameters->next_media_type, app_start_parameters->next_title_id);
@@ -664,7 +798,7 @@ ResultCode AppletManager::WakeupApplication() {
 }
 
 void AppletManager::SendApplicationParameterAfterRegistration(const MessageParameter& parameter) {
-    const auto* slot = GetAppletSlotData(AppletId::Application);
+    const auto* slot = GetAppletSlotData(parameter.destination_id);
 
     // If the application is already registered, immediately send the parameter
     if (slot && slot->registered) {
@@ -701,6 +835,7 @@ void AppletManager::EnsureHomeMenuLoaded() {
 }
 
 AppletManager::AppletManager(Core::System& system) : system(system) {
+    lock = system.Kernel().CreateMutex(false, "APT_U:Lock");
     for (std::size_t slot = 0; slot < applet_slots.size(); ++slot) {
         auto& slot_data = applet_slots[slot];
         slot_data.slot = static_cast<AppletSlot>(slot);

@@ -21,7 +21,7 @@
 
 namespace HLE::Applets {
 
-ResultCode SoftwareKeyboard::ReceiveParameter(Service::APT::MessageParameter const& parameter) {
+ResultCode SoftwareKeyboard::ReceiveParameterImpl(Service::APT::MessageParameter const& parameter) {
     switch (parameter.signal) {
     case Service::APT::SignalType::Request: {
         // The LibAppJustStarted message contains a buffer with the size of the framebuffer shared
@@ -42,7 +42,7 @@ ResultCode SoftwareKeyboard::ReceiveParameter(Service::APT::MessageParameter con
         Service::APT::MessageParameter result;
         result.signal = Service::APT::SignalType::Response;
         result.buffer.clear();
-        result.destination_id = Service::APT::AppletId::Application;
+        result.destination_id = parent;
         result.sender_id = id;
         result.object = framebuffer_memory;
 
@@ -92,7 +92,7 @@ ResultCode SoftwareKeyboard::ReceiveParameter(Service::APT::MessageParameter con
     }
 }
 
-ResultCode SoftwareKeyboard::StartImpl(Service::APT::AppletStartupParameter const& parameter) {
+ResultCode SoftwareKeyboard::Start(Service::APT::AppletStartupParameter const& parameter) {
     ASSERT_MSG(parameter.buffer.size() == sizeof(config),
                "The size of the parameter (SoftwareKeyboardConfig) is wrong");
 
@@ -156,7 +156,7 @@ void SoftwareKeyboard::Update() {
         message.buffer.resize(sizeof(SoftwareKeyboardConfig));
         std::memcpy(message.buffer.data(), &config, message.buffer.size());
         message.signal = Service::APT::SignalType::Message;
-        message.destination_id = Service::APT::AppletId::Application;
+        message.destination_id = parent;
         message.sender_id = id;
         SendParameter(message);
     } else {
@@ -168,17 +168,10 @@ void SoftwareKeyboard::DrawScreenKeyboard() {
     // TODO(Subv): Draw the HLE keyboard, for now just do nothing
 }
 
-void SoftwareKeyboard::Finalize() {
-    // Let the application know that we're closing
-    Service::APT::MessageParameter message;
-    message.buffer.resize(sizeof(SoftwareKeyboardConfig));
-    std::memcpy(message.buffer.data(), &config, message.buffer.size());
-    message.signal = Service::APT::SignalType::WakeupByExit;
-    message.destination_id = Service::APT::AppletId::Application;
-    message.sender_id = id;
-    SendParameter(message);
-
-    is_running = false;
+ResultCode SoftwareKeyboard::Finalize() {
+    std::vector<u8> buffer(sizeof(SoftwareKeyboardConfig));
+    std::memcpy(buffer.data(), &config, buffer.size());
+    CloseApplet(nullptr, buffer);
     text_memory = nullptr;
 }
 
