@@ -9,7 +9,7 @@
 
 namespace HLE::Applets {
 
-ResultCode ErrEula::ReceiveParameter(const Service::APT::MessageParameter& parameter) {
+ResultCode ErrEula::ReceiveParameterImpl(const Service::APT::MessageParameter& parameter) {
     if (parameter.signal != Service::APT::SignalType::Request) {
         LOG_ERROR(Service_APT, "unsupported signal {}", parameter.signal);
         UNIMPLEMENTED();
@@ -36,7 +36,7 @@ ResultCode ErrEula::ReceiveParameter(const Service::APT::MessageParameter& param
     Service::APT::MessageParameter result;
     result.signal = Service::APT::SignalType::Response;
     result.buffer.clear();
-    result.destination_id = Service::APT::AppletId::Application;
+    result.destination_id = parent;
     result.sender_id = id;
     result.object = framebuffer_memory;
 
@@ -44,24 +44,23 @@ ResultCode ErrEula::ReceiveParameter(const Service::APT::MessageParameter& param
     return RESULT_SUCCESS;
 }
 
-ResultCode ErrEula::StartImpl(const Service::APT::AppletStartupParameter& parameter) {
+ResultCode ErrEula::Start(const Service::APT::AppletStartupParameter& parameter) {
     is_running = true;
+    startup_param = parameter.buffer;
 
     // TODO(Subv): Set the expected fields in the response buffer before resending it to the
     // application.
     // TODO(Subv): Reverse the parameter format for the ErrEula applet
 
-    // Let the application know that we're closing
-    Service::APT::MessageParameter message;
-    message.buffer.resize(parameter.buffer.size());
-    std::fill(message.buffer.begin(), message.buffer.end(), 0);
-    message.signal = Service::APT::SignalType::WakeupByExit;
-    message.destination_id = Service::APT::AppletId::Application;
-    message.sender_id = id;
-    SendParameter(message);
-
-    is_running = false;
+    // Let the application know that we're closing.
+    Finalize();
     return RESULT_SUCCESS;
+}
+
+ResultCode ErrEula::Finalize() {
+    std::vector<u8> buffer(startup_param.size());
+    std::fill(buffer.begin(), buffer.end(), 0);
+    CloseApplet(nullptr, buffer);
 }
 
 void ErrEula::Update() {}

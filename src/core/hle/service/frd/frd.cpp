@@ -94,7 +94,7 @@ void Module::Interface::GetMyFriendKey(Kernel::HLERequestContext& ctx) {
 
 void Module::Interface::GetMyScreenName(Kernel::HLERequestContext& ctx) {
     IPC::RequestParser rp(ctx, 0x9, 0, 0);
-    IPC::RequestBuilder rb = rp.MakeBuilder(7, 0);
+    IPC::RequestBuilder rb = rp.MakeBuilder(6, 0);
 
     struct ScreenName {
         // 20 bytes according to 3dbrew
