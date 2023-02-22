@@ -16,6 +16,12 @@
 #include "core/hle/service/am/am.h"
 #include "core/savestate.h"
 
+#ifdef __unix__
+#include <QVariant>
+#include <QtDBus/QDBusInterface>
+#include <QtDBus/QtDBus>
+#endif
+
 class AboutDialog;
 class Config;
 class ClickableLabel;
@@ -331,6 +337,10 @@ private:
     QStringList default_theme_paths;
 
     HotkeyRegistry hotkey_registry;
+
+#ifdef __unix__
+    QDBusObjectPath wake_lock{};
+#endif
 
 protected:
     void dropEvent(QDropEvent* event) override;
