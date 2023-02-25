@@ -1,3 +1,16 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6221](https://github.com/citra-emu/citra//pull/6221) | [`ce00fdf57`](https://github.com/citra-emu/citra//pull/6221/files) | emu_window: event.window is only valid for SDL_WINDOWEVENT events | [stspdotname](https://github.com/stspdotname/) | Yes |
+| [6249](https://github.com/citra-emu/citra//pull/6249) | [`8823a1326`](https://github.com/citra-emu/citra//pull/6249/files) | citra_qt: Prevent OS sleep on Linux when a game is running | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6303](https://github.com/citra-emu/citra//pull/6303) | [`8a13d21f3`](https://github.com/citra-emu/citra//pull/6303/files) | apt: Implement additional applet state management. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6311](https://github.com/citra-emu/citra//pull/6311) | [`2a2eeead5`](https://github.com/citra-emu/citra//pull/6311/files) | Port yuzu-emu/yuzu#9817: "yuzu: Write to config file on important config changes" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
