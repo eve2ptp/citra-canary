@@ -2,6 +2,7 @@
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
 
+#include "android_storage/android_storage.h"
 #include "common/common_paths.h"
 #include "common/logging/backend.h"
 #include "common/logging/filter.h"
@@ -217,6 +218,8 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
                                   "Lorg/citra/citra_emu/disk_shader_cache/"
                                   "DiskShaderCacheProgress$LoadCallbackStage;")));
     };
+    // Initialize Android Storage
+    AndroidStorage::RegisterCallbacks(env, s_native_library_class);
 
     s_java_load_callback_stages.emplace(VideoCore::LoadCallbackStage::Prepare,
                                         to_java_load_callback_stage("Prepare"));
@@ -240,6 +243,8 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
         return;
     }
 
+    // UnInitialize Android Storage
+    AndroidStorage::UnRegisterCallbacks();
     env->DeleteGlobalRef(s_savestate_info_class);
     env->DeleteGlobalRef(s_core_error_class);
     env->DeleteGlobalRef(s_disk_cache_progress_class);

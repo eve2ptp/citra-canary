@@ -502,6 +502,10 @@ if ("x86_64" IN_LIST ARCHITECTURE OR "arm64" IN_LIST ARCHITECTURE)
     target_link_libraries(core PRIVATE dynarmic)
 endif()
 
+if (ANDROID)
+    target_link_libraries(core PUBLIC android_storage Boost::iostreams)
+endif()
+
 if (ENABLE_FFMPEG_VIDEO_DUMPER)
     target_link_libraries(core PUBLIC FFmpeg::avcodec FFmpeg::avformat FFmpeg::swscale FFmpeg::swresample FFmpeg::avutil)
 endif()

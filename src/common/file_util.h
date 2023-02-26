@@ -359,6 +359,7 @@ private:
     bool Open();
 
     std::FILE* m_file = nullptr;
+    int m_fd = -1;
     bool m_good = true;
 
     std::string filename;
@@ -385,6 +386,10 @@ private:
 
 } // namespace FileUtil
 
+#ifdef ANDROID
+template <std::ios_base::openmode o, typename T>
+void OpenFStream(T& fstream, const std::string& filename);
+#endif
 // To deal with Windows being dumb at unicode:
 template <typename T>
 void OpenFStream(T& fstream, const std::string& filename, std::ios_base::openmode openmode) {
