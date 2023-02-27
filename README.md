@@ -1,3 +1,18 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6221](https://github.com/citra-emu/citra//pull/6221) | [`ce00fdf57`](https://github.com/citra-emu/citra//pull/6221/files) | emu_window: event.window is only valid for SDL_WINDOWEVENT events | [stspdotname](https://github.com/stspdotname/) | Yes |
+| [6249](https://github.com/citra-emu/citra//pull/6249) | [`8823a1326`](https://github.com/citra-emu/citra//pull/6249/files) | citra_qt: Prevent OS sleep on Linux when a game is running | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6267](https://github.com/citra-emu/citra//pull/6267) | [`2f2551aae`](https://github.com/citra-emu/citra//pull/6267/files) | Implement/Fix more SOC related functions | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [6303](https://github.com/citra-emu/citra//pull/6303) | [`8a13d21f3`](https://github.com/citra-emu/citra//pull/6303/files) | apt: Implement additional applet state management. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6313](https://github.com/citra-emu/citra//pull/6313) | [`7c30cb435`](https://github.com/citra-emu/citra//pull/6313/files) | citra_android: Storage Access Framework implementation | [hank121314](https://github.com/hank121314/) | Yes |
+| [6317](https://github.com/citra-emu/citra//pull/6317) | [`b6797ab28`](https://github.com/citra-emu/citra//pull/6317/files) | qt: Remove status bar 3D controls due to issues. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
