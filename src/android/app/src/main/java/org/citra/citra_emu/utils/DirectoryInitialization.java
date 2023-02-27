@@ -9,6 +9,7 @@ package org.citra.citra_emu.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 
@@ -75,6 +76,11 @@ public final class DirectoryInitialization {
         return directoryState == DirectoryInitializationState.CITRA_DIRECTORIES_INITIALIZED;
     }
 
+    public static void resetCitraDirectoryState() {
+        directoryState = null;
+        isCitraDirectoryInitializationRunning.compareAndSet(true, false);
+    }
+
     public static String getUserDirectory() {
         if (directoryState == null) {
             throw new IllegalStateException("DirectoryInitialization has to run at least once!");
@@ -88,15 +94,11 @@ public final class DirectoryInitialization {
     private static native void SetSysDirectory(String path);
 
     private static boolean setCitraUserDirectory() {
-        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            File externalPath = Environment.getExternalStorageDirectory();
-            if (externalPath != null) {
-                userPath = externalPath.getAbsolutePath() + "/citra-emu";
-                Log.debug("[DirectoryInitialization] User Dir: " + userPath);
-                // NativeLibrary.SetUserDirectory(userPath);
-                return true;
-            }
-
+        Uri dataPath = PermissionsHandler.getCitraDirectory();
+        if (dataPath != null) {
+            userPath = dataPath.toString();
+            Log.debug("[DirectoryInitialization] User Dir: " + userPath);
+            return true;
         }
 
         return false;

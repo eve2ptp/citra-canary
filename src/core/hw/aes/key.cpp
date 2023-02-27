@@ -20,6 +20,12 @@
 #include "core/hw/aes/key.h"
 #include "core/hw/rsa/rsa.h"
 
+#ifdef ANDROID
+#include <boost/iostreams/device/file_descriptor.hpp>
+#include <boost/iostreams/stream.hpp>
+#include "android_storage/android_storage.h"
+#endif
+
 namespace HW::AES {
 
 namespace {
@@ -428,11 +434,20 @@ void LoadNativeFirmKeysNew3DS() {
 void LoadPresetKeys() {
     const std::string filepath = FileUtil::GetUserPath(FileUtil::UserPath::SysDataDir) + AES_KEYS;
     FileUtil::CreateFullPath(filepath); // Create path if not already created
+
+#ifdef ANDROID
+    boost::iostreams::stream<boost::iostreams::file_descriptor_source> file;
+    OpenFStream<std::ios_base::in>(file, filepath);
+    if (!file.is_open()) {
+        return;
+    }
+#else
     std::ifstream file;
     OpenFStream(file, filepath, std::ios_base::in);
     if (!file) {
         return;
     }
+#endif
 
     while (!file.eof()) {
         std::string line;

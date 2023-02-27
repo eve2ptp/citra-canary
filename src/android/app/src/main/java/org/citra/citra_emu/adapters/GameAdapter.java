@@ -16,16 +16,16 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.citra.citra_emu.CitraApplication;
 import org.citra.citra_emu.R;
 import org.citra.citra_emu.activities.EmulationActivity;
 import org.citra.citra_emu.model.GameDatabase;
 import org.citra.citra_emu.ui.DividerItemDecoration;
+import org.citra.citra_emu.utils.FileUtil;
 import org.citra.citra_emu.utils.Log;
 import org.citra.citra_emu.utils.PicassoUtils;
 import org.citra.citra_emu.viewholders.GameViewHolder;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 /**
@@ -88,8 +88,14 @@ public final class GameAdapter extends RecyclerView.Adapter<GameViewHolder> impl
                 holder.textGameTitle.setText(mCursor.getString(GameDatabase.GAME_COLUMN_TITLE).replaceAll("[\\t\\n\\r]+", " "));
                 holder.textCompany.setText(mCursor.getString(GameDatabase.GAME_COLUMN_COMPANY));
 
-                final Path gamePath = Paths.get(mCursor.getString(GameDatabase.GAME_COLUMN_PATH));
-                holder.textFileName.setText(gamePath.getFileName().toString());
+                String filepath = mCursor.getString(GameDatabase.GAME_COLUMN_PATH);
+                String filename;
+                if (FileUtil.isNativePath(filepath)) {
+                    filename = CitraApplication.documentsTree.getFilename(filepath);
+                } else {
+                    filename = FileUtil.getFilename(CitraApplication.getAppContext(), filepath);
+                }
+                holder.textFileName.setText(filename);
 
                 // TODO These shouldn't be necessary once the move to a DB-based model is complete.
                 holder.gameId = mCursor.getString(GameDatabase.GAME_COLUMN_GAME_ID);
