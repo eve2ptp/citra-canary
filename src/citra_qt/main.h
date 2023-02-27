@@ -126,7 +126,6 @@ private:
     void RestoreUIState();
 
     void ConnectWidgetEvents();
-    void Connect3DStateEvents();
     void ConnectMenuEvents();
     void UpdateMenuState();
 
@@ -234,7 +233,6 @@ private slots:
     void OnStopVideoDumping();
 #endif
     void OnCoreError(Core::System::ResultStatus, std::string);
-    void Toggle3D();
     /// Called whenever a user selects Help->About Citra
     void OnMenuAboutCitra();
     void OnUpdateFound(bool found, bool error);
@@ -246,7 +244,6 @@ private slots:
 private:
     Q_INVOKABLE void OnMoviePlaybackCompleted();
     void UpdateStatusBar();
-    void Update3DState();
     void LoadTranslation();
     void UpdateWindowTitle();
     void UpdateUISettings();
@@ -270,8 +267,6 @@ private:
     QLabel* emu_speed_label = nullptr;
     QLabel* game_fps_label = nullptr;
     QLabel* emu_frametime_label = nullptr;
-    QPushButton* option_3d_button = nullptr;
-    QSlider* factor_3d_slider = nullptr;
     QTimer status_bar_update_timer;
     bool message_label_used_for_movie = false;
 
