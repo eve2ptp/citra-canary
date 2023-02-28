@@ -144,6 +144,10 @@ if ("x86_64" IN_LIST ARCHITECTURE)
     target_link_libraries(common PRIVATE xbyak)
 endif()
 
+if (ANDROID)
+    target_link_libraries(common PUBLIC android_storage Boost::iostreams)
+endif()
+
 if (CITRA_USE_PRECOMPILED_HEADERS)
     target_precompile_headers(common PRIVATE precompiled_headers.h)
 endif()
