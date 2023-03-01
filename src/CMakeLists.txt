@@ -150,6 +150,10 @@ add_subdirectory(network)
 add_subdirectory(input_common)
 add_subdirectory(tests)
 
+if (ANDROID)
+    add_subdirectory(android_storage)
+endif()
+
 if (ENABLE_SDL2)
     add_subdirectory(citra)
 endif()
