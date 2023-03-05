@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.util.Pair;
 import android.util.SparseIntArray;
 import android.view.InputDevice;
 import android.view.KeyEvent;
@@ -22,6 +23,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -33,6 +36,7 @@ import androidx.fragment.app.FragmentActivity;
 import org.citra.citra_emu.CitraApplication;
 import org.citra.citra_emu.NativeLibrary;
 import org.citra.citra_emu.R;
+import org.citra.citra_emu.contracts.OpenFileResultContract;
 import org.citra.citra_emu.features.cheats.ui.CheatsActivity;
 import org.citra.citra_emu.features.settings.model.view.InputBindingSetting;
 import org.citra.citra_emu.features.settings.ui.SettingsActivity;
@@ -82,6 +86,14 @@ public final class EmulationActivity extends AppCompatActivity {
     public static final int REQUEST_SELECT_AMIIBO = 2;
     private static final int EMULATION_RUNNING_NOTIFICATION = 0x1000;
     private static SparseIntArray buttonsActionsMap = new SparseIntArray();
+
+    private final ActivityResultLauncher<Pair<Boolean, Integer>> mOpenFileLauncher = registerForActivityResult(new OpenFileResultContract(), result -> {
+        String[] selectedFiles = FileBrowserHelper.getSelectedFiles(result, getApplicationContext(), Collections.singletonList("bin"));
+        if (selectedFiles == null)
+            return;
+
+        onAmiiboSelected(selectedFiles[0]);
+    });
 
     static {
         buttonsActionsMap.append(R.id.menu_emulation_edit_layout,
@@ -463,9 +475,7 @@ public final class EmulationActivity extends AppCompatActivity {
                 break;
 
             case MENU_ACTION_LOAD_AMIIBO:
-                FileBrowserHelper.openFilePicker(this, REQUEST_SELECT_AMIIBO,
-                                                 R.string.select_amiibo,
-                                                 Collections.singletonList("bin"), false);
+                mOpenFileLauncher.launch(new Pair<>(false, R.string.select_amiibo));
                 break;
 
             case MENU_ACTION_REMOVE_AMIIBO:
@@ -561,20 +571,8 @@ public final class EmulationActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent result) {
         super.onActivityResult(requestCode, resultCode, result);
-        switch (requestCode) {
-            case StillImageCameraHelper.REQUEST_CAMERA_FILE_PICKER:
-                StillImageCameraHelper.OnFilePickerResult(resultCode == RESULT_OK ? result : null);
-                break;
-            case REQUEST_SELECT_AMIIBO:
-                // If the user picked a file, as opposed to just backing out.
-                if (resultCode == MainActivity.RESULT_OK) {
-                    String[] selectedFiles = FileBrowserHelper.getSelectedFiles(result);
-                    if (selectedFiles == null)
-                        return;
-
-                    onAmiiboSelected(selectedFiles[0]);
-                }
-                break;
+        if (requestCode == StillImageCameraHelper.REQUEST_CAMERA_FILE_PICKER) {
+            StillImageCameraHelper.OnFilePickerResult(resultCode == RESULT_OK ? result : null);
         }
     }
 

@@ -21,6 +21,17 @@ file(GLOB boost_serialization_SRC "${CMAKE_SOURCE_DIR}/externals/boost/libs/seri
 add_library(boost_serialization STATIC ${boost_serialization_SRC})
 target_link_libraries(boost_serialization PUBLIC boost)
 
+# Boost::iostreams
+if (ANDROID)
+    add_library(
+            boost_iostreams
+            STATIC
+            ${CMAKE_SOURCE_DIR}/externals/boost/libs/iostreams/src/file_descriptor.cpp
+            ${CMAKE_SOURCE_DIR}/externals/boost/libs/iostreams/src/mapped_file.cpp
+    )
+    target_link_libraries(boost_iostreams PUBLIC boost)
+endif()
+
 # Add additional boost libs here; remember to ALIAS them in the root CMakeLists!
 
 # Catch2
