@@ -3,7 +3,7 @@
 
     <!-- General application strings -->
     <string name="app_name" translatable="false">Citra</string>
-    <string name="app_disclaimer">This software will run games for the Nintendo 3DS handheld game console. No game titles are included.\n\nBefore you run, please place your rightfully owned 3DS game files onto your device storage.</string>
+    <string name="app_disclaimer">This software will run games for the Nintendo 3DS handheld game console. No game titles are included.\n\nBefore you can begin with emulating, please select a folder to store Citra\'s user data in.</string>
     <string name="app_notification_channel_name" translatable="false">Citra</string>
     <string name="app_notification_channel_id" translatable="false">Citra</string>
     <string name="app_notification_channel_description">Citra 3DS emulator notifications</string>
@@ -138,6 +138,7 @@
     <string name="grid_menu_core_settings">Settings</string>
 
     <!-- Add Directory Screen-->
+    <string name="select_citra_user_folder">Select Citra User Folder</string>
     <string name="select_game_folder">Select Game Folder</string>
     <string name="install_cia_title">Install CIA</string>
 
@@ -227,6 +228,7 @@
     <string name="continue_button">Continue</string>
     <string name="system_archive_not_found">System Archive Not Found</string>
     <string name="system_archive_not_found_message">%s is missing. Please dump your system archives.\nContinuing emulation may result in crashes and bugs.</string>
+    <string name="cia_file_not_found">Installation Failed. CIA file not found.</string>
     <string name="system_archive_general">A system archive</string>
     <string name="save_load_error">Save/Load Error</string>
     <string name="fatal_error">Fatal Error</string>

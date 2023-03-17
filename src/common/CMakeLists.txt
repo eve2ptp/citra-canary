@@ -57,6 +57,8 @@ add_library(common STATIC
     aarch64/cpu_detect.cpp
     aarch64/cpu_detect.h
     alignment.h
+    android_storage.h
+    android_storage.cpp
     announce_multiplayer_room.h
     archives.h
     assert.h
@@ -136,7 +138,7 @@ add_library(common STATIC
 
 create_target_directory_groups(common)
 
-target_link_libraries(common PUBLIC fmt::fmt microprofile Boost::boost Boost::serialization)
+target_link_libraries(common PUBLIC fmt::fmt microprofile Boost::boost Boost::serialization Boost::iostreams)
 target_link_libraries(common PRIVATE libzstd_static)
 set_target_properties(common PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${ENABLE_LTO})
 

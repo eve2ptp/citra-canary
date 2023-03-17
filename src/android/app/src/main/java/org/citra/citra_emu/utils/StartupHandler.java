@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
 
@@ -13,9 +14,9 @@ import org.citra.citra_emu.R;
 import org.citra.citra_emu.activities.EmulationActivity;
 
 public final class StartupHandler {
-    private static void handlePermissionsCheck(FragmentActivity parent) {
+    private static void handlePermissionsCheck(FragmentActivity parent, ActivityResultLauncher<Integer> launcher) {
         // Ask the user to grant write permission if it's not already granted
-        PermissionsHandler.checkWritePermission(parent);
+        PermissionsHandler.checkWritePermission(parent, launcher);
 
         String start_file = "";
         Bundle extras = parent.getIntent().getExtras();
@@ -32,7 +33,7 @@ public final class StartupHandler {
         }
     }
 
-    public static void HandleInit(FragmentActivity parent) {
+    public static void HandleInit(FragmentActivity parent, ActivityResultLauncher<Integer> launcher) {
         if (PermissionsHandler.isFirstBoot(parent)) {
             // Prompt user with standard first boot disclaimer
             new MaterialAlertDialogBuilder(parent)
@@ -40,7 +41,8 @@ public final class StartupHandler {
                     .setIcon(R.mipmap.ic_launcher)
                     .setMessage(parent.getResources().getString(R.string.app_disclaimer))
                     .setPositiveButton(android.R.string.ok, null)
-                    .setOnDismissListener(dialogInterface -> handlePermissionsCheck(parent))
+                    .setCancelable(false)
+                    .setOnDismissListener(dialogInterface -> handlePermissionsCheck(parent, launcher))
                     .show();
         }
     }
