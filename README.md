@@ -1,3 +1,21 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6221](https://github.com/citra-emu/citra//pull/6221) | [`ce00fdf57`](https://github.com/citra-emu/citra//pull/6221/files) | emu_window: event.window is only valid for SDL_WINDOWEVENT events | [stspdotname](https://github.com/stspdotname/) | Yes |
+| [6249](https://github.com/citra-emu/citra//pull/6249) | [`089725f30`](https://github.com/citra-emu/citra//pull/6249/files) | citra_qt: Prevent OS sleep on Linux when a game is running | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6267](https://github.com/citra-emu/citra//pull/6267) | [`2f2551aae`](https://github.com/citra-emu/citra//pull/6267/files) | Implement/Fix more SOC related functions | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [6308](https://github.com/citra-emu/citra//pull/6308) | [`596222cbd`](https://github.com/citra-emu/citra//pull/6308/files) | citra_qt: Add enhancement options to per-game | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6313](https://github.com/citra-emu/citra//pull/6313) | [`7387ec5ab`](https://github.com/citra-emu/citra//pull/6313/files) | citra_android: Storage Access Framework implementation | [hank121314](https://github.com/hank121314/) | Yes |
+| [6340](https://github.com/citra-emu/citra//pull/6340) | [`b045c1635`](https://github.com/citra-emu/citra//pull/6340/files) | service: nfc: Implement amiibo encryption and appdata | [german77](https://github.com/german77/) | Yes |
+| [6349](https://github.com/citra-emu/citra//pull/6349) | [`d899b3a88`](https://github.com/citra-emu/citra//pull/6349/files) | citra_android: Implement edge-to-edge | [t895](https://github.com/t895/) | Yes |
+| [6352](https://github.com/citra-emu/citra//pull/6352) | [`8ee5c71ae`](https://github.com/citra-emu/citra//pull/6352/files) | citra_android: Fix input shifting in emulation activity | [t895](https://github.com/t895/) | Yes |
+| [6353](https://github.com/citra-emu/citra//pull/6353) | [`5a4ed19bd`](https://github.com/citra-emu/citra//pull/6353/files) | apt: Fix exiting to game list on application close. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
