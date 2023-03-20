@@ -81,20 +81,20 @@ void Apply() {
     Service::PLGLDR::PLG_LDR::SetAllowGameChangeState(values.allow_plugin_loader.GetValue());
 }
 
+std::string_view AudioEmulationName(AudioEmulation emulation) {
+    switch (emulation) {
+    case AudioEmulation::HLE:
+        return "HLE";
+    case AudioEmulation::LLE:
+        return "LLE";
+    case AudioEmulation::LLEMultithreaded:
+        return "LLE Multithreaded";
+    }
+};
+
 void LogSettings() {
     const auto log_setting = [](std::string_view name, const auto& value) {
         LOG_INFO(Config, "{}: {}", name, value);
-    };
-
-    const auto to_string = [](AudioEmulation emulation) -> std::string_view {
-        switch (emulation) {
-        case AudioEmulation::HLE:
-            return "HLE";
-        case AudioEmulation::LLE:
-            return "LLE";
-        case AudioEmulation::LLEMultithreaded:
-            return "LLE Multithreaded";
-        }
     };
 
     LOG_INFO(Config, "Citra Configuration:");
@@ -125,7 +125,7 @@ void LogSettings() {
     log_setting("Utility_DumpTextures", values.dump_textures.GetValue());
     log_setting("Utility_CustomTextures", values.custom_textures.GetValue());
     log_setting("Utility_UseDiskShaderCache", values.use_disk_shader_cache.GetValue());
-    log_setting("Audio_Emulation", to_string(values.audio_emulation.GetValue()));
+    log_setting("Audio_Emulation", AudioEmulationName(values.audio_emulation.GetValue()));
     log_setting("Audio_OutputEngine", values.sink_id.GetValue());
     log_setting("Audio_EnableAudioStretching", values.enable_audio_stretching.GetValue());
     log_setting("Audio_OutputDevice", values.audio_device_id.GetValue());
@@ -207,6 +207,9 @@ void RestoreGlobalState(bool is_powered_on) {
     values.filter_mode.SetGlobal(true);
     values.pp_shader_name.SetGlobal(true);
     values.anaglyph_shader_name.SetGlobal(true);
+    values.dump_textures.SetGlobal(true);
+    values.custom_textures.SetGlobal(true);
+    values.preload_textures.SetGlobal(true);
 }
 
 void LoadProfile(int index) {
