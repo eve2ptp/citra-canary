@@ -39,6 +39,8 @@
 
 #if CITRA_ARCH(x86_64)
 #define Crash() __asm__ __volatile__("int $3")
+#elif CITRA_ARCH(arm64)
+#define Crash() __asm__ __volatile__("brk #0")
 #else
 #define Crash() exit(1)
 #endif
