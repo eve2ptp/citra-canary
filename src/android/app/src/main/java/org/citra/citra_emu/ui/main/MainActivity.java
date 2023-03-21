@@ -6,11 +6,18 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.material.appbar.AppBarLayout;
 
 import org.citra.citra_emu.NativeLibrary;
 import org.citra.citra_emu.R;
@@ -22,6 +29,7 @@ import org.citra.citra_emu.utils.AddDirectoryHelper;
 import org.citra.citra_emu.utils.BillingManager;
 import org.citra.citra_emu.utils.DirectoryInitialization;
 import org.citra.citra_emu.utils.FileBrowserHelper;
+import org.citra.citra_emu.utils.InsetsHelper;
 import org.citra.citra_emu.utils.PermissionsHandler;
 import org.citra.citra_emu.utils.PicassoUtils;
 import org.citra.citra_emu.utils.StartupHandler;
@@ -53,6 +61,8 @@ public final class MainActivity extends AppCompatActivity implements MainView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+
         findViews();
 
         setSupportActionBar(mToolbar);
@@ -77,6 +87,8 @@ public final class MainActivity extends AppCompatActivity implements MainView {
 
         // Dismiss previous notifications (should not happen unless a crash occurred)
         EmulationActivity.tryDismissRunningNotification(this);
+
+        setInsets();
     }
 
     @Override
@@ -265,5 +277,16 @@ public final class MainActivity extends AppCompatActivity implements MainView {
      */
     public static void invokePremiumBilling(Runnable callback) {
         mBillingManager.invokePremiumBilling(callback);
+    }
+
+    private void setInsets() {
+        AppBarLayout appBar = findViewById(R.id.appbar);
+        FrameLayout frame = findViewById(R.id.games_platform_frame);
+        ViewCompat.setOnApplyWindowInsetsListener(frame, (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            InsetsHelper.insetAppBar(insets, appBar);
+            frame.setPadding(insets.left, 0, insets.right, 0);
+            return windowInsets;
+        });
     }
 }
