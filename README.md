@@ -1,3 +1,20 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6340](https://github.com/citra-emu/citra//pull/6340) | [`cfde31bb5`](https://github.com/citra-emu/citra//pull/6340/files) | service: nfc: Implement amiibo encryption and appdata | [german77](https://github.com/german77/) | Yes |
+| [6344](https://github.com/citra-emu/citra//pull/6344) | [`7defe46b9`](https://github.com/citra-emu/citra//pull/6344/files) | gl_shader_disk_cache: Avoid reopening files every time a shader need to be written. | [SachinVin](https://github.com/SachinVin/) | Yes |
+| [6347](https://github.com/citra-emu/citra//pull/6347) | [`1437571ad`](https://github.com/citra-emu/citra//pull/6347/files) | Prepare frontend for multiple graphics APIs | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6356](https://github.com/citra-emu/citra//pull/6356) | [`0a52454b1`](https://github.com/citra-emu/citra//pull/6356/files) | Rework system title handling with up-to-date title list and region detection support. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6358](https://github.com/citra-emu/citra//pull/6358) | [`e30386d98`](https://github.com/citra-emu/citra//pull/6358/files) | Updates to github actions | [vitor-k](https://github.com/vitor-k/) | Yes |
+| [6362](https://github.com/citra-emu/citra//pull/6362) | [`2f4b7ed83`](https://github.com/citra-emu/citra//pull/6362/files) | applet: Fix HLE applet pre-start lifecycle. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6364](https://github.com/citra-emu/citra//pull/6364) | [`f1c282775`](https://github.com/citra-emu/citra//pull/6364/files) | kernel: Set system error status on svcBreak. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6366](https://github.com/citra-emu/citra//pull/6366) | [`ed8650933`](https://github.com/citra-emu/citra//pull/6366/files) | video_core: Fix distance vector used when calculating lighting distance attenuation. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
