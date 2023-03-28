@@ -74,8 +74,7 @@ System::~System() = default;
 
 System::ResultStatus System::RunLoop(bool tight_loop) {
     status = ResultStatus::Success;
-    if (std::any_of(cpu_cores.begin(), cpu_cores.end(),
-                    [](std::shared_ptr<ARM_Interface> ptr) { return ptr == nullptr; })) {
+    if (!IsPoweredOn()) {
         return ResultStatus::ErrorNotInitialized;
     }
 
