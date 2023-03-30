@@ -1,3 +1,18 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6358](https://github.com/citra-emu/citra//pull/6358) | [`653e1e2d2`](https://github.com/citra-emu/citra//pull/6358/files) | Updates to github actions | [vitor-k](https://github.com/vitor-k/) | Yes |
+| [6366](https://github.com/citra-emu/citra//pull/6366) | [`fc3a6ec45`](https://github.com/citra-emu/citra//pull/6366/files) | video_core: Fix distance vector used when calculating lighting distance attenuation. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6372](https://github.com/citra-emu/citra//pull/6372) | [`c8b48bc66`](https://github.com/citra-emu/citra//pull/6372/files) | PlatformGamesFragment.java: Run PullToRefresh on a background thread | [SachinVin](https://github.com/SachinVin/) | Yes |
+| [6373](https://github.com/citra-emu/citra//pull/6373) | [`cec60acc9`](https://github.com/citra-emu/citra//pull/6373/files) | citra_android: fix crash while load amiibo | [hank121314](https://github.com/hank121314/) | Yes |
+| [6381](https://github.com/citra-emu/citra//pull/6381) | [`60a91c0ba`](https://github.com/citra-emu/citra//pull/6381/files) | qt: Hide system titles with invisible or invalid SMDH data. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6383](https://github.com/citra-emu/citra//pull/6383) | [`16deae081`](https://github.com/citra-emu/citra//pull/6383/files) | file_sys: Attempt to open New 3DS variant NCCH if available. | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
