@@ -128,6 +128,7 @@ std::optional<std::vector<ShaderDiskCacheRaw>> ShaderDiskCache::LoadTransferable
         LOG_ERROR(Render_OpenGL,
                   "Failed to get transferable cache version for title id={} - skipping",
                   GetTitleID());
+        InvalidateAll();
         return std::nullopt;
     }
 
@@ -148,6 +149,7 @@ std::optional<std::vector<ShaderDiskCacheRaw>> ShaderDiskCache::LoadTransferable
         TransferableEntryKind kind{};
         if (transferable_file.ReadBytes(&kind, sizeof(u32)) != sizeof(u32)) {
             LOG_ERROR(Render_OpenGL, "Failed to read transferable file - skipping");
+            InvalidateAll();
             return std::nullopt;
         }
 
@@ -156,6 +158,7 @@ std::optional<std::vector<ShaderDiskCacheRaw>> ShaderDiskCache::LoadTransferable
             ShaderDiskCacheRaw entry;
             if (!entry.Load(transferable_file)) {
                 LOG_ERROR(Render_OpenGL, "Failed to load transferable raw entry - skipping");
+                InvalidateAll();
                 return std::nullopt;
             }
             transferable.emplace(entry.GetUniqueIdentifier(), ShaderDiskCacheRaw{});
@@ -165,6 +168,7 @@ std::optional<std::vector<ShaderDiskCacheRaw>> ShaderDiskCache::LoadTransferable
         default:
             LOG_ERROR(Render_OpenGL, "Unknown transferable shader cache entry kind={} - skipping",
                       kind);
+            InvalidateAll();
             return std::nullopt;
         }
     }
@@ -516,6 +520,8 @@ void ShaderDiskCache::SaveVirtualPrecompiledFile() {
                   precompiled_path);
         return;
     }
+
+    precompiled_file.Flush();
 }
 
 bool ShaderDiskCache::EnsureDirectories() const {
