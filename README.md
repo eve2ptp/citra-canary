@@ -1,3 +1,21 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6334](https://github.com/citra-emu/citra//pull/6334) | [`8e9522bf7`](https://github.com/citra-emu/citra//pull/6334/files) | gl_rasterizer: HP Bar Fix for some games | [Polar-Zero](https://github.com/Polar-Zero/) | Yes |
+| [6340](https://github.com/citra-emu/citra//pull/6340) | [`775f1a6eb`](https://github.com/citra-emu/citra//pull/6340/files) | service: nfc: Implement amiibo encryption and appdata | [german77](https://github.com/german77/) | Yes |
+| [6358](https://github.com/citra-emu/citra//pull/6358) | [`653e1e2d2`](https://github.com/citra-emu/citra//pull/6358/files) | Updates to github actions | [vitor-k](https://github.com/vitor-k/) | Yes |
+| [6381](https://github.com/citra-emu/citra//pull/6381) | [`60a91c0ba`](https://github.com/citra-emu/citra//pull/6381/files) | qt: Hide system titles with invisible or invalid SMDH data. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6383](https://github.com/citra-emu/citra//pull/6383) | [`16deae081`](https://github.com/citra-emu/citra//pull/6383/files) | file_sys: Attempt to open New 3DS variant NCCH if available. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6386](https://github.com/citra-emu/citra//pull/6386) | [`ce115869c`](https://github.com/citra-emu/citra//pull/6386/files) | Allow adjusting the screen refresh rate | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6391](https://github.com/citra-emu/citra//pull/6391) | [`f0db7b71e`](https://github.com/citra-emu/citra//pull/6391/files) | android: Clean up overlay controls and avoid triggering touch screen when a button is pressed | [german77](https://github.com/german77/) | Yes |
+| [6392](https://github.com/citra-emu/citra//pull/6392) | [`5defe6e8c`](https://github.com/citra-emu/citra//pull/6392/files) | gl_shader_disk_cache.cpp: Invalidate Tranferable cache on error | [SachinVin](https://github.com/SachinVin/) | Yes |
+| [6400](https://github.com/citra-emu/citra//pull/6400) | [`b74a2e6a1`](https://github.com/citra-emu/citra//pull/6400/files) | citra_android: fix select root as citra directory cause crash | [hank121314](https://github.com/hank121314/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
