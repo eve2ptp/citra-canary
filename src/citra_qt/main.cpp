@@ -2779,6 +2779,12 @@ int main(int argc, char* argv[]) {
     QCoreApplication::setOrganizationName(QStringLiteral("Citra team"));
     QCoreApplication::setApplicationName(QStringLiteral("Citra"));
 
+    QSurfaceFormat format = QSurfaceFormat::defaultFormat();
+    format.setSwapInterval(0);
+    // TODO: expose a setting for buffer value (ie default/single/double/triple)
+    format.setSwapBehavior(QSurfaceFormat::DefaultSwapBehavior);
+    QSurfaceFormat::setDefaultFormat(format);
+
     SetHighDPIAttributes();
 
 #ifdef __APPLE__
