@@ -14,9 +14,8 @@ class Bicubic : public TextureFilterBase {
 public:
     static constexpr std::string_view NAME = "Bicubic";
 
-    explicit Bicubic(u16 scale_factor);
-    void Filter(const OGLTexture& src_tex, Common::Rectangle<u32> src_rect,
-                const OGLTexture& dst_tex, Common::Rectangle<u32> dst_rect) override;
+    explicit Bicubic(u32 scale_factor);
+    void Filter(GLuint src_tex, GLuint dst_tex, const VideoCore::TextureBlit& blit) override;
 
 private:
     OpenGLState state{};
