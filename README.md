@@ -1,3 +1,23 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6340](https://github.com/citra-emu/citra//pull/6340) | [`775f1a6eb`](https://github.com/citra-emu/citra//pull/6340/files) | service: nfc: Implement amiibo encryption and appdata | [german77](https://github.com/german77/) | Yes |
+| [6358](https://github.com/citra-emu/citra//pull/6358) | [`aec70ed59`](https://github.com/citra-emu/citra//pull/6358/files) | Updates to github actions | [vitor-k](https://github.com/vitor-k/) | Yes |
+| [6375](https://github.com/citra-emu/citra//pull/6375) | [`6c4249e63`](https://github.com/citra-emu/citra//pull/6375/files) | Rasterizer cache refactor | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6386](https://github.com/citra-emu/citra//pull/6386) | [`ce115869c`](https://github.com/citra-emu/citra//pull/6386/files) | Allow adjusting the screen refresh rate | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6391](https://github.com/citra-emu/citra//pull/6391) | [`f0db7b71e`](https://github.com/citra-emu/citra//pull/6391/files) | android: Clean up overlay controls and avoid triggering touch screen when a button is pressed | [german77](https://github.com/german77/) | Yes |
+| [6392](https://github.com/citra-emu/citra//pull/6392) | [`d2883d5ee`](https://github.com/citra-emu/citra//pull/6392/files) | gl_shader_disk_cache.cpp: Invalidate Tranferable cache on error | [SachinVin](https://github.com/SachinVin/) | Yes |
+| [6400](https://github.com/citra-emu/citra//pull/6400) | [`5caf2d2d4`](https://github.com/citra-emu/citra//pull/6400/files) | citra_android: fix select root as citra directory cause crash | [hank121314](https://github.com/hank121314/) | Yes |
+| [6407](https://github.com/citra-emu/citra//pull/6407) | [`f3e8a3e2e`](https://github.com/citra-emu/citra//pull/6407/files) | kernel: Skip address range checks for privileged memory (un)map. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6408](https://github.com/citra-emu/citra//pull/6408) | [`a4cf6071c`](https://github.com/citra-emu/citra//pull/6408/files) | citra_android: fix config is getting overwritten by default | [hank121314](https://github.com/hank121314/) | Yes |
+| [6410](https://github.com/citra-emu/citra//pull/6410) | [`b4ef3cdef`](https://github.com/citra-emu/citra//pull/6410/files) | citra_qt: fix vsync issues | [vitor-k](https://github.com/vitor-k/) | Yes |
+| [6412](https://github.com/citra-emu/citra//pull/6412) | [`aac0e07d1`](https://github.com/citra-emu/citra//pull/6412/files) | Port yuzu-emu/yuzu#7410: "Wayland fixes" | [GPUCode](https://github.com/GPUCode/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
