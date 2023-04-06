@@ -61,9 +61,6 @@ public:
     void Allocate(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width,
                   GLsizei height = 1, GLsizei depth = 1);
 
-    void CopyFrom(const OGLTexture& other, GLenum target, GLsizei levels, GLsizei width,
-                  GLsizei height);
-
     GLuint handle = 0;
 };
 
@@ -108,7 +105,7 @@ public:
         return *this;
     }
 
-    void Create(const char* source, GLenum type);
+    void Create(std::string_view source, GLenum type);
 
     void Release();
 
@@ -135,12 +132,41 @@ public:
     void Create(bool separable_program, const std::vector<GLuint>& shaders);
 
     /// Creates a new program from given shader soruce code
-    void Create(const char* vert_shader, const char* frag_shader);
+    void Create(std::string_view vert_shader, std::string_view frag_shader);
 
     /// Deletes the internal OpenGL resource
     void Release();
 
     GLuint handle = 0;
+};
+
+class OGLSync final : private NonCopyable {
+public:
+    OGLSync() = default;
+
+    OGLSync(OGLSync&& o) noexcept : handle(std::exchange(o.handle, nullptr)) {}
+
+    ~OGLSync() {
+        Release();
+    }
+
+    OGLSync& operator=(OGLSync&& o) noexcept {
+        Release();
+        handle = std::exchange(o.handle, nullptr);
+        return *this;
+    }
+
+    explicit operator bool() const noexcept {
+        return handle != 0;
+    }
+
+    /// Creates a new internal OpenGL resource and stores the handle
+    void Create();
+
+    /// Deletes the internal OpenGL resource
+    void Release();
+
+    GLsync handle = 0;
 };
 
 class OGLPipeline : private NonCopyable {
