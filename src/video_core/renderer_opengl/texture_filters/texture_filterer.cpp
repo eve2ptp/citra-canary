@@ -1,4 +1,4 @@
-/// Copyright 2020 Citra Emulator Project
+// Copyright 2020 Citra Emulator Project
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
 
@@ -6,6 +6,7 @@
 #include <functional>
 #include <unordered_map>
 #include "common/logging/log.h"
+#include "video_core/rasterizer_cache/pixel_format.h"
 #include "video_core/renderer_opengl/texture_filters/anime4k/anime4k_ultrafast.h"
 #include "video_core/renderer_opengl/texture_filters/bicubic/bicubic.h"
 #include "video_core/renderer_opengl/texture_filters/nearest_neighbor/nearest_neighbor.h"
@@ -18,15 +19,15 @@ namespace OpenGL {
 
 namespace {
 
-using TextureFilterContructor = std::function<std::unique_ptr<TextureFilterBase>(u16)>;
+using TextureFilterContructor = std::function<std::unique_ptr<TextureFilterBase>(u32)>;
 
 template <typename T>
 std::pair<std::string_view, TextureFilterContructor> FilterMapPair() {
-    return {T::NAME, std::make_unique<T, u16>};
+    return {T::NAME, std::make_unique<T, u32>};
 };
 
 static const std::unordered_map<std::string_view, TextureFilterContructor> filter_map{
-    {TextureFilterer::NONE, [](u16) { return nullptr; }},
+    {TextureFilterer::NONE, [](u32) { return nullptr; }},
     FilterMapPair<Anime4kUltrafast>(),
     FilterMapPair<Bicubic>(),
     FilterMapPair<NearestNeighbor>(),
@@ -36,11 +37,11 @@ static const std::unordered_map<std::string_view, TextureFilterContructor> filte
 
 } // namespace
 
-TextureFilterer::TextureFilterer(std::string_view filter_name, u16 scale_factor) {
+TextureFilterer::TextureFilterer(std::string_view filter_name, u32 scale_factor) {
     Reset(filter_name, scale_factor);
 }
 
-bool TextureFilterer::Reset(std::string_view new_filter_name, u16 new_scale_factor) {
+bool TextureFilterer::Reset(std::string_view new_filter_name, u32 new_scale_factor) {
     if (filter_name == new_filter_name && (IsNull() || filter->scale_factor == new_scale_factor))
         return false;
 
@@ -60,16 +61,16 @@ bool TextureFilterer::IsNull() const {
     return !filter;
 }
 
-bool TextureFilterer::Filter(const OGLTexture& src_tex, Common::Rectangle<u32> src_rect,
-                             const OGLTexture& dst_tex, Common::Rectangle<u32> dst_rect,
-                             SurfaceType type) {
+bool TextureFilterer::Filter(GLuint src_tex, GLuint dst_tex, const VideoCore::TextureBlit& blit,
+                             VideoCore::SurfaceType type) const {
 
     // Depth/Stencil texture filtering is not supported for now
-    if (IsNull() || (type != SurfaceType::Color && type != SurfaceType::Texture)) {
+    if (IsNull() ||
+        (type != VideoCore::SurfaceType::Color && type != VideoCore::SurfaceType::Texture)) {
         return false;
     }
 
-    filter->Filter(src_tex, src_rect, dst_tex, dst_rect);
+    filter->Filter(src_tex, dst_tex, blit);
     return true;
 }
 
