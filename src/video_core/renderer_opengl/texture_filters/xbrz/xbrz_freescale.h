@@ -13,9 +13,8 @@ class XbrzFreescale : public TextureFilterBase {
 public:
     static constexpr std::string_view NAME = "xBRZ freescale";
 
-    explicit XbrzFreescale(u16 scale_factor);
-    void Filter(const OGLTexture& src_tex, Common::Rectangle<u32> src_rect,
-                const OGLTexture& dst_tex, Common::Rectangle<u32> dst_rect) override;
+    explicit XbrzFreescale(u32 scale_factor);
+    void Filter(GLuint src_tex, GLuint dst_tex, const VideoCore::TextureBlit& blit) override;
 
 private:
     OpenGLState state{};
