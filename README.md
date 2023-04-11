@@ -1,3 +1,18 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6340](https://github.com/citra-emu/citra//pull/6340) | [`775f1a6eb`](https://github.com/citra-emu/citra//pull/6340/files) | service: nfc: Implement amiibo encryption and appdata | [german77](https://github.com/german77/) | Yes |
+| [6375](https://github.com/citra-emu/citra//pull/6375) | [`6c4249e63`](https://github.com/citra-emu/citra//pull/6375/files) | Rasterizer cache refactor | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6386](https://github.com/citra-emu/citra//pull/6386) | [`94a46c4b8`](https://github.com/citra-emu/citra//pull/6386/files) | Allow adjusting the screen refresh rate | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6395](https://github.com/citra-emu/citra//pull/6395) | [`6f37977c5`](https://github.com/citra-emu/citra//pull/6395/files) | Initial port of luma3ds' gdb_hio to Citra | [ian-h-chamberlain](https://github.com/ian-h-chamberlain/) | Yes |
+| [6419](https://github.com/citra-emu/citra//pull/6419) | [`dccd89b79`](https://github.com/citra-emu/citra//pull/6419/files) | Update zstd and improve savestates logging | [vitor-k](https://github.com/vitor-k/) | Yes |
+| [6422](https://github.com/citra-emu/citra//pull/6422) | [`3c6c96a71`](https://github.com/citra-emu/citra//pull/6422/files) | renderer_opengl.cpp: Draw{Top, Bottom}Screen Clean up | [SachinVin](https://github.com/SachinVin/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
