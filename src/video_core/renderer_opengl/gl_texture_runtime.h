@@ -33,6 +33,7 @@ struct HostTextureTag {
     u32 height = 0;
     u32 levels = 1;
     u32 res_scale = 1;
+    u32 is_custom = 0;
 
     bool operator==(const HostTextureTag& other) const noexcept {
         return std::tie(tuple, type, width, height, levels, res_scale) ==
@@ -55,14 +56,13 @@ struct Allocation {
     u32 height;
     u32 levels;
     u32 res_scale;
+    bool is_custom;
 
     operator bool() const noexcept {
         return textures[0].handle;
     }
 
-    bool Matches(u32 width_, u32 height_, u32 levels_, const FormatTuple& tuple_) const {
-        return std::tie(width, height, levels, tuple) == std::tie(width_, height_, levels_, tuple_);
-    }
+    HostTextureTag MakeTag(VideoCore::TextureType texture_type) const noexcept;
 };
 
 class Surface;
@@ -90,12 +90,13 @@ public:
 
     /// Returns the OpenGL format tuple associated with the provided pixel format
     const FormatTuple& GetFormatTuple(VideoCore::PixelFormat pixel_format) const;
+    const FormatTuple& GetFormatTuple(VideoCore::CustomPixelFormat pixel_format);
 
     /// Takes back ownership of the allocation for recycling
     void Recycle(const HostTextureTag tag, Allocation&& alloc);
 
     /// Allocates an OpenGL texture with the specified dimentions and format
-    Allocation Allocate(const VideoCore::SurfaceParams& params);
+    Allocation Allocate(const VideoCore::SurfaceParams& params, bool is_custom = false);
 
     /// Fills the rectangle of the texture with the clear value provided
     bool ClearTexture(Surface& surface, const VideoCore::TextureClear& clear);
@@ -107,7 +108,7 @@ public:
     bool BlitTextures(Surface& source, Surface& dest, const VideoCore::TextureBlit& blit);
 
     /// Generates mipmaps for all the available levels of the texture
-    void GenerateMipmaps(Surface& surface, u32 max_level);
+    void GenerateMipmaps(Surface& surface);
 
     /// Returns all source formats that support reinterpretation to the dest format
     const ReinterpreterList& GetPossibleReinterpretations(VideoCore::PixelFormat dest_format) const;
@@ -150,6 +151,11 @@ public:
         return alloc.tuple;
     }
 
+    /// Returns the extent of the underlying surface allocation
+    VideoCore::Extent Extent() const noexcept {
+        return {alloc.width, alloc.height};
+    }
+
     /// Uploads pixel data in staging to a rectangle region of the surface texture
     void Upload(const VideoCore::BufferTextureCopy& upload, const VideoCore::StagingData& staging);
 
@@ -159,6 +165,9 @@ public:
 
     /// Attaches a handle of surface to the specified framebuffer target
     void Attach(GLenum target, u32 level, u32 layer, bool scaled = true);
+
+    /// Swaps the internal allocation to match the provided dimentions and format
+    bool Swap(u32 width, u32 height, VideoCore::CustomPixelFormat format);
 
     /// Returns the bpp of the internal surface format
     u32 GetInternalBytesPerPixel() const;

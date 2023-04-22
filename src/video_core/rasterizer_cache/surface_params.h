@@ -46,7 +46,7 @@ public:
     u32 LevelOf(PAddr addr) const;
 
     /// Returns a string identifier of the params object
-    std::string DebugName(bool scaled) const noexcept;
+    std::string DebugName(bool scaled, bool custom) const noexcept;
 
     [[nodiscard]] SurfaceInterval GetInterval() const noexcept {
         return SurfaceInterval{addr, end};
@@ -101,6 +101,7 @@ public:
     bool is_tiled = false;
     TextureType texture_type = TextureType::Texture2D;
     PixelFormat pixel_format = PixelFormat::Invalid;
+    CustomPixelFormat custom_format = CustomPixelFormat::Invalid;
     SurfaceType type = SurfaceType::Invalid;
 
     std::array<u32, MAX_PICA_LEVELS> mipmap_offsets{};

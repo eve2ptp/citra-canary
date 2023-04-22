@@ -28,6 +28,9 @@ add_library(video_core STATIC
     regs_texturing.h
     renderer_base.cpp
     renderer_base.h
+    rasterizer_cache/custom_tex_manager.cpp
+    rasterizer_cache/custom_tex_manager.h
+    rasterizer_cache/default_pack_ini.h
     rasterizer_cache/framebuffer_base.cpp
     rasterizer_cache/framebuffer_base.h
     rasterizer_cache/pixel_format.cpp

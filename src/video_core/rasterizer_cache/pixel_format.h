@@ -35,6 +35,18 @@ enum class PixelFormat : u32 {
 };
 constexpr std::size_t PIXEL_FORMAT_COUNT = static_cast<std::size_t>(PixelFormat::MaxPixelFormat);
 
+enum class CustomPixelFormat : u32 {
+    RGBA8 = 0,
+    BC1 = 1,
+    BC3 = 2,
+    BC5 = 3,
+    BC7 = 4,
+    ASTC4 = 5,
+    ASTC6 = 6,
+    ASTC8 = 7,
+    Invalid = std::numeric_limits<u32>::max(),
+};
+
 enum class SurfaceType : u32 {
     Color = 0,
     Texture = 1,
@@ -99,9 +111,13 @@ constexpr SurfaceType GetFormatType(PixelFormat format) {
     return FORMAT_MAP[index].type;
 }
 
+bool CheckFormatsBlittable(PixelFormat source_format, PixelFormat dest_format);
+
+bool IsCustomFormatCompressed(CustomPixelFormat format);
+
 std::string_view PixelFormatAsString(PixelFormat format);
 
-bool CheckFormatsBlittable(PixelFormat source_format, PixelFormat dest_format);
+std::string_view CustomPixelFormatAsString(CustomPixelFormat format);
 
 PixelFormat PixelFormatFromTextureFormat(Pica::TexturingRegs::TextureFormat format);
 

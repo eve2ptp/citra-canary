@@ -8,6 +8,7 @@
 #include "common/logging/log.h"
 #include "common/microprofile.h"
 #include "core/memory.h"
+#include "video_core/rasterizer_cache/custom_tex_manager.h"
 #include "video_core/rasterizer_cache/rasterizer_cache.h"
 #include "video_core/regs.h"
 #include "video_core/renderer_base.h"
@@ -19,6 +20,15 @@ namespace {
 
 MICROPROFILE_DEFINE(RasterizerCache_CopySurface, "RasterizerCache", "CopySurface",
                     MP_RGB(128, 192, 64));
+MICROPROFILE_DEFINE(RasterizerCache_UploadSurface, "RasterizerCache", "UploadSurface",
+                    MP_RGB(128, 192, 64));
+MICROPROFILE_DEFINE(RasterizerCache_ComputeHash, "RasterizerCache", "ComputeHash",
+                    MP_RGB(32, 64, 192));
+MICROPROFILE_DEFINE(RasterizerCache_DownloadSurface, "RasterizerCache", "DownloadSurface",
+                    MP_RGB(128, 192, 64));
+MICROPROFILE_DEFINE(RasterizerCache_Invalidation, "RasterizerCache", "Invalidation",
+                    MP_RGB(128, 64, 192));
+MICROPROFILE_DEFINE(RasterizerCache_Flush, "RasterizerCache", "Flush", MP_RGB(128, 64, 192));
 
 constexpr auto RangeFromInterval(const auto& map, const auto& interval) {
     return boost::make_iterator_range(map.equal_range(interval));
@@ -119,17 +129,46 @@ auto FindMatch(const auto& surface_cache, const SurfaceParams& params, ScaleMatc
 
 } // Anonymous namespace
 
-RasterizerCache::RasterizerCache(Memory::MemorySystem& memory_, OpenGL::TextureRuntime& runtime_,
-                                 Pica::Regs& regs_, RendererBase& renderer_)
-    : memory{memory_}, runtime{runtime_}, regs{regs_}, renderer{renderer_},
-      resolution_scale_factor{renderer.GetResolutionScaleFactor()},
-      use_filter{Settings::values.texture_filter.GetValue() != Settings::TextureFilter::None} {}
+RasterizerCache::RasterizerCache(Memory::MemorySystem& memory_,
+                                 CustomTexManager& custom_tex_manager_,
+                                 OpenGL::TextureRuntime& runtime_, Pica::Regs& regs_,
+                                 RendererBase& renderer_)
+    : memory{memory_}, custom_tex_manager{custom_tex_manager_}, runtime{runtime_}, regs{regs_},
+      renderer{renderer_}, resolution_scale_factor{renderer.GetResolutionScaleFactor()},
+      use_filter{Settings::values.texture_filter.GetValue() != Settings::TextureFilter::None},
+      dump_textures{Settings::values.dump_textures.GetValue()},
+      use_custom_textures{Settings::values.custom_textures.GetValue()} {}
 
 RasterizerCache::~RasterizerCache() {
 #ifndef ANDROID
     // This is for switching renderers, which is unsupported on Android, and costly on shutdown
     ClearAll(false);
 #endif
+}
+
+void RasterizerCache::TickFrame() {
+    custom_tex_manager.TickFrame();
+
+    const u32 scale_factor = renderer.GetResolutionScaleFactor();
+    const bool resolution_scale_changed = resolution_scale_factor != scale_factor;
+    const bool use_custom_texture_changed =
+        Settings::values.custom_textures.GetValue() != use_custom_textures;
+    const bool texture_filter_changed =
+        renderer.Settings().texture_filter_update_requested.exchange(false);
+
+    if (resolution_scale_changed || texture_filter_changed || use_custom_texture_changed) {
+        resolution_scale_factor = scale_factor;
+        use_filter = Settings::values.texture_filter.GetValue() != Settings::TextureFilter::None;
+        use_custom_textures = Settings::values.custom_textures.GetValue();
+        if (use_custom_textures) {
+            custom_tex_manager.FindCustomTextures();
+        }
+        FlushAll();
+        while (!surface_cache.empty()) {
+            UnregisterSurface(*surface_cache.begin()->second.begin());
+        }
+        texture_cube_cache.clear();
+    }
 }
 
 bool RasterizerCache::AccelerateTextureCopy(const GPU::Regs::DisplayTransferConfig& config) {
@@ -572,21 +611,6 @@ OpenGL::Framebuffer RasterizerCache::GetFramebufferSurfaces(bool using_color_fb,
                                                             bool using_depth_fb) {
     const auto& config = regs.framebuffer.framebuffer;
 
-    // Update resolution_scale_factor and reset cache if changed
-    const u32 scale_factor = renderer.GetResolutionScaleFactor();
-    const bool resolution_scale_changed = resolution_scale_factor != scale_factor;
-    const bool texture_filter_changed =
-        renderer.Settings().texture_filter_update_requested.exchange(false);
-
-    if (resolution_scale_changed || texture_filter_changed) {
-        resolution_scale_factor = scale_factor;
-        use_filter = Settings::values.texture_filter.GetValue() != Settings::TextureFilter::None;
-        FlushAll();
-        while (!surface_cache.empty())
-            UnregisterSurface(*surface_cache.begin()->second.begin());
-        texture_cube_cache.clear();
-    }
-
     const s32 framebuffer_width = config.GetWidth();
     const s32 framebuffer_height = config.GetHeight();
     const auto viewport_rect = regs.rasterizer.GetViewportRect();
@@ -818,11 +842,13 @@ void RasterizerCache::ValidateSurface(const SurfaceRef& surface, PAddr addr, u32
     // Filtered mipmaps often look really bad. We can achieve better quality by
     // generating them from the base level.
     if (surface->res_scale != 1 && level != 0) {
-        runtime.GenerateMipmaps(*surface, surface->levels - 1);
+        runtime.GenerateMipmaps(*surface);
     }
 }
 
 void RasterizerCache::UploadSurface(const SurfaceRef& surface, SurfaceInterval interval) {
+    MICROPROFILE_SCOPE(RasterizerCache_UploadSurface);
+
     const SurfaceParams load_info = surface->FromInterval(interval);
     ASSERT(load_info.addr >= surface->addr && load_info.end <= surface->end);
 
@@ -838,6 +864,23 @@ void RasterizerCache::UploadSurface(const SurfaceRef& surface, SurfaceInterval i
     DecodeTexture(load_info, load_info.addr, load_info.end, upload_data, staging.mapped,
                   runtime.NeedsConversion(surface->pixel_format));
 
+    // Check if we need to dump the texture.
+    if (dump_textures) {
+        // NOTE: The dumper will always dump using the new hash method.
+        // Hopefully this will improve its adoption rate.
+        const u64 hash = Common::ComputeHash64(upload_data.data(), upload_data.size());
+        const u32 level = surface->LevelOf(load_info.addr);
+        custom_tex_manager.DumpTexture(load_info, level, upload_data, hash);
+    }
+
+    // Check if we need to replace the texture
+    if (use_custom_textures) {
+        const u64 hash = ComputeCustomHash(load_info, staging.mapped, upload_data);
+        if (UploadCustomSurface(surface, load_info, hash)) {
+            return;
+        }
+    }
+
     const BufferTextureCopy upload = {
         .buffer_offset = 0,
         .buffer_size = staging.size,
@@ -847,7 +890,87 @@ void RasterizerCache::UploadSurface(const SurfaceRef& surface, SurfaceInterval i
     surface->Upload(upload, staging);
 }
 
+bool RasterizerCache::UploadCustomSurface(const SurfaceRef& surface, const SurfaceParams& load_info,
+                                          u64 hash) {
+    const u32 level = surface->LevelOf(load_info.addr);
+    const bool is_base_level = level == 0;
+    CustomTexture* texture = custom_tex_manager.GetTexture(hash);
+
+    // Some packs provide the base level but not any mipmaps and
+    // we shouldn't fallback to normal upload if the surface is already custom.
+    if (!texture) {
+        return surface->IsCustom();
+    }
+
+    // Legacy packs don't handle mipmaps well. Often they are provided but improperly
+    // upscaled. Other times they aren't provided at all, leaving black textures at a
+    // distance or past textures from recycled allocations. So skip them.
+    if (!is_base_level && custom_tex_manager.SkipMipmaps()) {
+        return true;
+    }
+
+    const auto upload = [this, level, surface, texture]() -> bool {
+        // Swap the internal surface allocation to the desired dimentions and format.
+        const u32 base_width = texture->width << level;
+        const u32 base_height = texture->height << level;
+        if (!surface->IsCustom() && !surface->Swap(base_width, base_height, texture->format)) {
+            // This means the backend doesn't support the custom compression format.
+            // We could implement a CPU/GPU decoder but it's always better for packs to
+            // have compatible compression formats.
+            LOG_ERROR(HW_GPU, "Custom compressed format {} unsupported by host GPU",
+                      texture->format);
+            return false;
+        }
+
+        // Copy and decode the custom texture to the staging buffer
+        const u32 custom_size = static_cast<u32>(texture->data.size());
+        StagingData staging = runtime.FindStaging(custom_size, true);
+        std::memcpy(staging.mapped.data(), texture->data.data(), custom_size);
+
+        // Upload surface
+        const BufferTextureCopy upload = {
+            .buffer_offset = 0,
+            .buffer_size = custom_size,
+            .texture_rect = {0, texture->height, texture->width, 0},
+            .texture_level = level,
+        };
+        surface->Upload(upload, staging);
+
+        // For old packs we can't rely on mipmaps existing so generate them
+        if (custom_tex_manager.SkipMipmaps()) {
+            runtime.GenerateMipmaps(*surface);
+        }
+        return true;
+    };
+
+    return custom_tex_manager.Decode(texture, std::move(upload));
+}
+
+u64 RasterizerCache::ComputeCustomHash(const SurfaceParams& load_info, std::span<u8> decoded,
+                                       std::span<u8> upload_data) {
+    MICROPROFILE_SCOPE(RasterizerCache_ComputeHash);
+
+    // Hashing the 3DS data directly is much more efficient compared to the decoded data.
+    if (custom_tex_manager.UseNewHash()) {
+        return Common::ComputeHash64(upload_data.data(), upload_data.size());
+    }
+
+    // If the data wasn't converted by the backend we can hash the decoded data directly.
+    if (!runtime.NeedsConversion(load_info.pixel_format)) {
+        return Common::ComputeHash64(decoded.data(), decoded.size());
+    }
+
+    // Worst case, manually decode to calculate the compatible hash.
+    const u32 decoded_size =
+        load_info.width * load_info.height * GetFormatBytesPerPixel(load_info.pixel_format);
+    std::vector<u8> target(decoded_size);
+    DecodeTexture(load_info, load_info.addr, load_info.end, upload_data, target);
+    return Common::ComputeHash64(target.data(), target.size());
+}
+
 void RasterizerCache::DownloadSurface(const SurfaceRef& surface, SurfaceInterval interval) {
+    MICROPROFILE_SCOPE(RasterizerCache_DownloadSurface);
+
     const SurfaceParams flush_info = surface->FromInterval(interval);
     const u32 flush_start = boost::icl::first(interval);
     const u32 flush_end = boost::icl::last_next(interval);

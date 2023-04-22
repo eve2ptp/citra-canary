@@ -3,7 +3,6 @@
 // Refer to the license.txt file included.
 
 #include "common/scope_exit.h"
-#include "common/settings.h"
 #include "video_core/regs.h"
 #include "video_core/renderer_base.h"
 #include "video_core/renderer_opengl/gl_driver.h"
@@ -16,6 +15,7 @@ namespace {
 
 using VideoCore::PixelFormat;
 using VideoCore::SurfaceType;
+using VideoCore::TextureType;
 
 constexpr FormatTuple DEFAULT_TUPLE = {GL_RGBA8, GL_RGBA, GL_UNSIGNED_BYTE};
 
@@ -40,6 +40,17 @@ static constexpr std::array<FormatTuple, 5> COLOR_TUPLES_OES = {{
     {GL_RGB5_A1, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1}, // RGB5A1
     {GL_RGB565, GL_RGB, GL_UNSIGNED_SHORT_5_6_5},     // RGB565
     {GL_RGBA4, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4},   // RGBA4
+}};
+
+static constexpr std::array<FormatTuple, 8> CUSTOM_TUPLES = {{
+    DEFAULT_TUPLE,
+    {GL_COMPRESSED_RGBA_S3TC_DXT1_EXT, GL_COMPRESSED_RGBA_S3TC_DXT1_EXT, GL_UNSIGNED_BYTE},
+    {GL_COMPRESSED_RGBA_S3TC_DXT5_EXT, GL_COMPRESSED_RGBA_S3TC_DXT5_EXT, GL_UNSIGNED_BYTE},
+    {GL_COMPRESSED_RG_RGTC2, GL_COMPRESSED_RG_RGTC2, GL_UNSIGNED_BYTE},
+    {GL_COMPRESSED_RGBA_BPTC_UNORM_ARB, GL_COMPRESSED_RGBA_BPTC_UNORM_ARB, GL_UNSIGNED_BYTE},
+    {GL_COMPRESSED_RGBA_ASTC_4x4, GL_COMPRESSED_RGBA_ASTC_4x4, GL_UNSIGNED_BYTE},
+    {GL_COMPRESSED_RGBA_ASTC_6x6, GL_COMPRESSED_RGBA_ASTC_6x6, GL_UNSIGNED_BYTE},
+    {GL_COMPRESSED_RGBA_ASTC_8x6, GL_COMPRESSED_RGBA_ASTC_8x6, GL_UNSIGNED_BYTE},
 }};
 
 struct FramebufferInfo {
@@ -153,19 +164,24 @@ const FormatTuple& TextureRuntime::GetFormatTuple(PixelFormat pixel_format) cons
     return DEFAULT_TUPLE;
 }
 
+const FormatTuple& TextureRuntime::GetFormatTuple(VideoCore::CustomPixelFormat pixel_format) {
+    const std::size_t format_index = static_cast<std::size_t>(pixel_format);
+    return CUSTOM_TUPLES[format_index];
+}
+
 void TextureRuntime::Recycle(const HostTextureTag tag, Allocation&& alloc) {
     recycler.emplace(tag, std::move(alloc));
 }
 
-Allocation TextureRuntime::Allocate(const VideoCore::SurfaceParams& params) {
+Allocation TextureRuntime::Allocate(const VideoCore::SurfaceParams& params, bool is_custom) {
     const u32 width = params.width;
     const u32 height = params.height;
     const u32 levels = params.levels;
     const GLenum target = params.texture_type == VideoCore::TextureType::CubeMap
                               ? GL_TEXTURE_CUBE_MAP
                               : GL_TEXTURE_2D;
-    const auto& tuple = GetFormatTuple(params.pixel_format);
-
+    const auto& tuple =
+        is_custom ? GetFormatTuple(params.custom_format) : GetFormatTuple(params.pixel_format);
     const HostTextureTag key = {
         .tuple = tuple,
         .type = params.texture_type,
@@ -173,11 +189,12 @@ Allocation TextureRuntime::Allocate(const VideoCore::SurfaceParams& params) {
         .height = height,
         .levels = levels,
         .res_scale = params.res_scale,
+        .is_custom = is_custom,
     };
 
     if (auto it = recycler.find(key); it != recycler.end()) {
         Allocation alloc = std::move(it->second);
-        ASSERT(alloc.res_scale == params.res_scale);
+        ASSERT(alloc.res_scale == params.res_scale && alloc.is_custom == is_custom);
         recycler.erase(it);
         return alloc;
     }
@@ -188,14 +205,20 @@ Allocation TextureRuntime::Allocate(const VideoCore::SurfaceParams& params) {
     std::array<OGLTexture, 2> textures{};
     std::array<GLuint, 2> handles{};
 
-    textures[0] = MakeHandle(target, width, height, levels, tuple, params.DebugName(false));
+    textures[0] =
+        MakeHandle(target, width, height, levels, tuple, params.DebugName(false, is_custom));
     handles.fill(textures[0].handle);
 
     if (params.res_scale != 1) {
-        const u32 scaled_width = params.GetScaledWidth();
-        const u32 scaled_height = params.GetScaledHeight();
-        textures[1] =
-            MakeHandle(target, scaled_width, scaled_height, levels, tuple, params.DebugName(true));
+        // When custom textures are used with texture filtering do not further
+        // scale up the texture since it's probably already quite high resolution.
+        // In addition force usage of RGBA8 because rendering to compressed formats
+        // isn't something any modern GPU supports.
+        const u32 scaled_width = is_custom ? width : params.GetScaledWidth();
+        const u32 scaled_height = is_custom ? height : params.GetScaledHeight();
+        const auto& scaled_tuple = is_custom ? GetFormatTuple(PixelFormat::RGBA8) : tuple;
+        textures[1] = MakeHandle(target, scaled_width, scaled_height, levels, scaled_tuple,
+                                 params.DebugName(true, is_custom));
         handles[1] = textures[1].handle;
     }
 
@@ -209,6 +232,7 @@ Allocation TextureRuntime::Allocate(const VideoCore::SurfaceParams& params) {
         .height = params.height,
         .levels = params.levels,
         .res_scale = params.res_scale,
+        .is_custom = is_custom,
     };
 }
 
@@ -311,20 +335,31 @@ bool TextureRuntime::BlitTextures(Surface& source, Surface& dest,
     return true;
 }
 
-void TextureRuntime::GenerateMipmaps(Surface& surface, u32 max_level) {
+void TextureRuntime::GenerateMipmaps(Surface& surface) {
     OpenGLState state = OpenGLState::GetCurState();
     state.texture_units[0].texture_2d = surface.Handle();
     state.Apply();
 
     glActiveTexture(GL_TEXTURE0);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, max_level);
-
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, surface.levels - 1);
     glGenerateMipmap(GL_TEXTURE_2D);
 }
 
 const ReinterpreterList& TextureRuntime::GetPossibleReinterpretations(
     PixelFormat dest_format) const {
     return reinterpreters[static_cast<u32>(dest_format)];
+}
+
+HostTextureTag Allocation::MakeTag(VideoCore::TextureType texture_type) const noexcept {
+    return HostTextureTag{
+        .tuple = tuple,
+        .type = texture_type,
+        .width = width,
+        .height = height,
+        .levels = levels,
+        .res_scale = res_scale,
+        .is_custom = is_custom,
+    };
 }
 
 Surface::Surface(TextureRuntime& runtime_, const VideoCore::SurfaceParams& params)
@@ -341,14 +376,7 @@ Surface::~Surface() {
         return;
     }
 
-    const HostTextureTag tag = {
-        .tuple = alloc.tuple,
-        .type = texture_type,
-        .width = alloc.width,
-        .height = alloc.height,
-        .levels = alloc.levels,
-        .res_scale = alloc.res_scale,
-    };
+    const HostTextureTag tag{alloc.MakeTag(texture_type)};
     runtime->Recycle(tag, std::move(alloc));
 }
 
@@ -366,20 +394,26 @@ void Surface::Upload(const VideoCore::BufferTextureCopy& upload,
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, Handle(false));
 
-    // Upload the requested rectangle of pixels
-    const auto& tuple = runtime->GetFormatTuple(pixel_format);
-    glTexSubImage2D(GL_TEXTURE_2D, upload.texture_level, upload.texture_rect.left,
-                    upload.texture_rect.bottom, unscaled_width, unscaled_height, tuple.format,
-                    tuple.type, staging.mapped.data());
+    const auto& tuple = alloc.tuple;
+    if (VideoCore::IsCustomFormatCompressed(custom_format)) {
+        glCompressedTexSubImage2D(GL_TEXTURE_2D, upload.texture_level, upload.texture_rect.left,
+                                  upload.texture_rect.bottom, unscaled_width, unscaled_height,
+                                  tuple.format, staging.size, staging.mapped.data());
+    } else {
+        glTexSubImage2D(GL_TEXTURE_2D, upload.texture_level, upload.texture_rect.left,
+                        upload.texture_rect.bottom, unscaled_width, unscaled_height, tuple.format,
+                        tuple.type, staging.mapped.data());
+    }
 
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
     glBindTexture(GL_TEXTURE_2D, old_tex);
 
+    // For custom allocations the scaled handle has the same dimentions as the non-scale one.
     const VideoCore::TextureBlit blit = {
         .src_level = upload.texture_level,
         .dst_level = upload.texture_level,
         .src_rect = upload.texture_rect,
-        .dst_rect = upload.texture_rect * res_scale,
+        .dst_rect = upload.texture_rect * (alloc.is_custom ? 1 : res_scale),
     };
 
     // If texture filtering is enabled attempt to upscale with that, otherwise fallback
@@ -471,24 +505,49 @@ bool Surface::DownloadWithoutFbo(const VideoCore::BufferTextureCopy& download,
 
 void Surface::Attach(GLenum target, u32 level, u32 layer, bool scaled) {
     const GLuint handle = Handle(scaled);
-    const GLenum textarget = texture_type == VideoCore::TextureType::CubeMap
+    const GLenum textarget = texture_type == TextureType::CubeMap
                                  ? GL_TEXTURE_CUBE_MAP_POSITIVE_X + layer
                                  : GL_TEXTURE_2D;
 
     switch (type) {
-    case VideoCore::SurfaceType::Color:
-    case VideoCore::SurfaceType::Texture:
+    case SurfaceType::Color:
+    case SurfaceType::Texture:
         glFramebufferTexture2D(target, GL_COLOR_ATTACHMENT0, textarget, handle, level);
         break;
-    case VideoCore::SurfaceType::Depth:
+    case SurfaceType::Depth:
         glFramebufferTexture2D(target, GL_DEPTH_ATTACHMENT, textarget, handle, level);
         break;
-    case VideoCore::SurfaceType::DepthStencil:
+    case SurfaceType::DepthStencil:
         glFramebufferTexture2D(target, GL_DEPTH_STENCIL_ATTACHMENT, textarget, handle, level);
         break;
     default:
         UNREACHABLE_MSG("Invalid surface type!");
     }
+}
+
+bool Surface::Swap(u32 width, u32 height, VideoCore::CustomPixelFormat format) {
+    if (!driver->IsCustomFormatSupported(format)) {
+        return false;
+    }
+
+    // Recyle previous allocation.
+    const HostTextureTag tag{alloc.MakeTag(texture_type)};
+    runtime->Recycle(tag, std::move(alloc));
+
+    SurfaceParams params = *this;
+    params.width = width;
+    params.height = height;
+    params.custom_format = format;
+    alloc = runtime->Allocate(params, true);
+
+    LOG_DEBUG(Render_OpenGL, "Swapped {}x{} {} surface at address {:#x} to {}x{} {}",
+              GetScaledWidth(), GetScaledHeight(), VideoCore::PixelFormatAsString(pixel_format),
+              addr, width, height, VideoCore::CustomPixelFormatAsString(format));
+
+    is_custom = true;
+    custom_format = format;
+
+    return true;
 }
 
 u32 Surface::GetInternalBytesPerPixel() const {
