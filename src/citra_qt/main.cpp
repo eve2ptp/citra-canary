@@ -272,8 +272,50 @@ GMainWindow::GMainWindow()
     }
 
     QStringList args = QApplication::arguments();
-    if (args.length() >= 2) {
-        BootGame(args[1]);
+    if (args.size() < 2) {
+        return;
+    }
+
+    QString game_path;
+    bool has_gamepath = false;
+    bool is_fullscreen = false;
+
+    for (int i = 1; i < args.size(); ++i) {
+        // Preserves drag/drop functionality
+        if (args.size() == 2 && !args[1].startsWith(QChar::fromLatin1('-'))) {
+            game_path = args[1];
+            has_gamepath = true;
+            break;
+        }
+
+        // Launch game in fullscreen mode
+        if (args[i] == QStringLiteral("-f")) {
+            is_fullscreen = true;
+            continue;
+        }
+
+        // Launch game at path
+        if (args[i] == QStringLiteral("-g")) {
+            if (i >= args.size() - 1) {
+                continue;
+            }
+
+            if (args[i + 1].startsWith(QChar::fromLatin1('-'))) {
+                continue;
+            }
+
+            game_path = args[++i];
+            has_gamepath = true;
+        }
+    }
+
+    // Override fullscreen setting if gamepath or argument is provided
+    if (has_gamepath || is_fullscreen) {
+        ui->action_Fullscreen->setChecked(is_fullscreen);
+    }
+
+    if (!game_path.isEmpty()) {
+        BootGame(game_path);
     }
 }
 
