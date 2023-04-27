@@ -102,6 +102,10 @@
 #include "video_core/renderer_base.h"
 #include "video_core/video_core.h"
 
+#ifdef __APPLE__
+#include "macos_authorization.h"
+#endif
+
 #ifdef USE_DISCORD_PRESENCE
 #include "citra_qt/discord_impl.h"
 #endif
@@ -2829,6 +2833,11 @@ int main(int argc, char* argv[]) {
 
     // Register Qt image interface
     system.RegisterImageInterface(std::make_shared<QtImageInterface>());
+
+#ifdef __APPLE__
+    // Register microphone permission check.
+    system.RegisterMicPermissionCheck(&AppleAuthorization::CheckAuthorizationForMicrophone);
+#endif
 
     main_window.show();
 

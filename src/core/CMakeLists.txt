@@ -110,8 +110,6 @@ add_library(core STATIC
     frontend/image_interface.cpp
     frontend/image_interface.h
     frontend/input.h
-    frontend/mic.cpp
-    frontend/mic.h
     gdbstub/gdbstub.cpp
     gdbstub/gdbstub.h
     gdbstub/hio.cpp
@@ -479,7 +477,7 @@ endif()
 
 create_target_directory_groups(core)
 
-target_link_libraries(core PUBLIC common PRIVATE audio_core network video_core)
+target_link_libraries(core PUBLIC citra_common PRIVATE audio_core network video_core)
 target_link_libraries(core PRIVATE Boost::boost Boost::serialization Boost::iostreams)
 target_link_libraries(core PUBLIC dds-ktx PRIVATE cryptopp fmt::fmt lodepng open_source_archives)
 set_target_properties(core PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${ENABLE_LTO})
