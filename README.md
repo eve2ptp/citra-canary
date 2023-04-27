@@ -1,3 +1,17 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6386](https://github.com/citra-emu/citra//pull/6386) | [`94a46c4b8`](https://github.com/citra-emu/citra//pull/6386/files) | Allow adjusting the screen refresh rate | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6404](https://github.com/citra-emu/citra//pull/6404) | [`fd5c039f4`](https://github.com/citra-emu/citra//pull/6404/files) | Add Citra AppImage builds | [TGP17](https://github.com/TGP17/) | Yes |
+| [6435](https://github.com/citra-emu/citra//pull/6435) | [`2e1c894b0`](https://github.com/citra-emu/citra//pull/6435/files) | build: Improvements to bundled libraries support. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6450](https://github.com/citra-emu/citra//pull/6450) | [`b74cf41d0`](https://github.com/citra-emu/citra//pull/6450/files) | audio_core: Implement OpenAL backend | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6453](https://github.com/citra-emu/citra//pull/6453) | [`558fb8f36`](https://github.com/citra-emu/citra//pull/6453/files) | Use IPC:MakeHeader instead of hardcoded raw values for IPC command tables. | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
