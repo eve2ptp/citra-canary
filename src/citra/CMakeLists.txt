@@ -41,3 +41,14 @@ endif()
 if (CITRA_USE_PRECOMPILED_HEADERS)
     target_precompile_headers(citra PRIVATE precompiled_headers.h)
 endif()
+
+if (CITRA_BUNDLE_LIBRARIES)
+    add_custom_command(TARGET citra
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND}
+        -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}
+        -DTYPE=standalone
+        -DEXECUTABLE_PATH=$<TARGET_FILE:citra>
+        -P ${CMAKE_SOURCE_DIR}/CMakeModules/BundleLibraries.cmake
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+endif()
