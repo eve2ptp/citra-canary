@@ -10,7 +10,17 @@
 #include <memory>
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
+
+// TODO(SachinV): Remove once we figure out why the /W0 is not enforced
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4715) // not all control paths return a value
+#endif
 #include <nihstro/inline_assembly.h>
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
+
 #include "video_core/shader/shader_interpreter.h"
 #include "video_core/shader/shader_jit_x64_compiler.h"
 

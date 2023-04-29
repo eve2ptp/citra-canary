@@ -14,7 +14,17 @@
 
 #include <nihstro/bit_field.h>
 #include <nihstro/float24.h>
+
+// TODO(SachinV): Remove once we figure out why the /W0 is not enforced
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4715) // not all control paths return a value
+#endif
 #include <nihstro/shader_binary.h>
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
+
 #include "common/assert.h"
 #include "common/bit_field.h"
 #include "common/color.h"

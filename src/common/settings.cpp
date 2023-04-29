@@ -31,6 +31,8 @@ std::string_view GetAudioEmulationName(AudioEmulation emulation) {
     case AudioEmulation::LLEMultithreaded:
         return "LLE Multithreaded";
     }
+    LOG_ERROR(Config, "Invalid Enum {}", emulation);
+    return "Invalid";
 };
 
 std::string_view GetGraphicsAPIName(GraphicsAPI api) {
@@ -40,6 +42,8 @@ std::string_view GetGraphicsAPIName(GraphicsAPI api) {
     case GraphicsAPI::OpenGL:
         return "OpenGL";
     }
+    LOG_ERROR(Config, "Invalid Enum {}", api);
+    return "Invalid";
 }
 
 std::string_view GetTextureFilterName(TextureFilter filter) {
@@ -57,6 +61,8 @@ std::string_view GetTextureFilterName(TextureFilter filter) {
     case TextureFilter::xBRZ:
         return "xBRZ";
     }
+    LOG_ERROR(Config, "Invalid Enum {}", filter);
+    return "Invalid";
 }
 
 } // Anonymous namespace

@@ -6,7 +6,17 @@
 
 #include <QAbstractTableModel>
 #include <QTreeView>
+
+// TODO(SachinV): Remove once we figure out why the /W0 is not enforced
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4715) // not all control paths return a value
+#endif
 #include <nihstro/parser_shbin.h>
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
+
 #include "citra_qt/debugger/graphics/graphics_breakpoint_observer.h"
 #include "video_core/shader/debug_data.h"
 #include "video_core/shader/shader.h"

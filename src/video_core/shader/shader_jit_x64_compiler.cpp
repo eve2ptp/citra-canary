@@ -8,9 +8,19 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
-#include <nihstro/shader_bytecode.h>
 #include <smmintrin.h>
 #include <xmmintrin.h>
+
+// TODO(SachinV): Remove once we figure out why the /W0 is not enforced
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4715) // not all control paths return a value
+#endif
+#include <nihstro/shader_bytecode.h>
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
+
 #include "common/assert.h"
 #include "common/logging/log.h"
 #include "common/vector_math.h"
