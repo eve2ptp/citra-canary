@@ -20,9 +20,9 @@ export APPIMAGE_EXTRACT_AND_RUN=1
 #Copy External Libraries
 mkdir -p ./AppDir/usr/plugins/platformthemes
 mkdir -p ./AppDir/usr/plugins/styles
-cp /usr/lib/x86_64-linux-gnu/qt5/plugins/platformthemes/libqt5ct.so ./AppDir/usr/plugins/platformthemes
-cp /usr/lib/x86_64-linux-gnu/qt5/plugins/platformthemes/libqgtk3.so ./AppDir/usr/plugins/platformthemes
-cp /usr/lib/x86_64-linux-gnu/qt5/plugins/styles/libqt5ct-style.so ./AppDir/usr/plugins/styles
+cp /usr/lib/x86_64-linux-gnu/qt6/plugins/platformthemes/libqt6ct.so ./AppDir/usr/plugins/platformthemes
+cp /usr/lib/x86_64-linux-gnu/qt6/plugins/platformthemes/libqgtk3.so ./AppDir/usr/plugins/platformthemes
+cp /usr/lib/x86_64-linux-gnu/qt6/plugins/styles/libqt6ct-style.so ./AppDir/usr/plugins/styles
 
 #Build AppImage
-/linuxdeploy-x86_64.AppImage --appdir AppDir --plugin qt --output appimage
+QMAKE=/usr/lib/qt6/bin/qmake /linuxdeploy-x86_64.AppImage --appdir AppDir --plugin qt --output appimage
