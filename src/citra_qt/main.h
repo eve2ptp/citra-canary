@@ -50,6 +50,10 @@ class RegistersWidget;
 class Updater;
 class WaitTreeWidget;
 
+namespace Camera {
+class QtMultimediaCameraHandlerFactory;
+}
+
 namespace DiscordRPC {
 class DiscordInterface;
 }
@@ -331,6 +335,8 @@ private:
     QStringList default_theme_paths;
 
     HotkeyRegistry hotkey_registry;
+
+    std::shared_ptr<Camera::QtMultimediaCameraHandlerFactory> qt_cameras;
 
 #ifdef __unix__
     QDBusObjectPath wake_lock{};
