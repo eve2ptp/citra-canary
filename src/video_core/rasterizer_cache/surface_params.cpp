@@ -23,6 +23,12 @@ bool SurfaceParams::CanSubRect(const SurfaceParams& sub_surface) const {
            GetSubRect(sub_surface).right <= stride;
 }
 
+bool SurfaceParams::CanReinterpret(const SurfaceParams& other_surface) {
+    return other_surface.addr >= addr && other_surface.end <= end &&
+           pixel_format != PixelFormat::Invalid && other_surface.is_tiled == is_tiled &&
+           (other_surface.addr - addr) % BytesInPixels(is_tiled ? 64 : 1) == 0;
+}
+
 bool SurfaceParams::CanExpand(const SurfaceParams& expanded_surface) const {
     return pixel_format != PixelFormat::Invalid && pixel_format == expanded_surface.pixel_format &&
            addr <= expanded_surface.end && expanded_surface.addr <= end &&

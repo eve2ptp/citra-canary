@@ -11,10 +11,21 @@
 #include "common/math_util.h"
 #include "common/vector_math.h"
 #include "video_core/rasterizer_cache/pixel_format.h"
+#include "video_core/rasterizer_cache/slot_vector.h"
 
 namespace VideoCore {
 
 using SurfaceInterval = boost::icl::right_open_interval<PAddr>;
+
+using SurfaceId = SlotId;
+using SamplerId = SlotId;
+
+/// Fake surface ID for null surfaces
+constexpr SurfaceId NULL_SURFACE_ID{0};
+/// Fake surface ID for null cube surfaces
+constexpr SurfaceId NULL_SURFACE_CUBE_ID{1};
+/// Fake sampler ID for null samplers
+constexpr SamplerId NULL_SAMPLER_ID{0};
 
 struct Offset {
     constexpr auto operator<=>(const Offset&) const noexcept = default;
@@ -71,9 +82,9 @@ struct BufferTextureCopy {
 };
 
 struct StagingData {
-    u32 size = 0;
-    std::span<u8> mapped{};
-    u64 buffer_offset = 0;
+    u32 size;
+    std::span<u8> mapped;
+    u64 buffer_offset;
 };
 
 struct TextureCubeConfig {
