@@ -7,7 +7,6 @@
 #include <fstream>
 #include <memory>
 #include <thread>
-#include <QDesktopWidget>
 #include <QFileDialog>
 #include <QFutureWatcher>
 #include <QLabel>
@@ -196,6 +195,11 @@ GMainWindow::GMainWindow()
     // register types to use in slots and signals
     qRegisterMetaType<std::size_t>("std::size_t");
     qRegisterMetaType<Service::AM::InstallStatus>("Service::AM::InstallStatus");
+
+    // Register CameraFactory
+    qt_cameras = std::make_shared<Camera::QtMultimediaCameraHandlerFactory>();
+    Camera::RegisterFactory("image", std::make_unique<Camera::StillImageCameraFactory>());
+    Camera::RegisterFactory("qt", std::make_unique<Camera::QtMultimediaCameraFactory>(qt_cameras));
 
     LoadTranslation();
 
@@ -686,7 +690,7 @@ void GMainWindow::ShowUpdaterWidgets() {
 
 void GMainWindow::SetDefaultUIGeometry() {
     // geometry: 55% of the window contents are in the upper screen half, 45% in the lower half
-    const QRect screenRect = QApplication::desktop()->screenGeometry(this);
+    const QRect screenRect = screen()->geometry();
 
     const int w = screenRect.width() * 2 / 3;
     const int h = screenRect.height() / 2;
@@ -1323,8 +1327,6 @@ void GMainWindow::ShutdownGame() {
 
     discord_rpc->Update();
 
-    Camera::QtMultimediaCameraHandler::ReleaseHandlers();
-
     // The emulation is stopped, so closing the window or not does not matter anymore
     disconnect(render_window, &GRenderWindow::Closed, this, &GMainWindow::OnStopGame);
     disconnect(secondary_window, &GRenderWindow::Closed, this, &GMainWindow::OnStopGame);
@@ -1383,7 +1385,7 @@ void GMainWindow::StoreRecentFile(const QString& filename) {
 
 void GMainWindow::UpdateRecentFiles() {
     const int num_recent_files =
-        std::min(UISettings::values.recent_files.size(), max_recent_files_item);
+        std::min(static_cast<int>(UISettings::values.recent_files.size()), max_recent_files_item);
 
     for (int i = 0; i < num_recent_files; i++) {
         const QString text = QStringLiteral("&%1. %2").arg(i + 1).arg(
@@ -1687,7 +1689,7 @@ void GMainWindow::InstallCIA(QStringList filepaths) {
     progress_bar->show();
     progress_bar->setMaximum(INT_MAX);
 
-    QtConcurrent::run([&, filepaths] {
+    (void)QtConcurrent::run([&, filepaths] {
         Service::AM::InstallStatus status;
         const auto cia_progress = [&](std::size_t written, std::size_t total) {
             emit UpdateProgress(written, total);
@@ -1763,7 +1765,7 @@ void GMainWindow::OnMenuRecentFile() {
 }
 
 void GMainWindow::OnStartGame() {
-    Camera::QtMultimediaCameraHandler::ResumeCameras();
+    qt_cameras->ResumeCameras();
 
     PreventOSSleep();
 
@@ -1790,7 +1792,7 @@ void GMainWindow::OnRestartGame() {
 
 void GMainWindow::OnPauseGame() {
     emu_thread->SetRunning(false);
-    Camera::QtMultimediaCameraHandler::StopCameras();
+    qt_cameras->PauseCameras();
 
     UpdateMenuState();
     AllowOSSleep();
@@ -2772,9 +2774,6 @@ static void SetHighDPIAttributes() {
     QApplication::setHighDpiScaleFactorRoundingPolicy(
         Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
 #endif
-
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 }
 
 int main(int argc, char* argv[]) {
@@ -2805,11 +2804,6 @@ int main(int argc, char* argv[]) {
     setlocale(LC_ALL, "C");
 
     GMainWindow main_window;
-
-    // Register CameraFactory
-    Camera::RegisterFactory("image", std::make_unique<Camera::StillImageCameraFactory>());
-    Camera::RegisterFactory("qt", std::make_unique<Camera::QtMultimediaCameraFactory>());
-    Camera::QtMultimediaCameraHandler::Init();
 
     // Register frontend applets
     Frontend::RegisterDefaultApplets();
