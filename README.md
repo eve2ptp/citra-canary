@@ -1,3 +1,18 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6267](https://github.com/citra-emu/citra//pull/6267) | [`8ae3bf839`](https://github.com/citra-emu/citra//pull/6267/files) | Implement/Fix more SOC related functions | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [6386](https://github.com/citra-emu/citra//pull/6386) | [`94a46c4b8`](https://github.com/citra-emu/citra//pull/6386/files) | Allow adjusting the screen refresh rate | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6418](https://github.com/citra-emu/citra//pull/6418) | [`12e5aae9d`](https://github.com/citra-emu/citra//pull/6418/files) | qt: Migrate to Qt6. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6426](https://github.com/citra-emu/citra//pull/6426) | [`7e137f012`](https://github.com/citra-emu/citra//pull/6426/files) | renderer_opengl: DrawSingleScreen*: remove duplicate code | [SachinVin](https://github.com/SachinVin/) | Yes |
+| [6450](https://github.com/citra-emu/citra//pull/6450) | [`3f2666d15`](https://github.com/citra-emu/citra//pull/6450/files) | audio_core: Implement OpenAL backend | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6456](https://github.com/citra-emu/citra//pull/6456) | [`de2c25088`](https://github.com/citra-emu/citra//pull/6456/files) | Chore: Enable warnings as errors on MSVC | [SachinVin](https://github.com/SachinVin/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
