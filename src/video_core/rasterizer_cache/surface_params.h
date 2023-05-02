@@ -19,6 +19,9 @@ public:
     /// Returns true if sub_surface is a subrect of params
     bool CanSubRect(const SurfaceParams& sub_surface) const;
 
+    /// Returns true if other_surface can be used for reinterpretion.
+    bool CanReinterpret(const SurfaceParams& other_surface);
+
     /// Returns true if params can be expanded to match expanded_surface
     bool CanExpand(const SurfaceParams& expanded_surface) const;
 
