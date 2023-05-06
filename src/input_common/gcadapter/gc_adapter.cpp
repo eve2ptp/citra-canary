@@ -25,7 +25,7 @@ Adapter::Adapter() {
     if (usb_adapter_handle != nullptr) {
         return;
     }
-    const int init_res = libusb_init(&libusb_ctx);
+    const int init_res = libusb_init_context(&libusb_ctx, nullptr, 0);
     if (init_res == LIBUSB_SUCCESS) {
         adapter_scan_thread = std::thread(&Adapter::AdapterScanThread, this);
     } else {
