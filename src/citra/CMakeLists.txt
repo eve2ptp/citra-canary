@@ -12,6 +12,8 @@ add_executable(citra
     emu_window/emu_window_sdl2_gl.h
     emu_window/emu_window_sdl2_sw.cpp
     emu_window/emu_window_sdl2_sw.h
+    emu_window/emu_window_sdl2_vk.cpp
+    emu_window/emu_window_sdl2_vk.h
     precompiled_headers.h
     resource.h
 )
@@ -45,6 +47,7 @@ if (CITRA_BUNDLE_LIBRARIES)
         -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}
         -DTYPE=standalone
         -DEXECUTABLE_PATH=$<TARGET_FILE:citra>
+        -DVULKAN_SDK_PATH=${VULKAN_SDK_PATH}
         -P ${CMAKE_SOURCE_DIR}/CMakeModules/BundleLibraries.cmake
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 endif()

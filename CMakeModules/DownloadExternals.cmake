@@ -93,6 +93,24 @@ function(download_qt_external target prefix_var)
     set(${prefix_var} "${prefix}" PARENT_SCOPE)
 endfunction()
 
+function(download_moltenvk sdk_path_var)
+    set(VULKAN_SDK_DIR "${CMAKE_BINARY_DIR}/externals/vulkan-sdk")
+    set(VULKAN_SDK_DMG "${CMAKE_BINARY_DIR}/externals/vulkan-sdk.dmg")
+    if (NOT EXISTS ${VULKAN_SDK_DIR})
+        if (NOT EXISTS ${VULKAN_SDK_DMG})
+            file(DOWNLOAD https://sdk.lunarg.com/sdk/download/latest/mac/vulkan-sdk.dmg ${VULKAN_SDK_DMG} SHOW_PROGRESS)
+        endif()
+
+        execute_process(COMMAND hdiutil attach ${VULKAN_SDK_DMG})
+        execute_process(COMMAND
+            /Volumes/VulkanSDK/InstallVulkan.app/Contents/MacOS/InstallVulkan install
+            --root "${VULKAN_SDK_DIR}" --accept-licenses --confirm-command --default-answer com.lunarg.vulkan.core)
+        execute_process(COMMAND hdiutil detach "/Volumes/VulkanSDK")
+    endif()
+
+    set(${sdk_path_var} "${VULKAN_SDK_DIR}" PARENT_SCOPE)
+endfunction()
+
 function(get_external_prefix lib_name prefix_var)
     set(${prefix_var} "${CMAKE_BINARY_DIR}/externals/${lib_name}" PARENT_SCOPE)
 endfunction()

@@ -667,8 +667,8 @@ typename T::Framebuffer RasterizerCache<T>::GetFramebufferSurfaces(bool using_co
         fb_rect = depth_rect;
     }
 
-    const Surface* color_surface = color_id ? &slot_surfaces[color_id] : nullptr;
-    const Surface* depth_surface = depth_id ? &slot_surfaces[depth_id] : nullptr;
+    Surface* const color_surface = color_id ? &slot_surfaces[color_id] : nullptr;
+    Surface* const depth_surface = depth_id ? &slot_surfaces[depth_id] : nullptr;
 
     if (color_id) {
         color_level = color_surface->LevelOf(color_params.addr);
@@ -1137,7 +1137,7 @@ bool RasterizerCache<T>::ValidateByReinterpretation(Surface& surface, SurfacePar
     if (reinterpret_id) {
         Surface& src_surface = slot_surfaces[reinterpret_id];
         const SurfaceInterval copy_interval = src_surface.GetCopyableInterval(params);
-        if (boost::icl::is_empty(copy_interval)) {
+        if (boost::icl::is_empty(copy_interval & interval)) {
             return false;
         }
         const PAddr addr = boost::icl::lower(interval);

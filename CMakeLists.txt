@@ -59,6 +59,11 @@ option(USE_SYSTEM_BOOST "Use the system Boost libs (instead of the bundled ones)
 
 CMAKE_DEPENDENT_OPTION(ENABLE_FDK "Use FDK AAC decoder" OFF "NOT ENABLE_FFMPEG_AUDIO_DECODER;NOT ENABLE_MF" OFF)
 
+CMAKE_DEPENDENT_OPTION(CITRA_USE_BUNDLED_VULKAN_SDK "Download the bundled MoltenVK Vulkan SDK" ON "APPLE" OFF)
+if (APPLE)
+    set(VULKAN_SDK_PATH "" CACHE PATH "Path to the Vulkan SDK")
+endif()
+
 CMAKE_DEPENDENT_OPTION(CITRA_BUNDLE_LIBRARIES "Bundle dependent libraries with the output executables" ON "APPLE" OFF)
 
 option(CITRA_WARNINGS_AS_ERRORS "Enable warnings as errors" ON)
@@ -282,6 +287,10 @@ find_package(tsl-robin-map QUIET)
 # ======================================
 
 if (APPLE)
+    if (CITRA_USE_BUNDLED_VULKAN_SDK)
+        download_moltenvk(VULKAN_SDK_PATH)
+    endif()
+
     # Umbrella framework for everything GUI-related
     find_library(COCOA_LIBRARY Cocoa)
     find_library(AVFOUNDATION_LIBRARY AVFoundation)
