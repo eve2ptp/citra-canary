@@ -4,6 +4,7 @@
 #   - "qt" uses windeployqt/macdeployqt to bundle Qt and other libraries.
 #   - "standalone" copies dependent libraries to a "libs" folder alongside the executable file.
 # - EXECUTABLE_PATH: Path to the executable binary.
+# - VULKAN_SDK_PATH: For macOS; path to the Vulkan SDK.
 
 # TODO: This does not really work fully for Windows yet, some libraries are missing from the output.
 # TODO: Leaving a basic framework of Windows support here to be iterated on in the future.
@@ -26,6 +27,29 @@ if ("${TYPE}" STREQUAL "qt")
 
         find_program(MACDEPLOYQT_EXECUTABLE macdeployqt)
         execute_process(COMMAND ${MACDEPLOYQT_EXECUTABLE} ${bundle_dir} -executable=${EXECUTABLE_PATH} -always-overwrite)
+
+        # Bundle Vulkan SDK components if available.
+        if (VULKAN_SDK_PATH)
+            execute_process(COMMAND cp -L ${VULKAN_SDK_PATH}/macOS/lib/libvulkan.dylib ${contents_dir}/Frameworks/)
+            execute_process(COMMAND cp -L ${VULKAN_SDK_PATH}/macOS/lib/libMoltenVK.dylib ${contents_dir}/Frameworks/)
+
+            # Copy Vulkan layers.
+            file(GLOB vulkan_layer_files ${VULKAN_SDK_PATH}/macOS/lib/libVkLayer_*.dylib)
+            foreach(vulkan_layer_file ${vulkan_layer_files})
+                execute_process(COMMAND cp -L "${vulkan_layer_file}" ${contents_dir}/Frameworks/)
+            endforeach()
+
+            # Copy Vulkan ICD files and update library paths.
+            execute_process(COMMAND cp -L -r ${VULKAN_SDK_PATH}/macOS/share/vulkan ${contents_dir}/Resources/)
+            file(GLOB_RECURSE icd_files ${contents_dir}/Resources/*.json)
+            foreach(icd_file ${icd_files})
+                file(READ ${icd_file} icd_contents)
+                string(REPLACE "../../../lib" "../../../Frameworks" icd_contents "${icd_contents}")
+                file(WRITE ${icd_file} "${icd_contents}")
+            endforeach()
+        else()
+            message(WARNING "Skipping Vulkan SDK bundling since no SDK path was provided.")
+        endif()
 
         # Bundling libraries can rewrite path information and break code signatures of system libraries.
         # Perform an ad-hoc re-signing on the whole app bundle to fix this.
