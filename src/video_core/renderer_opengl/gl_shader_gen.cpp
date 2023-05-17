@@ -1273,6 +1273,16 @@ vec4 byteround(vec4 x) {
     return round(x * 255.0) * (1.0 / 255.0);
 }
 
+float float24round(float x) {
+#if GL_FRAGMENT_PRECISION_HIGH
+    // float32 has a 23-bit mantissa, and float24 has a 16-bit mantissa
+    // Mask out the least significant bits of precision to match the two.
+    return uintBitsToFloat(floatBitsToUint(x) & ~0x7Fu);
+#else
+    return x;
+#endif
+}
+
 // PICA's LOD formula for 2D textures.
 // This LOD formula is the same as the LOD lower limit defined in OpenGL.
 // f(x, y) >= max{m_u, m_v, m_w}
@@ -1519,7 +1529,9 @@ do {
 } while ((old = imageAtomicCompSwap(shadow_buffer, image_coord, old, new)) != old2);
 )";
     } else {
-        out += "gl_FragDepth = depth;\n";
+        // Round the depth to the maximum precision supported by the 3DS, 24 bits.
+        // This accounts for host fallback formats with higher precision.
+        out += "gl_FragDepth = float24round(depth);\n";
         // Round the final fragment color to maintain the PICA's 8 bits of precision
         out += "color = byteround(last_tex_env_out);\n";
     }
