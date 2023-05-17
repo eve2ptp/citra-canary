@@ -288,6 +288,22 @@ private:
 };
 #endif
 
+class VulkanRenderWidget : public RenderWidget {
+public:
+    explicit VulkanRenderWidget(GRenderWindow* parent) : RenderWidget(parent) {
+        setAttribute(Qt::WA_NativeWindow);
+        setAttribute(Qt::WA_PaintOnScreen);
+        if (GetWindowSystemType() == Frontend::WindowSystemType::Wayland) {
+            setAttribute(Qt::WA_DontCreateNativeAncestors);
+        }
+        windowHandle()->setSurfaceType(QWindow::VulkanSurface);
+    }
+
+    QPaintEngine* paintEngine() const override {
+        return nullptr;
+    }
+};
+
 struct SoftwareRenderWidget : public RenderWidget {
     explicit SoftwareRenderWidget(GRenderWindow* parent) : RenderWidget(parent) {}
 
@@ -621,6 +637,9 @@ bool GRenderWindow::InitRenderTarget() {
             return false;
         }
         break;
+    case Settings::GraphicsAPI::Vulkan:
+        InitializeVulkan();
+        break;
     }
 
     // Update the Window System information with the new render target
@@ -704,6 +723,13 @@ bool GRenderWindow::InitializeOpenGL() {
                          tr("Citra has not been compiled with OpenGL support."));
     return false;
 #endif
+}
+
+void GRenderWindow::InitializeVulkan() {
+    auto child = new VulkanRenderWidget(this);
+    child_widget = child;
+    child_widget->windowHandle()->create();
+    main_context = std::make_unique<DummyContext>();
 }
 
 void GRenderWindow::InitializeSoftware() {
