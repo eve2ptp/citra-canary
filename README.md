@@ -1,3 +1,16 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6267](https://github.com/citra-emu/citra//pull/6267) | [`8ae3bf839`](https://github.com/citra-emu/citra//pull/6267/files) | Implement/Fix more SOC related functions | [PabloMK7](https://github.com/PabloMK7/) | Yes |
+| [6512](https://github.com/citra-emu/citra//pull/6512) | [`1d65b5681`](https://github.com/citra-emu/citra//pull/6512/files) | Add vulkan backend | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6549](https://github.com/citra-emu/citra//pull/6549) | [`30bb7647f`](https://github.com/citra-emu/citra//pull/6549/files) | Spotpass Service Implementation | [Rokkubro](https://github.com/Rokkubro/) | Yes |
+| [6555](https://github.com/citra-emu/citra//pull/6555) | [`d000bd9b3`](https://github.com/citra-emu/citra//pull/6555/files) | Enable web services on Android in Github build | [Rokkubro](https://github.com/Rokkubro/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
