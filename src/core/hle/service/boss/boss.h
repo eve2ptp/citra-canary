@@ -15,6 +15,111 @@ class System;
 }
 
 namespace Service::BOSS {
+// File header info from
+// https://www.3dbrew.org/wiki/SpotPass#Payload_Content_Header
+// So the total header is only 52 bytes long
+
+const u64 boss_header_length = 0x34;
+// 52 bytes doesn't align nicely into 8-byte words
+#pragma pack(push, 4)
+struct BossHeader {
+    u8 header_length;
+    u8 zero1[11];
+    u32 unknown;
+    u32 download_date;
+    u8 zero2[4];
+    u64 program_id;
+    u8 zero3[4];
+    u32 datatype;
+    u32 payload_size;
+    u32 ns_data_id;
+    u32 version;
+};
+#pragma pack(pop)
+
+static_assert(sizeof(BossHeader) == 0x34, "BossHeader struct isn't exactly 0x34 bytes long!");
+
+// Payload header info from
+// https://www.3dbrew.org/wiki/SpotPass#Content_Container
+// So the total header is only 40 bytes long
+
+const u64 boss_payload_header_length = 0x28;
+// 40 bytes doesn't align nicely into 8-byte words either
+#pragma pack(push, 4)
+struct BossPayloadHeader {
+    u8 boss[4];
+    u32 magic;
+    u32 filesize;
+    u64 release_date;
+    u16 one;
+    u8 padding[2];
+    u16 hash_type;
+    u16 rsa_size;
+    u8 iv_start[0xC];
+};
+#pragma pack(pop)
+
+static_assert(sizeof(BossPayloadHeader) == 0x28,
+              "BossPayloadHeader struct isn't exactly 0x28 bytes long!");
+
+const u64 boss_content_header_length = 0x132;
+const u64 boss_header_with_hash_length = 0x13C;
+const u64 boss_extdata_header_length = 0x18;
+const u64 boss_a_entry_size = 0x800;
+const u64 boss_s_entry_size = 0xC00;
+const u64 boss_save_header_size = 4;
+
+struct NsDataEntry {
+    std::string filename;
+    BossHeader header;
+};
+
+const u8 task_id_size = 8;
+#pragma pack(push, 1)
+struct BossTaskProperties {
+    bool success;
+    u64 times_checked;
+    u8 x0;
+    u8 x1;
+    u32 x2;
+    u32 x3;
+    u32 x4;
+    u8 x5;
+    u8 x6;
+    u8 x7[0x200];
+    u32 x8;
+    u8 x9;
+    u8 xA[0x100];
+    u8 xB[0x200];
+    u32 xC;
+    u8 xD[0x360];
+    u32 xE;
+    u32 xF[3];
+    u8 x10;
+    u8 x11;
+    u8 x12;
+    u32 x13;
+    u32 x14;
+    u8 x15[0x40];
+    u32 x16;
+    u8 x18;
+    u8 x19;
+    u8 x1A;
+    u32 x1B;
+    u32 x1C;
+    u32 x3B;
+    u8 x3E[0x200];
+    u8 x3F;
+};
+#pragma pack(pop)
+static_assert(sizeof(BossTaskProperties) == 0xAF1,
+              "BossTaskProperties struct isn't exactly 0xAF1 bytes long!");
+
+constexpr std::array<u8, 8> boss_system_savedata_id{
+    0x00, 0x00, 0x00, 0x00, 0x34, 0x00, 0x01, 0x00,
+};
+
+constexpr std::array<u8, 4> boss_system_savedata_header{0x00, 0x80, 0x34, 0x12};
 
 class Module final {
 public:
@@ -962,6 +1067,15 @@ public:
         u8 ns_data_new_flag;
         u8 ns_data_new_flag_privileged;
         u8 output_flag;
+        std::map<std::string, BossTaskProperties> task_id_list;
+        BossTaskProperties cur_props;
+
+        auto GetBossDataDir();
+        bool DownloadBossDataFromURL(std::string url, std::string file_name);
+        std::vector<NsDataEntry> GetNsDataEntries();
+        u32 GetBossExtDataFiles(u32 files_to_read, auto* boss_files);
+        u16 GetOutputEntries(u32 filter, u32 max_entries, auto* buffer);
+        bool GetNsDataEntryFromID(u32 ns_data_id, auto* entry);
 
         template <class Archive>
         void serialize(Archive& ar, const unsigned int) {
