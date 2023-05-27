@@ -506,6 +506,7 @@ struct Values {
 
     // Miscellaneous
     Setting<std::string> log_filter{"*:Info", "log_filter"};
+    Setting<bool> show_save_state_warning{true, "show_save_state_warning"};
 
     // Video Dumping
     std::string output_format;
