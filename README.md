@@ -1,3 +1,22 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6340](https://github.com/citra-emu/citra//pull/6340) | [`23f0c61f2`](https://github.com/citra-emu/citra//pull/6340/files) | service: nfc: Implement amiibo encryption and appdata | [german77](https://github.com/german77/) | Yes |
+| [6512](https://github.com/citra-emu/citra//pull/6512) | [`c17090e18`](https://github.com/citra-emu/citra//pull/6512/files) | Add vulkan backend | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6549](https://github.com/citra-emu/citra//pull/6549) | [`dd639927f`](https://github.com/citra-emu/citra//pull/6549/files) | Spotpass Service Implementation | [Rokkubro](https://github.com/Rokkubro/) | Yes |
+| [6561](https://github.com/citra-emu/citra//pull/6561) | [`1ede2f5b5`](https://github.com/citra-emu/citra//pull/6561/files) | audio_core/hle: Refactor Binary Pipe data structures | [SachinVin](https://github.com/SachinVin/) | Yes |
+| [6564](https://github.com/citra-emu/citra//pull/6564) | [`b7bfcd435`](https://github.com/citra-emu/citra//pull/6564/files) | video_core: Add MMPX texture filter | [stuken](https://github.com/stuken/) | Yes |
+| [6565](https://github.com/citra-emu/citra//pull/6565) | [`5344a815a`](https://github.com/citra-emu/citra//pull/6565/files) | Add warning popup when loading save states for the first time | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6572](https://github.com/citra-emu/citra//pull/6572) | [`53cc60c0d`](https://github.com/citra-emu/citra//pull/6572/files) | ci: Fix macOS bundle validity issues. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6573](https://github.com/citra-emu/citra//pull/6573) | [`be3559285`](https://github.com/citra-emu/citra//pull/6573/files) | core: Update minimal system title set. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6574](https://github.com/citra-emu/citra//pull/6574) | [`16f6d4bb0`](https://github.com/citra-emu/citra//pull/6574/files) | qt: Allow toggling whether to enter system setup on home menu boot. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6577](https://github.com/citra-emu/citra//pull/6577) | [`b259c0587`](https://github.com/citra-emu/citra//pull/6577/files) | input_common: sdl: Port yuzu sdl fixes | [german77](https://github.com/german77/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
