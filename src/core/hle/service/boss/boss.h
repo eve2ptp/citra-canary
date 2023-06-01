@@ -4,8 +4,13 @@
 
 #pragma once
 
+#include <any>
+#include <future>
 #include <memory>
 #include <boost/serialization/shared_ptr.hpp>
+#include <core/loader/loader.h>
+#include "core/file_sys/archive_backend.h"
+#include "core/file_sys/directory_backend.h"
 #include "core/global.h"
 #include "core/hle/kernel/event.h"
 #include "core/hle/service/service.h"
@@ -15,6 +20,158 @@ class System;
 }
 
 namespace Service::BOSS {
+// File header info from
+// https://www.3dbrew.org/wiki/SpotPass#Payload_Content_Header
+// So the total header is only 52 bytes long
+
+constexpr u32 boss_header_length = 0x34;
+// 52 bytes doesn't align nicely into 8-byte words
+#pragma pack(push, 4)
+struct BossHeader {
+    u8 header_length;
+    std::array<u8, 11> zero1;
+    u32_be unknown;
+    u32_be download_date;
+    std::array<u8, 4> zero2;
+    u64_be program_id;
+    std::array<u8, 4> zero3;
+    u32_be datatype;
+    u32_be payload_size;
+    u32_be ns_data_id;
+    u32_be version;
+};
+#pragma pack(pop)
+
+static_assert(sizeof(BossHeader) == 0x34, "BossHeader struct isn't exactly 0x34 bytes long!");
+
+// Payload header info from
+// https://www.3dbrew.org/wiki/SpotPass#Content_Container
+// So the total header is only 40 bytes long
+
+constexpr u32 boss_payload_header_length = 0x28;
+constexpr u32 boss_magic = Loader::MakeMagic('b', 'o', 's', 's');
+constexpr u32 boss_payload_magic = 0x10001;
+constexpr u64 news_prog_id = 0x0004013000003502;
+// 40 bytes doesn't align nicely into 8-byte words either
+#pragma pack(push, 4)
+struct BossPayloadHeader {
+    u32_le boss;
+    u32_be magic;
+    u32_be filesize;
+    u64_be release_date;
+    u16_be one;
+    INSERT_PADDING_BYTES(2);
+    u16_be hash_type;
+    u16_be rsa_size;
+    std::array<u8, 0xC> iv_start;
+};
+#pragma pack(pop)
+
+static_assert(sizeof(BossPayloadHeader) == 0x28,
+              "BossPayloadHeader struct isn't exactly 0x28 bytes long!");
+
+constexpr u32 boss_content_header_length = 0x132;
+constexpr u32 boss_header_with_hash_length = 0x13C;
+constexpr u32 boss_entire_header_length = boss_content_header_length + boss_header_with_hash_length;
+constexpr u32 boss_extdata_header_length = 0x18;
+constexpr u32 boss_a_entry_size = 0x800;
+constexpr u32 boss_s_entry_size = 0xC00;
+constexpr u32 boss_save_header_size = 4;
+constexpr u32 boss_s_prog_id_offset = 0x10;
+constexpr u32 boss_s_task_id_offset = 0x18;
+constexpr u32 boss_s_url_offset = 0x21C;
+
+struct NsDataEntry {
+    std::string filename;
+    BossHeader header;
+};
+
+constexpr u8 task_id_size = 8;
+constexpr u32 files_to_read = 100;
+
+enum NsDataHeaderInfoType : u8 {
+    PROGRAM_ID,
+    UNKNOWN,
+    DATATYPE,
+    PAYLOAD_SIZE,
+    NS_DATA_ID,
+    VERSION,
+    EVERYTHING
+};
+
+enum TaskStatus : u8 { TASK_SUCCESS = 0, TASK_RUNNING = 2, TASK_NOT_STARTED = 5, TASK_FAILED = 7 };
+
+constexpr u16 interval_id = 0x03;
+constexpr u16 duration_id = 0x04;
+constexpr u16 url_id = 0x07;
+constexpr size_t url_size = 0x200;
+constexpr u16 headers_id = 0x0D;
+constexpr size_t headers_size = 0x360;
+constexpr u16 certid_id = 0x0E;
+constexpr u16 certidlist_id = 0x0F;
+constexpr size_t certidlist_size = 3;
+constexpr u16 loadcert_id = 0x10;
+constexpr u16 loadrootcert_id = 0x11;
+constexpr u16 totaltasks_id = 0x35;
+constexpr u16 taskidlist_id = 0x36;
+constexpr size_t taskidlist_size = 0x400;
+
+struct BossTaskProperties {
+    std::future<bool> download_task;
+    bool task_result;
+    u32 times_checked;
+    std::map<u16, std::any> props{
+        {0x00, u8()},
+        {0x01, u8()},
+        {0x02, u32()},
+        // interval
+        {interval_id, u32()},
+        // duration
+        {duration_id, u32()},
+        {0x05, u8()},
+        {0x06, u8()},
+        // url
+        {url_id, std::vector<u8>(url_size)},
+        {0x08, u32()},
+        {0x09, u8()},
+        {0x0A, std::vector<u8>(0x100)},
+        {0x0B, std::vector<u8>(0x200)},
+        {0x0C, u32()},
+        // headers
+        {headers_id, std::vector<u8>(headers_size)},
+        // certid
+        {certid_id, u32()},
+        // certidlist
+        {certidlist_id, std::vector<u32>(certidlist_size)},
+        // loadcert (bool)
+        {loadcert_id, u8()},
+        // loadrootcert (bool)
+        {loadrootcert_id, u8()},
+        {0x12, u8()},
+        {0x13, u32()},
+        {0x14, u32()},
+        {0x15, std::vector<u8>(0x40)},
+        {0x16, u32()},
+        {0x18, u8()},
+        {0x19, u8()},
+        {0x1A, u8()},
+        {0x1B, u32()},
+        {0x1C, u32()},
+        // totaltasks
+        {totaltasks_id, u16()},
+        // taskidlist
+        {taskidlist_id, std::vector<u8>(taskidlist_size)},
+        {0x3B, u32()},
+        {0x3E, std::vector<u8>(0x200)},
+        {0x3F, u8()},
+    };
+};
+
+constexpr std::array<u8, 8> boss_system_savedata_id{
+    0x00, 0x00, 0x00, 0x00, 0x34, 0x00, 0x01, 0x00,
+};
+
+constexpr std::array<u8, 4> boss_system_savedata_header{0x00, 0x80, 0x34, 0x12};
 
 class Module final {
 public:
@@ -962,6 +1119,16 @@ public:
         u8 ns_data_new_flag;
         u8 ns_data_new_flag_privileged;
         u8 output_flag;
+        std::map<std::string, BossTaskProperties> task_id_list;
+        BossTaskProperties cur_props;
+
+        static FileSys::Path GetBossDataDir();
+        static bool DownloadBossDataFromURL(std::string url, std::string file_name);
+        std::vector<NsDataEntry> GetNsDataEntries();
+        u32 GetBossExtDataFiles(std::vector<FileSys::Entry>& boss_files);
+        u16 GetOutputEntries(u32 filter, u32 max_entries, Kernel::MappedBuffer& buffer);
+        bool GetNsDataEntryFromID(u32 ns_data_id, NsDataEntry& entry);
+        std::pair<u8, u32> GetTaskStatusAndDuration(std::string task_id, bool wait_on_result);
 
         template <class Archive>
         void serialize(Archive& ar, const unsigned int) {
