@@ -1,3 +1,16 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6340](https://github.com/citra-emu/citra//pull/6340) | [`413f40523`](https://github.com/citra-emu/citra//pull/6340/files) | service: nfc: Implement amiibo encryption and appdata | [german77](https://github.com/german77/) | Yes |
+| [6512](https://github.com/citra-emu/citra//pull/6512) | [`c17090e18`](https://github.com/citra-emu/citra//pull/6512/files) | Add vulkan backend | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6549](https://github.com/citra-emu/citra//pull/6549) | [`6eef61889`](https://github.com/citra-emu/citra//pull/6549/files) | Spotpass Service Implementation | [Rokkubro](https://github.com/Rokkubro/) | Yes |
+| [6565](https://github.com/citra-emu/citra//pull/6565) | [`98b48ee73`](https://github.com/citra-emu/citra//pull/6565/files) | Add warning popup when loading save states for the first time | [GPUCode](https://github.com/GPUCode/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
