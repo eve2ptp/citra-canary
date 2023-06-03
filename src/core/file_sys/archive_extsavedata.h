@@ -21,6 +21,7 @@ namespace FileSys {
 class ArchiveFactory_ExtSaveData final : public ArchiveFactory {
 public:
     ArchiveFactory_ExtSaveData(const std::string& mount_point, bool shared);
+    ArchiveFactory_ExtSaveData(const std::string& mount_point, bool shared, bool boss);
 
     std::string GetName() const override {
         return "ExtSaveData";
@@ -46,6 +47,7 @@ public:
 private:
     bool shared; ///< Whether this archive represents an ExtSaveData archive or a SharedExtSaveData
                  /// archive
+    bool boss;   ///< Whether this archive is a spotpass archive or not
 
     /**
      * This holds the full directory path for this archive, it is only set after a successful call
