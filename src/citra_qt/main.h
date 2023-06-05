@@ -12,7 +12,6 @@
 #include <QTranslator>
 #include "citra_qt/compatibility_list.h"
 #include "citra_qt/hotkeys.h"
-#include "common/announce_multiplayer_room.h"
 #include "core/core.h"
 #include "core/savestate.h"
 
@@ -58,6 +57,10 @@ namespace DiscordRPC {
 class DiscordInterface;
 }
 
+namespace Core {
+class Movie;
+}
+
 namespace Ui {
 class MainWindow;
 }
@@ -84,7 +87,7 @@ public:
     void filterBarSetChecked(bool state);
     void UpdateUITheme();
 
-    GMainWindow();
+    explicit GMainWindow(Core::System& system);
     ~GMainWindow();
 
     GameList* game_list;
@@ -262,6 +265,8 @@ private:
     void UpdateAPIIndicator(bool update = false);
 
     std::unique_ptr<Ui::MainWindow> ui;
+    Core::System& system;
+    Core::Movie& movie;
 
     GRenderWindow* render_window;
     GRenderWindow* secondary_window;
