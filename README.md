@@ -1,3 +1,18 @@
+| Pull Request | Commit | Title | Author | Merged? |
+|----|----|----|----|----|
+| [5696](https://github.com/citra-emu/citra//pull/5696) | [`7618df99b`](https://github.com/citra-emu/citra//pull/5696/files) | Port yuzu-emu/yuzu#5229: "yuzu/main: Add basic command line arguments" | [FearlessTobi](https://github.com/FearlessTobi/) | Yes |
+| [6340](https://github.com/citra-emu/citra//pull/6340) | [`501f3291a`](https://github.com/citra-emu/citra//pull/6340/files) | service: nfc: Implement amiibo encryption and appdata | [german77](https://github.com/german77/) | Yes |
+| [6512](https://github.com/citra-emu/citra//pull/6512) | [`8858c3f43`](https://github.com/citra-emu/citra//pull/6512/files) | Add vulkan backend | [GPUCode](https://github.com/GPUCode/) | Yes |
+| [6549](https://github.com/citra-emu/citra//pull/6549) | [`6eef61889`](https://github.com/citra-emu/citra//pull/6549/files) | Spotpass Service Implementation | [Rokkubro](https://github.com/Rokkubro/) | Yes |
+| [6570](https://github.com/citra-emu/citra//pull/6570) | [`04b2ca23f`](https://github.com/citra-emu/citra//pull/6570/files) | Dynamically load fdk-aac and FFmpeg at runtime. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6594](https://github.com/citra-emu/citra//pull/6594) | [`2a5722765`](https://github.com/citra-emu/citra//pull/6594/files) | qt: Add support for building for iOS. | [Steveice10](https://github.com/Steveice10/) | Yes |
+| [6596](https://github.com/citra-emu/citra//pull/6596) | [`92e1a8dd1`](https://github.com/citra-emu/citra//pull/6596/files) | externals: Update dynarmic to 6.4.8 | [Steveice10](https://github.com/Steveice10/) | Yes |
+
+
+End of merge log. You can find the original README.md below the break.
+
+-----
+
 <h1 align="center">
   <br>
   <a href="https://citra-emu.org/"><img src="https://raw.githubusercontent.com/citra-emu/citra-assets/master/Main/citra_logo.svg" alt="Citra" width="200"></a>
