@@ -64,6 +64,8 @@ struct FramebufferInfo {
     u32 depth_level;
 };
 
+constexpr u64 TICKS_TO_DESTROY = 10;
+
 [[nodiscard]] GLbitfield MakeBufferMask(SurfaceType type) {
     switch (type) {
     case SurfaceType::Color:
@@ -127,8 +129,20 @@ TextureRuntime::TextureRuntime(const Driver& driver_, VideoCore::RendererBase& r
 
 TextureRuntime::~TextureRuntime() = default;
 
+void TextureRuntime::TickFrame() {
+    current_tick++;
+
+    for (auto it = destroy_queue.begin(); it != destroy_queue.end();) {
+        if (current_tick - it->first >= TICKS_TO_DESTROY) {
+            it = destroy_queue.erase(it);
+        } else {
+            it++;
+        }
+    }
+}
+
 void TextureRuntime::Reset() {
-    alloc_cache.clear();
+    destroy_queue.clear();
     framebuffer_cache.clear();
 }
 
@@ -144,8 +158,8 @@ VideoCore::StagingData TextureRuntime::FindStaging(u32 size, bool upload) {
     }
     return VideoCore::StagingData{
         .size = size,
+        .offset = 0,
         .mapped = std::span{staging_buffer.data(), size},
-        .buffer_offset = 0,
     };
 }
 
@@ -170,8 +184,8 @@ const FormatTuple& TextureRuntime::GetFormatTuple(VideoCore::CustomPixelFormat p
     return CUSTOM_TUPLES[format_index];
 }
 
-void TextureRuntime::Recycle(const HostTextureTag tag, Allocation&& alloc) {
-    alloc_cache.emplace(tag, std::move(alloc));
+void TextureRuntime::Destroy(Allocation&& alloc) {
+    destroy_queue.emplace_back(current_tick, std::move(alloc));
 }
 
 Allocation TextureRuntime::Allocate(const VideoCore::SurfaceParams& params,
@@ -183,7 +197,7 @@ Allocation TextureRuntime::Allocate(const VideoCore::SurfaceParams& params,
     const bool has_normal = material && material->Map(MapType::Normal);
     const auto& tuple =
         is_custom ? GetFormatTuple(params.custom_format) : GetFormatTuple(params.pixel_format);
-    const HostTextureTag key = {
+    const HostTextureTag tag = {
         .width = params.width,
         .height = params.height,
         .levels = params.levels,
@@ -194,9 +208,11 @@ Allocation TextureRuntime::Allocate(const VideoCore::SurfaceParams& params,
         .has_normal = has_normal,
     };
 
-    if (auto it = alloc_cache.find(key); it != alloc_cache.end()) {
+    const auto it = std::find_if(destroy_queue.begin(), destroy_queue.end(),
+                                 [&](const auto& item) { return item.second == tag; });
+    if (it != destroy_queue.end()) {
         auto alloc{std::move(it->second)};
-        alloc_cache.erase(it);
+        destroy_queue.erase(it);
         return alloc;
     }
 
@@ -226,16 +242,7 @@ Allocation TextureRuntime::Allocate(const VideoCore::SurfaceParams& params,
 
     glBindTexture(GL_TEXTURE_2D, old_tex);
 
-    return Allocation{
-        .textures = std::move(textures),
-        .handles = std::move(handles),
-        .tuple = tuple,
-        .width = params.width,
-        .height = params.height,
-        .levels = params.levels,
-        .res_scale = params.res_scale,
-        .is_custom = is_custom,
-    };
+    return Allocation{tag, std::move(textures), std::move(handles)};
 }
 
 bool TextureRuntime::Reinterpret(Surface& source, Surface& dest,
@@ -364,7 +371,7 @@ Surface::~Surface() {
     if (pixel_format == PixelFormat::Invalid || !alloc) {
         return;
     }
-    runtime->Recycle(MakeTag(), std::move(alloc));
+    runtime->Destroy(std::move(alloc));
 }
 
 void Surface::Upload(const VideoCore::BufferTextureCopy& upload,
@@ -543,7 +550,7 @@ bool Surface::Swap(const VideoCore::Material* mat) {
     if (!driver->IsCustomFormatSupported(format)) {
         return false;
     }
-    runtime->Recycle(MakeTag(), std::move(alloc));
+    runtime->Destroy(std::move(alloc));
 
     SurfaceParams params = *this;
     params.width = mat->width;
@@ -586,19 +593,6 @@ void Surface::BlitScale(const VideoCore::TextureBlit& blit, bool up_scale) {
     glBlitFramebuffer(blit.src_rect.left, blit.src_rect.bottom, blit.src_rect.right,
                       blit.src_rect.top, blit.dst_rect.left, blit.dst_rect.bottom,
                       blit.dst_rect.right, blit.dst_rect.top, buffer_mask, filter);
-}
-
-HostTextureTag Surface::MakeTag() const noexcept {
-    return HostTextureTag{
-        .width = alloc.width,
-        .height = alloc.height,
-        .levels = alloc.levels,
-        .res_scale = alloc.res_scale,
-        .tuple = alloc.tuple,
-        .type = texture_type,
-        .is_custom = alloc.is_custom,
-        .has_normal = HasNormalMap(),
-    };
 }
 
 Framebuffer::Framebuffer(TextureRuntime& runtime, const Surface* color, u32 color_level,
