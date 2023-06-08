@@ -37,15 +37,6 @@ option(ENABLE_OPENAL "Enables the OpenAL audio backend" ON)
 
 CMAKE_DEPENDENT_OPTION(ENABLE_LIBUSB "Enable libusb for GameCube Adapter support" ON "NOT IOS" OFF)
 
-option(ENABLE_FFMPEG_AUDIO_DECODER "Enable FFmpeg audio (AAC) decoder" OFF)
-option(ENABLE_FFMPEG_VIDEO_DUMPER "Enable FFmpeg video dumper" OFF)
-
-if (ENABLE_FFMPEG_AUDIO_DECODER OR ENABLE_FFMPEG_VIDEO_DUMPER)
-    set(ENABLE_FFMPEG ON)
-endif()
-
-CMAKE_DEPENDENT_OPTION(CITRA_USE_BUNDLED_FFMPEG "Download bundled FFmpeg binaries" ON "ENABLE_FFMPEG;MSVC OR APPLE" OFF)
-
 option(USE_DISCORD_PRESENCE "Enables Discord Rich Presence" OFF)
 
 option(CITRA_USE_PRECOMPILED_HEADERS "Use precompiled headers" ON)
@@ -57,7 +48,6 @@ CMAKE_DEPENDENT_OPTION(COMPILE_WITH_DWARF "Add DWARF debugging information" ON "
 
 option(USE_SYSTEM_BOOST "Use the system Boost libs (instead of the bundled ones)" OFF)
 
-CMAKE_DEPENDENT_OPTION(ENABLE_FDK "Use FDK AAC decoder" OFF "NOT ENABLE_FFMPEG_AUDIO_DECODER;NOT ENABLE_MF" OFF)
 
 CMAKE_DEPENDENT_OPTION(CITRA_USE_BUNDLED_MOLTENVK "Download the bundled MoltenVK" ON "APPLE" OFF)
 
@@ -237,43 +227,6 @@ if (ENABLE_LIBUSB)
         add_subdirectory(externals/libusb)
         set(LIBUSB_INCLUDE_DIR "")
         set(LIBUSB_LIBRARIES usb)
-    endif()
-endif()
-
-if (ENABLE_FFMPEG)
-    if (CITRA_USE_BUNDLED_FFMPEG)
-        if ((MSVC_VERSION GREATER_EQUAL 1920 AND MSVC_VERSION LESS 1940) AND "x86_64" IN_LIST ARCHITECTURE)
-            set(FFmpeg_VER "ffmpeg-4.1-win64")
-        elseif (APPLE)
-            set(FFmpeg_VER "ffmpeg-6.0")
-        else()
-            message(FATAL_ERROR "No bundled FFmpeg binaries for your toolchain. Disable CITRA_USE_BUNDLED_FFMPEG and provide your own.")
-        endif()
-
-        if (DEFINED FFmpeg_VER)
-            download_bundled_external("ffmpeg/" ${FFmpeg_VER} FFmpeg_PREFIX)
-            set(FFMPEG_DIR "${FFmpeg_PREFIX}")
-        endif()
-    endif()
-
-    if (ENABLE_FFMPEG_VIDEO_DUMPER)
-        find_package(FFmpeg REQUIRED COMPONENTS avcodec avfilter avformat avutil swresample)
-    else()
-        find_package(FFmpeg REQUIRED COMPONENTS avcodec)
-    endif()
-    if ("${FFmpeg_avcodec_VERSION}" VERSION_LESS "58.4.100")
-        message(FATAL_ERROR "Found version for libavcodec is too low. The required version is at least 58.4.100 (included in FFmpeg 4.0 and later).")
-    endif()
-endif()
-
-if (ENABLE_FFMPEG_VIDEO_DUMPER)
-    add_definitions(-DENABLE_FFMPEG_VIDEO_DUMPER)
-endif()
-
-if (ENABLE_FDK)
-    find_library(FDK_AAC fdk-aac DOC "The path to fdk_aac library")
-    if(FDK_AAC STREQUAL "FDK_AAC-NOTFOUND")
-        message(FATAL_ERROR "fdk_aac library not found.")
     endif()
 endif()
 
