@@ -49,6 +49,7 @@
 #include "citra_qt/debugger/registers.h"
 #include "citra_qt/debugger/wait_tree.h"
 #include "citra_qt/discord.h"
+#include "citra_qt/dumping/dumping_dialog.h"
 #include "citra_qt/game_list.h"
 #include "citra_qt/hotkeys.h"
 #include "citra_qt/loading_screen.h"
@@ -100,10 +101,6 @@
 
 #ifdef USE_DISCORD_PRESENCE
 #include "citra_qt/discord_impl.h"
-#endif
-
-#ifdef ENABLE_FFMPEG_VIDEO_DUMPER
-#include "citra_qt/dumping/dumping_dialog.h"
 #endif
 
 #ifdef QT_STATICPLUGIN
@@ -876,18 +873,7 @@ void GMainWindow::ConnectMenuEvents() {
         }
     });
     connect_menu(ui->action_Capture_Screenshot, &GMainWindow::OnCaptureScreenshot);
-
-#ifdef ENABLE_FFMPEG_VIDEO_DUMPER
-    connect_menu(ui->action_Dump_Video, [this] {
-        if (ui->action_Dump_Video->isChecked()) {
-            OnStartVideoDumping();
-        } else {
-            OnStopVideoDumping();
-        }
-    });
-#else
-    ui->action_Dump_Video->setEnabled(false);
-#endif
+    connect_menu(ui->action_Dump_Video, &GMainWindow::OnDumpVideo);
 
     // Help
     connect_menu(ui->action_Open_Citra_Folder, &GMainWindow::OnOpenCitraFolder);
@@ -1245,15 +1231,7 @@ void GMainWindow::BootGame(const QString& filename) {
     }
 
     if (video_dumping_on_start) {
-        Layout::FramebufferLayout layout{Layout::FrameLayoutFromResolutionScale(
-            VideoCore::g_renderer->GetResolutionScaleFactor())};
-        if (!system.VideoDumper().StartDumping(video_dumping_path.toStdString(), layout)) {
-
-            QMessageBox::critical(
-                this, tr("Citra"),
-                tr("Could not start video dumping.<br>Refer to the log for details."));
-            ui->action_Dump_Video->setChecked(false);
-        }
+        StartVideoDumping(video_dumping_path);
         video_dumping_on_start = false;
         video_dumping_path.clear();
     }
@@ -1321,13 +1299,12 @@ void GMainWindow::ShutdownGame() {
         HideFullscreen();
     }
 
-#ifdef ENABLE_FFMPEG_VIDEO_DUMPER
-    if (system.VideoDumper().IsDumping()) {
+    auto video_dumper = system.GetVideoDumper();
+    if (video_dumper && video_dumper->IsDumping()) {
         game_shutdown_delayed = true;
         OnStopVideoDumping();
         return;
     }
-#endif
 
     AllowOSSleep();
 
@@ -2262,7 +2239,29 @@ void GMainWindow::OnCaptureScreenshot() {
     OnStartGame();
 }
 
-#ifdef ENABLE_FFMPEG_VIDEO_DUMPER
+void GMainWindow::OnDumpVideo() {
+    if (DynamicLibrary::FFmpeg::LoadFFmpeg()) {
+        if (ui->action_Dump_Video->isChecked()) {
+            OnStartVideoDumping();
+        } else {
+            OnStopVideoDumping();
+        }
+    } else {
+        QMessageBox message_box;
+        message_box.setWindowTitle(tr("Could not load video dumper"));
+        message_box.setText(tr("FFmpeg could not be loaded. Make sure you have a compatible "
+                               "version from the FFmpeg %1 series installed.")
+                                .arg(QStringLiteral(FFMPEG_VERSION)));
+        message_box.setStandardButtons(QMessageBox::StandardButton::Ok |
+                                       QMessageBox::StandardButton::Help);
+        auto result = message_box.exec();
+        if (result == QMessageBox::StandardButton::Help) {
+            QDesktopServices::openUrl(QUrl(QStringLiteral(
+                "https://citra-emu.org/wiki/installing-ffmpeg-for-the-video-dumper/")));
+        }
+    }
+}
+
 void GMainWindow::OnStartVideoDumping() {
     DumpingDialog dialog(this);
     if (dialog.exec() != QDialog::DialogCode::Accepted) {
@@ -2271,17 +2270,25 @@ void GMainWindow::OnStartVideoDumping() {
     }
     const auto path = dialog.GetFilePath();
     if (emulation_running) {
-        Layout::FramebufferLayout layout{Layout::FrameLayoutFromResolutionScale(
-            VideoCore::g_renderer->GetResolutionScaleFactor())};
-        if (!system.VideoDumper().StartDumping(path.toStdString(), layout)) {
-            QMessageBox::critical(
-                this, tr("Citra"),
-                tr("Could not start video dumping.<br>Refer to the log for details."));
-            ui->action_Dump_Video->setChecked(false);
-        }
+        StartVideoDumping(path);
     } else {
         video_dumping_on_start = true;
         video_dumping_path = path;
+    }
+}
+
+void GMainWindow::StartVideoDumping(const QString& path) {
+    Layout::FramebufferLayout layout{
+        Layout::FrameLayoutFromResolutionScale(VideoCore::g_renderer->GetResolutionScaleFactor())};
+
+    auto dumper = std::make_shared<VideoDumper::FFmpegBackend>();
+    if (dumper->StartDumping(path.toStdString(), layout)) {
+        system.RegisterVideoDumper(dumper);
+    } else {
+        QMessageBox::critical(
+            this, tr("Citra"),
+            tr("Could not start video dumping.<br>Refer to the log for details."));
+        ui->action_Dump_Video->setChecked(false);
     }
 }
 
@@ -2292,14 +2299,15 @@ void GMainWindow::OnStopVideoDumping() {
         video_dumping_on_start = false;
         video_dumping_path.clear();
     } else {
-        const bool was_dumping = system.VideoDumper().IsDumping();
-        if (!was_dumping)
+        auto dumper = system.GetVideoDumper();
+        if (!dumper || !dumper->IsDumping()) {
             return;
+        }
 
         game_paused_for_dumping = emu_thread->IsRunning();
         OnPauseGame();
 
-        auto future = QtConcurrent::run([this] { system.VideoDumper().StopDumping(); });
+        auto future = QtConcurrent::run([dumper] { dumper->StopDumping(); });
         auto* future_watcher = new QFutureWatcher<void>(this);
         connect(future_watcher, &QFutureWatcher<void>::finished, this, [this] {
             if (game_shutdown_delayed) {
@@ -2313,7 +2321,6 @@ void GMainWindow::OnStopVideoDumping() {
         future_watcher->setFuture(future);
     }
 }
-#endif
 
 void GMainWindow::UpdateStatusBar() {
     if (!emu_thread) [[unlikely]] {

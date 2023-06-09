@@ -65,6 +65,11 @@ add_library(citra_common STATIC
     common_precompiled_headers.h
     common_types.h
     construct.h
+    dynamic_library/dynamic_library.h
+    dynamic_library/fdk-aac.cpp
+    dynamic_library/fdk-aac.h
+    dynamic_library/ffmpeg.cpp
+    dynamic_library/ffmpeg.h
     error.cpp
     error.h
     file_util.cpp
@@ -156,6 +161,9 @@ create_target_directory_groups(citra_common)
 target_link_libraries(citra_common PUBLIC fmt::fmt microprofile Boost::boost Boost::serialization Boost::iostreams)
 target_link_libraries(citra_common PRIVATE libzstd_static)
 set_target_properties(citra_common PROPERTIES INTERPROCEDURAL_OPTIMIZATION ${ENABLE_LTO})
+
+# Headers for supported dynamic libraries.
+target_link_libraries(citra_common PUBLIC fdk-aac-headers ffmpeg-headers)
 
 if ("x86_64" IN_LIST ARCHITECTURE)
     target_link_libraries(citra_common PRIVATE xbyak)
