@@ -3,6 +3,10 @@
 doc-build/
 build-*/
 
+# built citra
+head/
+artifacts/
+
 # Generated source files
 src/common/scm_rev.cpp
 .travis.descriptor.json
